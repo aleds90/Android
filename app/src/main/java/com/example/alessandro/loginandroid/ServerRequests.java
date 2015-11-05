@@ -2,8 +2,8 @@ package com.example.alessandro.loginandroid;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,94 +21,122 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+
 public class ServerRequests {
-
     ProgressDialog progressDialog;
-    public static final int CONNECTION_TIMEOUT = 1000*15;
-    public static final String SERVER_ADDRESS = "www.dsnc.freeiz.com";
+    public static final int CONNECTION_TIMEOUT = 1000 * 15;
+    public static final String SERVER_ADDRESS = "http://dsnc.freeiz.com/";
 
-    public ServerRequests(Context context){
+    public ServerRequests(Context context) {
         progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
-        progressDialog.setTitle("Processing");
+        progressDialog.setTitle("Processing...");
         progressDialog.setMessage("Please wait...");
     }
-        // gestisce il register
-    public void storeUserDataInBackground(User user, GetUserCallback userCallback){
+
+    public void storeUserDataInBackground(User user,
+                                          GetUserCallback userCallBack) {
         progressDialog.show();
-        new StoreUserDataAsyncTask(user, userCallback).execute();
-    }
-        // gestisce il login
-    public void fetchUserDataInBackground(User user, GetUserCallback callback){
-        progressDialog.show();
-        new fetchUserDataAsyncTask(user, callback).execute();
+        new StoreUserDataAsyncTask(user, userCallBack).execute();
     }
 
-    public class StoreUserDataAsyncTask extends AsyncTask<Void, Void, Void>{
+    public void fetchUserDataAsyncTask(User user, GetUserCallback userCallBack) {
+        progressDialog.show();
+        new fetchUserDataAsyncTask(user, userCallBack).execute();
+    }
+
+    /**
+     * parameter sent to task upon execution progress published during
+     * background computation result of the background computation
+     */
+
+    public class StoreUserDataAsyncTask extends AsyncTask<Void, Void, Void> {
         User user;
-        GetUserCallback userCallback;
+        GetUserCallback userCallBack;
 
-        public StoreUserDataAsyncTask(User user, GetUserCallback userCallback){
+        public StoreUserDataAsyncTask(User user, GetUserCallback userCallBack) {
             this.user = user;
-            this.userCallback = userCallback;
-
+            this.userCallBack = userCallBack;
         }
 
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
-            dataToSend.add(new BasicNameValuePair("name",user.name));
-            dataToSend.add(new BasicNameValuePair("age",user.age + ""));
-            dataToSend.add(new BasicNameValuePair("username", user.username));
+            dataToSend.add(new BasicNameValuePair("nome", user.nome));
+            dataToSend.add(new BasicNameValuePair("cognome", user.cognome));
+            dataToSend.add(new BasicNameValuePair("sesso", user.sesso));
+            dataToSend.add(new BasicNameValuePair("data_di_nascita", user.data_di_nascita));
+            dataToSend.add(new BasicNameValuePair("indirizzo", user.indirizzo));
+            dataToSend.add(new BasicNameValuePair("ruolo", user.ruolo));
+            dataToSend.add(new BasicNameValuePair("tariffa_oraria", user.tariffa + ""));
+            dataToSend.add(new BasicNameValuePair("descrizione", user.descrizione));
+            dataToSend.add(new BasicNameValuePair("foto_profilo", user.foto_profilo));
+            dataToSend.add(new BasicNameValuePair("nome_utente", user.nome_utente));
             dataToSend.add(new BasicNameValuePair("password", user.password));
+            dataToSend.add(new BasicNameValuePair("email", user.email));
+            dataToSend.add(new BasicNameValuePair("telefono", user.telefono + ""));
 
-            HttpParams httpRequestParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
-            HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+            HttpParams httpRequestParams = getHttpRequestParams();
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
-            HttpPost post = new HttpPost(SERVER_ADDRESS + "Register.php");
+            HttpPost post = new HttpPost(SERVER_ADDRESS
+                    + "register.php");
+
             try {
                 post.setEntity(new UrlEncodedFormEntity(dataToSend));
                 client.execute(post);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+
             return null;
         }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            progressDialog.dismiss();
-            userCallback.done(null);
-            super.onPostExecute(aVoid);
+        private HttpParams getHttpRequestParams() {
+            HttpParams httpRequestParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpRequestParams,
+                    CONNECTION_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpRequestParams,
+                    CONNECTION_TIMEOUT);
+            return httpRequestParams;
         }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            userCallBack.done(null);
+        }
+
     }
 
-    public class fetchUserDataAsyncTask extends AsyncTask<Void, Void, User>{
+    public class fetchUserDataAsyncTask extends AsyncTask<Void, Void, User> {
         User user;
-        GetUserCallback userCallback;
+        GetUserCallback userCallBack;
 
-        public fetchUserDataAsyncTask(User user, GetUserCallback userCallback){
+        public fetchUserDataAsyncTask(User user, GetUserCallback userCallBack) {
             this.user = user;
-            this.userCallback = userCallback;
+            this.userCallBack = userCallBack;
         }
 
         @Override
         protected User doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
-
-            dataToSend.add(new BasicNameValuePair("username", user.username));
+            dataToSend.add(new BasicNameValuePair("username", user.nome_utente));
             dataToSend.add(new BasicNameValuePair("password", user.password));
 
             HttpParams httpRequestParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
-            HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+            HttpConnectionParams.setConnectionTimeout(httpRequestParams,
+                    CONNECTION_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpRequestParams,
+                    CONNECTION_TIMEOUT);
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
-            HttpPost post = new HttpPost(SERVER_ADDRESS + "FetchUserData.php");
+            HttpPost post = new HttpPost(SERVER_ADDRESS
+                    + "FetchUserData.php");
 
             User returnedUser = null;
+
             try {
                 post.setEntity(new UrlEncodedFormEntity(dataToSend));
                 HttpResponse httpResponse = client.execute(post);
@@ -117,26 +145,37 @@ public class ServerRequests {
                 String result = EntityUtils.toString(entity);
                 JSONObject jObject = new JSONObject(result);
 
-                if (jObject.length() == 0){
-                    returnedUser = null;
-                }else {
-                    String name =  jObject.getString("name");
-                    int age = jObject.getInt("age");
+                if (jObject.length() != 0){
+                    Log.v("happened", "2");
+                    String nome = jObject.getString("nome");
+                    String cognome = jObject.getString("cognome");
+                    String sesso = jObject.getString("sesso");
+                    String data_di_nascita = jObject.getString("data_di_nascita");
+                    String indirizzo = jObject.getString("indirizzo");
+                    String ruolo = jObject.getString("ruolo");
+                    String descrizione = jObject.getString("descrizione");
+                    String foto_profilo = jObject.getString("foto_profilo");
+                    String email = jObject.getString("email");
+                    int telefono = jObject.getInt("telefono");
+                    int tariffa = jObject.getInt("tariffa");
 
-                    returnedUser =  new User(name, age, user.username, user.password);
+                    returnedUser = new User(nome, cognome, sesso, data_di_nascita, indirizzo, ruolo,
+                            descrizione, foto_profilo, user.nome_utente, user.password, email,
+                            telefono, tariffa);
                 }
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+
             return returnedUser;
         }
 
         @Override
         protected void onPostExecute(User returnedUser) {
-            progressDialog.dismiss();
-            userCallback.done(returnedUser);
             super.onPostExecute(returnedUser);
+            progressDialog.dismiss();
+            userCallBack.done(returnedUser);
         }
     }
 }
