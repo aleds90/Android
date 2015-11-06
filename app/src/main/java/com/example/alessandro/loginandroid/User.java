@@ -1,29 +1,106 @@
 package com.example.alessandro.loginandroid;
 
 
+import java.util.Date;
+
 public class User {
 
-    String nome,cognome, sesso, data_di_nascita, indirizzo, ruolo, descrizione, foto_profilo, nome_utente, password, email;
+    private int id_user;
+    private String name;
+    private String surname;
+    private String email;
+    private String password;
+    private Date bday;
+    private String role;
+    private String city;
+    private double rate;
 
-    int telefono, tariffa;
-
-    public User(String nome, String cognome, String sesso, String data_di_nascita, String indirizzo, String ruolo, String descrizione, String foto_profilo, String nome_utente, String password, String email, int telefono, int tariffa) {
-        this.nome = nome;
-        this.cognome = cognome;
-        this.sesso = sesso;
-        this.data_di_nascita = data_di_nascita;
-        this.indirizzo = indirizzo;
-        this.ruolo = ruolo;
-        this.descrizione = descrizione;
-        this.foto_profilo = foto_profilo;
-        this.nome_utente = nome_utente;
-        this.password = password;
+    public User(String name, String surname, String email, String password, Date bday, String role,String city, double rate) {
+        this.name = name;
+        this.surname = surname;
         this.email = email;
-        this.telefono = telefono;
-        this.tariffa = tariffa;
+        this.password = password;
+        this.bday = bday;
+        this.role = role;
+        this.city = city;
+        this.rate = rate;
     }
 
-     public User(String username, String password) {
-        this("", "", "", "", "", "", "", "", username, password, "", -1, -1);
+    public User(){}
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public double getRate() {
+        return rate;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
+    }
+
+    public int getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
+    }
+
+
+
+    public Date getBday() {
+        return bday;
+    }
+
+    public void setBday(Date bday) {
+        this.bday = bday;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
+
+
