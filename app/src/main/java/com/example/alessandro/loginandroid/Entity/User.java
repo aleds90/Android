@@ -1,6 +1,7 @@
-package com.example.alessandro.loginandroid;
+package com.example.alessandro.loginandroid.Entity;
 
 
+import java.util.Date;
 import java.util.Date;
 
 public class User {
@@ -102,5 +103,3 @@ public class User {
         this.name = name;
     }
 }
-
-
