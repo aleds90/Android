@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
                 User user = new User();
                 user.setEmail("test");
                 user.setPassword("test");
-                Client client = new Client(user, "AT", "RT", "Password");
+                Client client = new Client(user, "e8liqmaso3ukav3m3e8c0i0t9v", "e8liqmaso3ukav3m3e8c0i0t9v", "Refresh");
                 client.login();
             }
         });

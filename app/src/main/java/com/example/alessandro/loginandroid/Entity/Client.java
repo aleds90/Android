@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,11 @@ public class Client {
                 HttpResponse response = httpclient.execute(httppost);
                 HttpEntity entity = response.getEntity();
                 String json = EntityUtils.toString(entity);
+                JSONObject jsonObject = new JSONObject(json);
+                //jsonObject.getString("access_Token");
+                jsonObject.getString("type");
+
+                //Response responseServer = new Gson().fromJson(jsonObject);
                 System.out.println(json);
 
             }
