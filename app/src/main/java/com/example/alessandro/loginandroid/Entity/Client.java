@@ -1,7 +1,9 @@
 package com.example.alessandro.loginandroid.Entity;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.example.alessandro.loginandroid.Activity.MainActivity;
 import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;
@@ -55,6 +57,15 @@ public class Client {
         new LoginTask(this).execute();
     }
 
+    /**
+     * Vede se i token sono attivi o meno, quindi ci dice che i dati dell utente sono ancora validi.
+     * @return
+     */
+    public boolean isActive() {
+        //TODO chiedi al server il client é attivo, ovvero vedi sei i token sono OK
+        return false;
+    }
+
 
     /**
      * Task che in Background manda un post ad /authotization
@@ -62,7 +73,9 @@ public class Client {
     public class LoginTask extends AsyncTask<String, Void, Void>{
 
         private Client client;
+
         public LoginTask(Client client){
+
             this.client=client;
         }
 
@@ -115,6 +128,7 @@ public class Client {
             case "2":
                 this.accessToken = responseServer.getAccess_Token();
                 this.refreshToken = responseServer.getRefresh_Token();
+
                 break;
             //TODO: definiamo e creaimo altri casi.Non solo per il login, ma anche per altri post fatti.
         }
