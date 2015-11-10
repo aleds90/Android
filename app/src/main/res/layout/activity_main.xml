@@ -5,15 +5,11 @@
     android:padding="18dp"
     android:layout_width="match_parent"
     android:id="@+id/id">
-
-    <Button
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send"
-        android:id="@+id/bSend"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="178dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:text="Hi, "
+        android:id="@+id/tvGreetings"/>
+
 
 </LinearLayout>
