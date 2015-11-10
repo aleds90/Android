@@ -112,7 +112,6 @@ public class Client {
 
             }
             catch (Exception e){
-                System.out.println("sono fuori");
                 e.printStackTrace();
             }
             return null;
@@ -125,10 +124,11 @@ public class Client {
      */
     private void handleResponse(Response responseServer) {
         switch (responseServer.getType()){
+            // -2- login effettuato e attualizzati entrambi i Token e ovviamente aggiungiamo tutti i dati del Utente
             case "2":
+                this.currentUser = responseServer.getUser();
                 this.accessToken = responseServer.getAccess_Token();
                 this.refreshToken = responseServer.getRefresh_Token();
-
                 break;
             //TODO: definiamo e creaimo altri casi.Non solo per il login, ma anche per altri post fatti.
         }

@@ -60,11 +60,11 @@ public class ClientLocalStore {
         String surname = clientLocalDB.getString("surname", "");
         String city = clientLocalDB.getString("city", "");
         String role = clientLocalDB.getString("role", "");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         Date bday = null;
         try {
              bday = dateFormat.parse(clientLocalDB.getString("bday", ""));
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         double rate = (double)clientLocalDB.getFloat("password", 0f);

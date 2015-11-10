@@ -1,10 +1,11 @@
 package com.example.alessandro.loginandroid.Entity;
 
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable{
 
     private int id_user;
     private String name;

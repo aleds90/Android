@@ -2,6 +2,7 @@ package com.example.alessandro.loginandroid.Entity;
 
 
 public class Response {
+    private User user;
     private String access_Token;
     private String refresh_Token;
     private String type;
@@ -31,7 +32,11 @@ public class Response {
     }
 
 
+    public User getUser() {
+        return user;
+    }
 
-
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
