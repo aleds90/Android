@@ -28,44 +28,56 @@ import org.apache.http.util.EntityUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * e' la classe che si occupa di gestire la home dell'applicazione dove andremo a pubblicizzare gli utenti
+ */
 public class MainActivity extends Activity implements View.OnClickListener{
 
-    ClientLocalStore clientLocalStore;
-    TextView tvGreatings;
-    Button bLogout;
+    ClientLocalStore clientLocalStore;// db provvisorio per prendere i dati con cui si e' loggati
+    TextView tvGreatings;//field provvisorio che avverte con che utente si e' effettuato il login
+    Button bLogout;// bottone per effettuare il logout
 
+    /**
+     *Definisco come un activity viene creata
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        clientLocalStore = new ClientLocalStore(this);
+        //creo collegamento tra le componenti la classe e activity_main.xml
         tvGreatings = (TextView) findViewById(R.id.tvGreetings);
         bLogout = (Button)findViewById(R.id.bLogout);
-
+        //definisco le componenti che hanno azioni specifiche se cliccate
         bLogout.setOnClickListener(this);
-
-        clientLocalStore = new ClientLocalStore(this);
     }
 
+    /**
+     * sono presenti tutte le azioni che vengono fatte prima di accedere alla activity
+     */
     @Override
     protected void onStart() {
         super.onStart();
-
+        //in particolare controlliamo se non abbiamo token veniamo indirizzati direttamente alla activity di login
         if (clientLocalStore.getClient().getRefreshToken().equals("")) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-        } else {
+        }
+        // se abbiamo il token proviamo ad effettuare il login tramite refresh
+        else {
             Client client = clientLocalStore.getClient();
             client.setGRANT_TYPES("Refresh");
             new LoginTask(client).execute();
-
         }
     }
 
+      /*
+     *Definisco le azioni che ogni ogni componente con ClickListener settato deve effettuare al suo click
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            //se clicchiamo il bottone di logout questo ci riporta alla login activity cancellando tutti i dati salvati nel local store
             case R.id.bLogout:
                 clientLocalStore.clearClient();
                 Intent intent =  new Intent(this, LoginActivity.class);
@@ -74,22 +86,27 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }
     }
 
-
+    /**
+     * classe Task che in Background manda un post ad /authotization per effettuare il login tramite refresh
+     */
     public class LoginTask extends AsyncTask<String, Void, Void> {
 
+        // attributi necessari per il login  tramite refresh
         private Client client;
-
+        //costruttore
         public LoginTask(Client client) {
             this.client = client;
         }
-
+        /*
+         * Lavoro che svolge in background la classe Task. Invia la richiesta ad un indirizzo e riceve una risposta da quest'ultimo
+         */
         @Override
         protected Void doInBackground(String... params) {
             try {
                 HttpClient httpclient = new DefaultHttpClient();
                 // sito a cui fare il post
                 HttpPost httppost = new HttpPost("http://10.0.2.2:4567/authorization");
-                // Lista di 5 valori che mandiamo
+                // Lista dei valori che mandiamo
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
                 // Valori:
                 nameValuePairs.add(new BasicNameValuePair("random_id", client.getRANDOM_ID()));
@@ -124,18 +141,18 @@ public class MainActivity extends Activity implements View.OnClickListener{
      */
     private void handleResponse(Response responseServer) {
         switch (responseServer.getType()) {
-            //case 4, aggiorniamo i due token e rimaniamo nella main activity.
+            //case 4, login tramite refresh andato a buon fine. otteniamo due token nuovi che salviamo nel local store
             case "4":
                 User user = clientLocalStore.getUser();
                 Client client = new Client(responseServer.getAccess_Token(), responseServer.getRefresh_Token(), "");
                 clientLocalStore.storeClientData(client, user);
                 tvGreatings.setText("logged as " + user.getEmail());
                 break;
+            //login tramite refresh non andato a buon fine. Veniamo reinderizzati nella pagina di login
             case "401":
-
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
                 break;
-
-            //TODO: definiamo e creaimo altri casi.Non solo per il login, ma anche per altri post fatti.
         }
     }
 }

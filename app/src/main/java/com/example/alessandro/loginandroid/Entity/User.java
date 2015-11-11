@@ -4,7 +4,9 @@ package com.example.alessandro.loginandroid.Entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Date;
-
+/*
+e' la classe che ci permette di identificare lo user
+ */
 public class User implements Serializable{
 
     private int id_user;

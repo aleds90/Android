@@ -1,6 +1,8 @@
 package com.example.alessandro.loginandroid.Entity;
 
-
+/*
+* e' la classe che ci permette di gestire le risposte del server
+ */
 public class Response {
     private User user;
     private String access_Token;
