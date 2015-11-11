@@ -62,8 +62,6 @@ public class User implements Serializable{
         this.id_user = id_user;
     }
 
-
-
     public Date getBday() {
         return bday;
     }

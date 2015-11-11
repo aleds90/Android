@@ -49,7 +49,6 @@ public class Client {
      */
     public Client(){}
 
-
     /**
      * Metodo per il Login/ovvero sparare a /authorization
      */

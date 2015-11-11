@@ -3,14 +3,9 @@ package com.example.alessandro.loginandroid.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
-import com.example.alessandro.loginandroid.Entity.Client;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.LoginActivity;
-import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 
 

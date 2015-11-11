@@ -11,6 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alessandro.loginandroid.Activity.MainActivity;
+import com.example.alessandro.loginandroid.Entity.Client;
+import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
+import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
