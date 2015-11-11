@@ -132,11 +132,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
             return null;
         }
     }
-
-
     /**
      * Gestisce la risposta del Server
-     *
      * @param responseServer
      */
     private void handleResponse(String responseServer) {

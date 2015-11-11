@@ -1,6 +1,8 @@
 package com.example.alessandro.loginandroid.Activity;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import com.example.alessandro.loginandroid.Entity.Client;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.Response;
 import com.example.alessandro.loginandroid.Entity.User;
+import com.example.alessandro.loginandroid.ProfileFragment;
 import com.example.alessandro.loginandroid.R;
 import com.google.gson.Gson;
 
@@ -46,6 +49,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.activity_main);
         clientLocalStore = new ClientLocalStore(this);
         //creo collegamento tra le componenti la classe e activity_main.xml
+        ProfileFragment fragment1 = new ProfileFragment();
+        ProfileFragment fragment2 = new ProfileFragment();
+
+        FragmentManager manager=getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.My_Container_1_ID,fragment1);
+        transaction.add(R.id.My_Container_2_ID,fragment2);
+        transaction.commit();
+
         tvGreatings = (TextView) findViewById(R.id.tvGreetings);
         bLogout = (Button)findViewById(R.id.bLogout);
         //definisco le componenti che hanno azioni specifiche se cliccate
@@ -85,6 +97,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 break;
         }
     }
+
 
     /**
      * classe Task che in Background manda un post ad /authotization per effettuare il login tramite refresh

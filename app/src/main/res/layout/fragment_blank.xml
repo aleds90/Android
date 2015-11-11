@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.alessandro.loginandroid.ProfileFragment"
+    android:rowCount="5"
+    android:columnCount="5"
+    android:background="#fffefb"
+    android:id="@+id/layout">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Marco Antonio"
+        android:id="@+id/textViewNameFrag"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageViewFrag"
+        android:layout_toEndOf="@+id/imageViewFrag"
+        android:textColor="#000000" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewFrag"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/trainer_icon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="PersonalTrainer"
+        android:id="@+id/textViewRoleFrag"
+        android:layout_below="@+id/textViewNameFrag"
+        android:layout_toRightOf="@+id/imageViewFrag"
+        android:layout_toEndOf="@+id/imageViewFrag"
+        android:textColor="#000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Roma"
+        android:id="@+id/textViewCityFrag"
+        android:layout_below="@+id/textViewRoleFrag"
+        android:layout_toRightOf="@+id/imageViewFrag"
+        android:layout_toEndOf="@+id/imageViewFrag"
+        android:textColor="#000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="50euro/h"
+        android:id="@+id/textViewRateFrag"
+        android:layout_alignTop="@+id/textViewCityFrag"
+        android:layout_alignRight="@+id/textViewNameFrag"
+        android:layout_alignEnd="@+id/textViewNameFrag"
+        android:textColor="#050505" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VAI AL PROFILO"
+        android:id="@+id/buttonGoFrag"
+        android:layout_alignBottom="@+id/imageViewFrag"
+        android:layout_toRightOf="@+id/imageViewFrag"
+        android:layout_toEndOf="@+id/imageViewFrag" />
+
+</RelativeLayout>

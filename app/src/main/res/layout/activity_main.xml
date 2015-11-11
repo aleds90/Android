@@ -1,23 +1,56 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:padding="18dp"
     android:layout_width="match_parent"
     android:id="@+id/id"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="#fefff8">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Hi, "
-        android:id="@+id/tvGreetings"/>
+        android:id="@+id/tvGreetings"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#000000" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:id="@+id/bLogout"
-        android:layout_gravity="center_horizontal" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvGreetings"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <FrameLayout
+            android:id="@+id/My_Container_1_ID"
+            android:layout_width="match_parent"
+            android:layout_height="162dp"
+            android:layout_below="@+id/tvGreetings"
+            android:layout_above="@+id/frameLayout"
+            android:layout_alignRight="@+id/tvGreetings"
+            android:layout_alignEnd="@+id/tvGreetings">
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/My_Container_2_ID"
+            android:layout_width="match_parent"
+            android:layout_height="169dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvGreetings"></FrameLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOGOUT"
+            android:id="@+id/bLogout"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>
