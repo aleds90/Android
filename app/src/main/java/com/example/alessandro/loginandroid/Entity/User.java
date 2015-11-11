@@ -12,12 +12,12 @@ public class User implements Serializable{
     private String surname;
     private String email;
     private String password;
-    private Date bday;
+    private String bday;
     private String role;
     private String city;
     private double rate;
 
-    public User(String name, String surname, String email, String password, Date bday, String role,String city, double rate) {
+    public User(String name, String surname, String email, String password, String bday, String role,String city, double rate) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -62,11 +62,11 @@ public class User implements Serializable{
         this.id_user = id_user;
     }
 
-    public Date getBday() {
+    public String getBday() {
         return bday;
     }
 
-    public void setBday(Date bday) {
+    public void setBday(String bday) {
         this.bday = bday;
     }
 

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
-import com.example.alessandro.loginandroid.Entity.LoginActivity;
 import com.example.alessandro.loginandroid.R;
 
 
@@ -26,6 +25,7 @@ public class MainActivity extends Activity {
         super.onStart();
         if(clientLocalStore.getClient().isActive()){
             //TODO: crea la Home, ovvero cambia/setta i componenti del Layout con i dati dell Utente
+            //todo: creare la login con il grantypes refresh token
         }else{
             // vai al login visto che probabilmente i token sono scaduti
             Intent intent = new Intent(this, LoginActivity.class);

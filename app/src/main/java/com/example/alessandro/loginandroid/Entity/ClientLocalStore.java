@@ -27,20 +27,20 @@ public class ClientLocalStore {
      * Salviamo i dati del client in queste shared Preference
      * @param client
      */
-    public void storeClientData(Client client){
+    public void storeClientData(Client client, User user){
 
         SharedPreferences.Editor editor = clientLocalDB.edit();
         editor.putString("access_Token", client.accessToken);
         editor.putString("refresh_Token", client.refreshToken);
 
-        editor.putString("email", client.currentUser.getEmail());
-        editor.putString("password", client.currentUser.getPassword());
-        editor.putString("name", client.currentUser.getName());
-        editor.putString("surname", client.currentUser.getSurname());
-        editor.putString("city", client.currentUser.getCity());
-        editor.putString("role", client.currentUser.getRole());
-        editor.putString("bday", client.currentUser.getBday().toString());
-        editor.putFloat("rate", (float) client.currentUser.getRate());
+        editor.putString("email", user.getEmail());
+        editor.putString("password", user.getPassword());
+        editor.putString("name", user.getName());
+        editor.putString("surname", user.getSurname());
+        editor.putString("city", user.getCity());
+        editor.putString("role", user.getRole());
+        editor.putString("bday", user.getBday());
+        editor.putFloat("rate", (float) user.getRate());
 
         editor.commit();
 
@@ -60,17 +60,11 @@ public class ClientLocalStore {
         String surname = clientLocalDB.getString("surname", "");
         String city = clientLocalDB.getString("city", "");
         String role = clientLocalDB.getString("role", "");
-        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        Date bday = null;
-        try {
-             bday = dateFormat.parse(clientLocalDB.getString("bday", ""));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        double rate = (double)clientLocalDB.getFloat("password", 0f);
+        String bday = clientLocalDB.getString("bday", "");
+        double rate = (double)clientLocalDB.getFloat("rate", 0f);
 
         User user = new User(name,surname,email,password,bday,role,city,rate);
-        Client client = new Client(user,access_token, refresh_token, "");
+        Client client = new Client(access_token, refresh_token, "");
 
         return client;
     }

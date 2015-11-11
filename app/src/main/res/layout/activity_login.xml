@@ -39,4 +39,12 @@
         android:id="@+id/tvRegister"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error"
+        android:id="@+id/bError"
+        android:layout_gravity="center_horizontal"
+        android:visibility="invisible" />
+
 </LinearLayout>

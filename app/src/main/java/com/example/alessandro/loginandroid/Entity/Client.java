@@ -25,18 +25,17 @@ import java.util.List;
  * Classe che implementa l Utente compresi i dati dei Token
  */
 public class Client {
-    User currentUser; // dati dell utente
+
     String accessToken, refreshToken, RANDOM_ID, SECRET_ID, GRANT_TYPES; // Dati del Client + Token
 
     /**
      * Costruttore, i RANDOM_ID e SECRET_ID non servono in quanto sono costanti
-     * @param currentUser
      * @param accessToken
      * @param refreshToken
      * @param GRANT_TYPES
      */
-    public Client(User currentUser, String accessToken, String refreshToken, String GRANT_TYPES) {
-        this.currentUser = currentUser;
+    public Client(String accessToken, String refreshToken, String GRANT_TYPES) {
+
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.RANDOM_ID = "ciao";
@@ -49,12 +48,7 @@ public class Client {
      */
     public Client(){}
 
-    /**
-     * Metodo per il Login/ovvero sparare a /authorization
-     */
-    public void login(){
-        new LoginTask(this).execute();
-    }
+
 
     /**
      * Vede se i token sono attivi o meno, quindi ci dice che i dati dell utente sono ancora validi.
@@ -65,71 +59,43 @@ public class Client {
         return false;
     }
 
-
-    /**
-     * Task che in Background manda un post ad /authotization
-     */
-    public class LoginTask extends AsyncTask<String, Void, Void>{
-
-        private Client client;
-
-        public LoginTask(Client client){
-
-            this.client=client;
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            try {
-
-                HttpClient httpclient = new DefaultHttpClient();
-                // sito a cui fare il post
-                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/authorization");
-                // Lista di 5 valori che mandiamo
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
-                // Valori:
-                nameValuePairs.add(new BasicNameValuePair("random_id", client.RANDOM_ID));
-                nameValuePairs.add(new BasicNameValuePair("secret_id", client.SECRET_ID));
-                nameValuePairs.add(new BasicNameValuePair("grant_types", client.GRANT_TYPES));
-                nameValuePairs.add(new BasicNameValuePair("email", client.currentUser.getEmail()));
-                nameValuePairs.add(new BasicNameValuePair("password", client.currentUser.getEmail()));
-                //Mettere la lista nel post, cosi da poterla mandare
-                // prima l aveva solo creata ma non settata come da mandare
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                // Settiamo l Header perché il sito si aspetta un header Parametro di tipo Authorization
-                httppost.setHeader("Authorization", client.refreshToken);
-
-                // con l execute, mandiamo il post
-                HttpResponse response = httpclient.execute(httppost);
-                // prendiamo la risposta del server e lo salviamo come stringa in "json"
-                HttpEntity entity = response.getEntity();
-                String json = EntityUtils.toString(entity);
-                // Creiamo una classe di tipo Response grazie alla risposta json
-                Response responseServer = new Gson().fromJson(json, Response.class);
-                // Metodo per gestire la risposta ottenuta
-                handleResponse(responseServer);
-
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-            return null;
-        }
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    /**
-     * Gestisce la risposta del Server
-     * @param responseServer
-     */
-    private void handleResponse(Response responseServer) {
-        switch (responseServer.getType()){
-            // -2- login effettuato e attualizzati entrambi i Token e ovviamente aggiungiamo tutti i dati del Utente
-            case "2":
-                this.currentUser = responseServer.getUser();
-                this.accessToken = responseServer.getAccess_Token();
-                this.refreshToken = responseServer.getRefresh_Token();
-                break;
-            //TODO: definiamo e creaimo altri casi.Non solo per il login, ma anche per altri post fatti.
-        }
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getGRANT_TYPES() {
+        return GRANT_TYPES;
+    }
+
+    public void setGRANT_TYPES(String GRANT_TYPES) {
+        this.GRANT_TYPES = GRANT_TYPES;
+    }
+
+    public String getRANDOM_ID() {
+        return RANDOM_ID;
+    }
+
+    public void setRANDOM_ID(String RANDOM_ID) {
+        this.RANDOM_ID = RANDOM_ID;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public String getSECRET_ID() {
+        return SECRET_ID;
+    }
+
+    public void setSECRET_ID(String SECRET_ID) {
+        this.SECRET_ID = SECRET_ID;
     }
 }
