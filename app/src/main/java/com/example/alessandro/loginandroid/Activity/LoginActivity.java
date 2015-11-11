@@ -86,7 +86,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
                 break;
             case R.id.tvRegister:
-                //TODO: start Register Activity
+                Intent intent =  new Intent(this, RegisterActivity.class);
+                startActivity(intent);
+
                 break;
         }
     }

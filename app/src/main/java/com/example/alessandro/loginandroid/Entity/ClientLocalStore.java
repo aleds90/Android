@@ -54,6 +54,15 @@ public class ClientLocalStore {
         String access_token = clientLocalDB.getString("access_Token", "");
         String refresh_token = clientLocalDB.getString("refresh_Token", "");
 
+
+
+
+        Client client = new Client(access_token, refresh_token, "");
+
+        return client;
+    }
+
+    public User getUser(){
         String email = clientLocalDB.getString("email", "");
         String password = clientLocalDB.getString("password", "");
         String name = clientLocalDB.getString("name", "");
@@ -64,9 +73,8 @@ public class ClientLocalStore {
         double rate = (double)clientLocalDB.getFloat("rate", 0f);
 
         User user = new User(name,surname,email,password,bday,role,city,rate);
-        Client client = new Client(access_token, refresh_token, "");
 
-        return client;
+        return user;
     }
 
     /**
