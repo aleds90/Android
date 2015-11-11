@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Entity.Client;
@@ -28,10 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener{
 
     ClientLocalStore clientLocalStore;
     TextView tvGreatings;
+    Button bLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         tvGreatings = (TextView) findViewById(R.id.tvGreetings);
+        bLogout = (Button)findViewById(R.id.bLogout);
+
+        bLogout.setOnClickListener(this);
 
         clientLocalStore = new ClientLocalStore(this);
     }
@@ -57,6 +62,18 @@ public class MainActivity extends Activity {
 
         }
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bLogout:
+                clientLocalStore.clearClient();
+                Intent intent =  new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
 
     public class LoginTask extends AsyncTask<String, Void, Void> {
 

@@ -61,6 +61,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
         rbDonna = (RadioButton) findViewById(R.id.rbDonna);
 
         bRegister.setOnClickListener(this);
+        bEsc.setOnClickListener(this);
     }
 
     @Override
@@ -77,8 +78,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
                 user.setSurname(etCognome.getText().toString());
                 user.setRate(Double.parseDouble(etTariffa.getText().toString()));
                 user.setRole(etTelefono.getText().toString());
-
                 new RegisterTask(user).execute();
+
+                break;
+            case R.id.bEsc:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
         }
     }
 
@@ -122,6 +127,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 
                 String json = EntityUtils.toString(entity);
                 System.out.println(json);
+                handleResponse(json);
 
             } catch (Exception e) {
                 e.printStackTrace();
