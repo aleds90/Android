@@ -57,9 +57,9 @@
         android:text="50euro/h"
         android:id="@+id/textViewRateFrag"
         android:layout_alignTop="@+id/textViewCityFrag"
-        android:layout_alignRight="@+id/textViewNameFrag"
-        android:layout_alignEnd="@+id/textViewNameFrag"
-        android:textColor="#050505" />
+        android:textColor="#050505"
+        android:layout_alignRight="@+id/buttonGoFrag"
+        android:layout_alignEnd="@+id/buttonGoFrag" />
 
     <Button
         style="?android:attr/buttonStyleSmall"

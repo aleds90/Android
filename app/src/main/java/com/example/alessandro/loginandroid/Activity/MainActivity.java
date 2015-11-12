@@ -51,22 +51,36 @@ public class MainActivity extends Activity implements View.OnClickListener{
         clientLocalStore = new ClientLocalStore(this);
         //creo collegamento tra le componenti la classe e activity_main.xml
 
+
         User user = new User();
         user.setName("Test");
         user.setCity("TestCity");
         user.setRole("TestRole");
         user.setRate(12.2);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("username", user.getName().toString());
+        bundle.putString("role", user.getRole().toString());
+
+
         ProfileFragment fragment1 = new ProfileFragment();
+        fragment1.setArguments(bundle);
         ProfileFragment fragment2 = new ProfileFragment();
-
-
-        FragmentManager manager=getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
+        FragmentTransaction transaction =  getFragmentManager().beginTransaction();
+        //transaction.replace(R.id.My_Container_1_ID, fragment1);
         transaction.add(R.id.My_Container_1_ID,fragment1);
-        transaction.add(R.id.My_Container_2_ID,fragment2);
+        //transaction.addToBackStack(null);
         transaction.commit();
 
-        fragment1.setFields(user);
+
+//        FragmentManager manager=getFragmentManager();
+//        FragmentTransaction transaction = manager.beginTransaction();
+//        //fragment1.setFields(user);
+
+//        transaction.add(R.id.My_Container_2_ID,fragment2);
+//        transaction.commit();
+
+
 
 
         tvGreatings = (TextView) findViewById(R.id.tvGreetings);

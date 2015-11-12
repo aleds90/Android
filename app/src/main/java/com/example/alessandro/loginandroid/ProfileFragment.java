@@ -21,10 +21,10 @@ public class ProfileFragment extends Fragment {
     TextView textViewNameFrag, textViewRoleFrag, textViewCityFrag, textViewRateFrag;
     Button buttonGoFrag;
 
-    public static ProfileFragment newInstance(User user){
+    public static ProfileFragment newInstance(String username){
         ProfileFragment profileFragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putString("User", user.getSurname());
+        args.putString("User", username);
         profileFragment.setArguments(args);
         return profileFragment;
     }
@@ -41,8 +41,12 @@ public class ProfileFragment extends Fragment {
         textViewRoleFrag = (TextView) view.findViewById(R.id.textViewRoleFrag);
         textViewCityFrag = (TextView) view.findViewById(R.id.textViewCityFrag);
         textViewRateFrag = (TextView) view.findViewById(R.id.textViewRateFrag);
+        String username = this.getArguments().getString("username");
+        String role = this.getArguments().getString("role");
+
         buttonGoFrag = (Button)view.findViewById(R.id.buttonGoFrag);
-        //textViewCityFrag.setText(getArguments().getString("User"));
+        textViewNameFrag.setText(username);
+        textViewRoleFrag.setText(role);
 
         buttonGoFrag.setOnClickListener(new View.OnClickListener() {
 
