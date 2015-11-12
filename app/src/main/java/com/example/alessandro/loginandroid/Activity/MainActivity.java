@@ -46,10 +46,13 @@ public class MainActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         clientLocalStore = new ClientLocalStore(this);
         //creo collegamento tra le componenti la classe e activity_main.xml
-        ProfileFragment fragment1 = new ProfileFragment();
+
+        User user = new User("alessandro","luca","yy","yy","yy","rtt","tt",334);
+        ProfileFragment fragment1 = ProfileFragment.newInstance(user);
         ProfileFragment fragment2 = new ProfileFragment();
 
         FragmentManager manager=getFragmentManager();

@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.alessandro.loginandroid.Entity.User;
+
 import org.w3c.dom.Text;
 
 public class ProfileFragment extends Fragment {
@@ -18,6 +20,16 @@ public class ProfileFragment extends Fragment {
     ImageView imageViewFrag;
     TextView textViewNameFrag, textViewRoleFrag, textViewCityFrag, textViewRateFrag;
     Button buttonGoFrag;
+    private User user;
+
+    public static ProfileFragment newInstance(User user){
+        ProfileFragment profileFragment = new ProfileFragment();
+        Bundle args = new Bundle();
+        args.putString("User", user.getSurname());
+        profileFragment.setArguments(args);
+        return profileFragment;
+    }
+    public ProfileFragment(){}
 
 
     @Override
@@ -31,6 +43,7 @@ public class ProfileFragment extends Fragment {
         textViewCityFrag = (TextView) view.findViewById(R.id.textViewCityFrag);
         textViewRateFrag = (TextView) view.findViewById(R.id.textViewRateFrag);
         buttonGoFrag = (Button)view.findViewById(R.id.buttonGoFrag);
+        textViewCityFrag.setText(getArguments().getString("User"));
 
         buttonGoFrag.setOnClickListener(new View.OnClickListener() {
 
