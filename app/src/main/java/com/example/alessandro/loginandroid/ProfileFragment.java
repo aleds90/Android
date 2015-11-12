@@ -20,7 +20,6 @@ public class ProfileFragment extends Fragment {
     ImageView imageViewFrag;
     TextView textViewNameFrag, textViewRoleFrag, textViewCityFrag, textViewRateFrag;
     Button buttonGoFrag;
-    private User user;
 
     public static ProfileFragment newInstance(User user){
         ProfileFragment profileFragment = new ProfileFragment();
@@ -43,7 +42,7 @@ public class ProfileFragment extends Fragment {
         textViewCityFrag = (TextView) view.findViewById(R.id.textViewCityFrag);
         textViewRateFrag = (TextView) view.findViewById(R.id.textViewRateFrag);
         buttonGoFrag = (Button)view.findViewById(R.id.buttonGoFrag);
-        textViewCityFrag.setText(getArguments().getString("User"));
+        //textViewCityFrag.setText(getArguments().getString("User"));
 
         buttonGoFrag.setOnClickListener(new View.OnClickListener() {
 
@@ -55,6 +54,13 @@ public class ProfileFragment extends Fragment {
 
 
         return view;
+    }
+
+    public void setFields(User user){
+        textViewNameFrag.setText(user.getName());
+        textViewRoleFrag.setText(user.getRole());
+        textViewCityFrag.setText(user.getCity());
+        textViewRateFrag.setText(Double.toString(user.getRate()));
     }
 
 }

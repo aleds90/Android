@@ -51,15 +51,23 @@ public class MainActivity extends Activity implements View.OnClickListener{
         clientLocalStore = new ClientLocalStore(this);
         //creo collegamento tra le componenti la classe e activity_main.xml
 
-        User user = new User("alessandro","luca","yy","yy","yy","rtt","tt",334);
-        ProfileFragment fragment1 = ProfileFragment.newInstance(user);
+        User user = new User();
+        user.setName("Test");
+        user.setCity("TestCity");
+        user.setRole("TestRole");
+        user.setRate(12.2);
+        ProfileFragment fragment1 = new ProfileFragment();
         ProfileFragment fragment2 = new ProfileFragment();
+
 
         FragmentManager manager=getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.My_Container_1_ID,fragment1);
         transaction.add(R.id.My_Container_2_ID,fragment2);
         transaction.commit();
+
+        fragment1.setFields(user);
+
 
         tvGreatings = (TextView) findViewById(R.id.tvGreetings);
         bLogout = (Button)findViewById(R.id.bLogout);
