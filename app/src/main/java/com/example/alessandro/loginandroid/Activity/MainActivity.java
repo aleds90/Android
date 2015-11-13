@@ -1,19 +1,17 @@
 package com.example.alessandro.loginandroid.Activity;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.example.alessandro.loginandroid.Entity.Client;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.Response;
 import com.example.alessandro.loginandroid.Entity.User;
-import com.example.alessandro.loginandroid.ProfileFragment;
 import com.example.alessandro.loginandroid.R;
 import com.google.gson.Gson;
 
@@ -26,7 +24,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +37,9 @@ import java.util.List;
 public class MainActivity extends Activity implements View.OnClickListener{
 
     ClientLocalStore clientLocalStore;// db provvisorio per prendere i dati con cui si e' loggati
-    TextView tvGreatings;//field provvisorio che avverte con che utente si e' effettuato il login
     Button bLogout;// bottone per effettuare il logout
+    ListView userList;
+    ArrayList<User> users;
 
     /**
      *Definisco come un activity viene creata
@@ -48,10 +50,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         setContentView(R.layout.activity_main);
         clientLocalStore = new ClientLocalStore(this);
+        userList = (ListView) findViewById(R.id.listUsers);
         //creo collegamento tra le componenti la classe e activity_main.xml
 
+        users = new ArrayList<>();
+        new UserListTask().execute();
+        UserArrayAdapter adapter = new UserArrayAdapter(this, users);
+        userList.setAdapter(adapter);
 
-        User user = new User();
+/*        User user = new User();
         user.setName("Test");
         user.setSurname("Cognome");
         user.setCity("TestCity");
@@ -73,17 +80,16 @@ public class MainActivity extends Activity implements View.OnClickListener{
         transaction.commit();
 
 
-//        FragmentManager manager=getFragmentManager();
-//        FragmentTransaction transaction = manager.beginTransaction();
-//        //fragment1.setFields(user);
+        FragmentManager manager=getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        //fragment1.setFields(user);
 
-//        transaction.add(R.id.My_Container_2_ID,fragment2);
-//        transaction.commit();
-
-
+        transaction.add(R.id.My_Container_2_ID,fragment2);
+        transaction.commit();*/
 
 
-        tvGreatings = (TextView) findViewById(R.id.tvGreetings);
+
+
         bLogout = (Button)findViewById(R.id.bLogout);
         //definisco le componenti che hanno azioni specifiche se cliccate
         bLogout.setOnClickListener(this);
@@ -188,6 +194,36 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }
     }
 
+    public class UserListTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                // sito a cui fare il post
+                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/users");
+                HttpResponse response = httpclient.execute(httppost);
+
+                HttpEntity entity = response.getEntity();
+                String json = EntityUtils.toString(entity);
+                JSONArray usersArray = new JSONArray(json);
+                for (int i = 0; i < usersArray.length(); i++) {
+                    User user = new Gson().fromJson(usersArray.get(i).toString(), User.class);
+                    users.add(user);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+
+
     /**
      * Gestisce la risposta del Server
      *
@@ -200,7 +236,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 User user = clientLocalStore.getUser();
                 Client client = new Client(responseServer.getAccess_Token(), responseServer.getRefresh_Token(), "");
                 clientLocalStore.storeClientData(client, user);
-                tvGreatings.setText("logged as " + user.getEmail());
                 break;
             //login tramite refresh non andato a buon fine. Veniamo reinderizzati nella pagina di login
             case "401":
