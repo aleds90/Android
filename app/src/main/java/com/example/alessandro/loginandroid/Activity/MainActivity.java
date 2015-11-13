@@ -1,7 +1,6 @@
 package com.example.alessandro.loginandroid.Activity;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -54,13 +53,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         User user = new User();
         user.setName("Test");
+        user.setSurname("Cognome");
         user.setCity("TestCity");
         user.setRole("TestRole");
         user.setRate(12.2);
 
         Bundle bundle = new Bundle();
-        bundle.putString("username", user.getName().toString());
-        bundle.putString("role", user.getRole().toString());
+        setBundleUser(bundle, user);
+
 
 
         ProfileFragment fragment1 = new ProfileFragment();
@@ -87,6 +87,22 @@ public class MainActivity extends Activity implements View.OnClickListener{
         bLogout = (Button)findViewById(R.id.bLogout);
         //definisco le componenti che hanno azioni specifiche se cliccate
         bLogout.setOnClickListener(this);
+    }
+
+    /**
+     * salviamo i dati dell utente nel bundle
+     *
+     * @param bundle
+     * @param user
+     */
+    private void setBundleUser(Bundle bundle, User user) {
+        bundle.putString("name", user.getName().toString());
+        bundle.putString("cognome", user.getSurname());
+        bundle.putString("city", user.getCity());
+        bundle.putString("email", user.getEmail());
+        bundle.putString("role", user.getRole().toString());
+        bundle.putString("bday", user.getBday());
+        bundle.putDouble("rate", user.getRate());
     }
 
     /**
