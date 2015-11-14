@@ -25,6 +25,10 @@
             android:label="@string/title_activity_register" >
         </activity>
         <activity android:name=".Activity.OtherProfileActivity" />
+        <activity
+            android:name=".Activity.ResearchActivity"
+            android:label="@string/title_activity_research" >
+        </activity>
     </application>
 
 </manifest>
