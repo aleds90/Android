@@ -1,0 +1,7 @@
+TODO list
+Android:
+- Completare ResearchActivity
+-
+Server:
+- Spezzare la table User in due tabelle: una con solo i dati di registrazione in comune tra semplici visitatori e inserzionisti(email,password,id,name,surname) e l'altra con gli attributi speciali per gli inserzionisti(age,rate,role,city etc)
+- Definire un attributo "Feedback" che permettera' di classificare gli inserzionisti in base ai feedback ricevuti(e magari farli apparire nella home e nelle altre activity con dei bordini "speciali" se si ha un numero alto di feedback)
