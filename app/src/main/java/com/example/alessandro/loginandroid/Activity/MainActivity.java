@@ -1,12 +1,17 @@
 package com.example.alessandro.loginandroid.Activity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toolbar;
 
 import com.example.alessandro.loginandroid.Entity.Client;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
@@ -53,63 +58,18 @@ public class MainActivity extends Activity implements View.OnClickListener{
         userList = (ListView) findViewById(R.id.listUsers);
         //creo collegamento tra le componenti la classe e activity_main.xml
 
+        // definiamo e settiamo la lista di utenti che riempira la nostra listview
         users = new ArrayList<>();
         new UserListTask().execute();
         UserArrayAdapter adapter = new UserArrayAdapter(this, users);
         userList.setAdapter(adapter);
-
-/*        User user = new User();
-        user.setName("Test");
-        user.setSurname("Cognome");
-        user.setCity("TestCity");
-        user.setRole("TestRole");
-        user.setRate(12.2);
-
-        Bundle bundle = new Bundle();
-        setBundleUser(bundle, user);
-
-
-
-        ProfileFragment fragment1 = new ProfileFragment();
-        fragment1.setArguments(bundle);
-        ProfileFragment fragment2 = new ProfileFragment();
-        FragmentTransaction transaction =  getFragmentManager().beginTransaction();
-        //transaction.replace(R.id.My_Container_1_ID, fragment1);
-        transaction.add(R.id.My_Container_1_ID,fragment1);
-        //transaction.addToBackStack(null);
-        transaction.commit();
-
-
-        FragmentManager manager=getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        //fragment1.setFields(user);
-
-        transaction.add(R.id.My_Container_2_ID,fragment2);
-        transaction.commit();*/
-
-
-
 
         bLogout = (Button)findViewById(R.id.bLogout);
         //definisco le componenti che hanno azioni specifiche se cliccate
         bLogout.setOnClickListener(this);
     }
 
-    /**
-     * salviamo i dati dell utente nel bundle
-     *
-     * @param bundle
-     * @param user
-     */
-    private void setBundleUser(Bundle bundle, User user) {
-        bundle.putString("name", user.getName().toString());
-        bundle.putString("cognome", user.getSurname());
-        bundle.putString("city", user.getCity());
-        bundle.putString("email", user.getEmail());
-        bundle.putString("role", user.getRole().toString());
-        bundle.putString("bday", user.getBday());
-        bundle.putDouble("rate", user.getRate());
-    }
+
 
     /**
      * sono presenti tutte le azioni che vengono fatte prima di accedere alla activity
@@ -194,6 +154,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }
     }
 
+    /**
+     * ci fa prendere gli untenti da /users per il momento non é necessario un check dei tocken,
+     * perche la classe non parte se non dopo LoginTask. Quindi LoginTask é ok con i token allora
+     * poträ partire anche UserListTask
+     */
     public class UserListTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -243,5 +208,46 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 startActivity(intent);
                 break;
         }
+    }
+
+
+    /**
+     * @param menu gli passiamo sto menu che sará la nostra navigaton_bar(vedi res->menu)
+     * @return ritorna sempre true
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Toolbar tb = (Toolbar) findViewById(R.id.actionbar);
+        tb.inflateMenu(R.menu.navigation_bar);
+        tb.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                return onOptionsItemSelected(menuItem);
+            }
+        });
+        return true;
+    }
+
+    /**
+     * @param item un po come View v per OnClickListerner solo che per gli items del menu
+     * @return ritorna sempre true
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
+        switch (item.getItemId()) {
+            case R.id.Home:
+                intent = new Intent(this, MainActivity.class);
+                break;
+            case R.id.Search:
+                intent = new Intent(this, ResearchActivity.class);
+                break;
+            case R.id.Profil:
+                intent = new Intent(this, OtherProfileActivity.class);
+                break;
+        }
+        startActivity(intent);
+        return true;
     }
 }
