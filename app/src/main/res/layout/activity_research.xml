@@ -42,9 +42,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/lvResearch"
         android:layout_above="@+id/bStartSearch"
-        android:layout_below="@+id/button7"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/switchName" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -76,10 +76,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/edRate"
-        android:layout_above="@+id/lvResearch"
-        android:layout_alignLeft="@+id/button3"
-        android:layout_alignStart="@+id/button3"
-        android:layout_alignRight="@+id/button3"
-        android:layout_alignEnd="@+id/button3" />
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/button7"
+        android:layout_toRightOf="@+id/edRole"
+        android:layout_toEndOf="@+id/edRole" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="name"
+        android:id="@+id/switchName"
+        android:layout_below="@+id/edName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:checked="false" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="role"
+        android:id="@+id/switchRole"
+        android:layout_below="@+id/edRole"
+        android:layout_toRightOf="@+id/edName"
+        android:layout_toEndOf="@+id/edName"
+        android:checked="false" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="rate"
+        android:id="@+id/switchRate"
+        android:layout_below="@+id/edRole"
+        android:layout_toRightOf="@+id/edRole"
+        android:layout_toEndOf="@+id/edRole"
+        android:checked="false" />
 
 </RelativeLayout>
