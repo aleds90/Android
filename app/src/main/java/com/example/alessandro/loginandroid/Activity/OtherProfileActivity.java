@@ -7,6 +7,9 @@ import android.widget.TextView;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 
+/**
+ * Visulizza i dettagli di un profilo
+ */
 public class OtherProfileActivity extends Activity {
 
     TextView tvNome, tvCognome, tvEmail, tvRuolo, tvIndirizzo, tvBday, tvTariffa;

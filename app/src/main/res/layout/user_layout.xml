@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Praticamente questo sará una riga/item della nostra listView
+Consiglio di non metterci troppa roba che sennö si vedi tutto troppo piccolo
+(anzi si potrebbe togliere il bottone e metter il clickListener sull immagine)-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
