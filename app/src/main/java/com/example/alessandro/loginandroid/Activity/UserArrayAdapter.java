@@ -56,7 +56,9 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
             @Override
             public void onClick(View view) {
                 //andiamo a vederci nel dettagli l item(utent) clickato
+
                 Intent intent = new Intent(context, OtherProfileActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 passUserByIntent(intent, currentUser);
                 context.startActivity(intent);
             }

@@ -9,21 +9,12 @@
     tools:context="com.example.alessandro.loginandroid.Activity.ResearchActivity"
     android:id="@+id/activity_research">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:text="Find..."
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/textView11"
-        android:layout_alignEnd="@+id/textView11" />
-
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
+        android:text="Search"
+        android:id="@+id/bStartSearch"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -33,9 +24,9 @@
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/button2"
-        android:layout_alignTop="@+id/button"
-        android:layout_toRightOf="@+id/button"
-        android:layout_toEndOf="@+id/button" />
+        android:layout_alignTop="@+id/bStartSearch"
+        android:layout_toRightOf="@+id/bStartSearch"
+        android:layout_toEndOf="@+id/bStartSearch" />
 
     <Button
         android:layout_width="wrap_content"
@@ -46,75 +37,14 @@
         android:layout_toRightOf="@+id/button2"
         android:layout_toEndOf="@+id/button2" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="rate"
-        android:id="@+id/button4"
-        android:layout_below="@+id/textView10"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="role"
-        android:id="@+id/button5"
-        android:layout_alignTop="@+id/button4"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignStart="@+id/button2"
-        android:layout_toLeftOf="@+id/button3"
-        android:layout_toStartOf="@+id/button3" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="city"
-        android:id="@+id/button6"
-        android:layout_alignTop="@+id/button5"
-        android:layout_toRightOf="@+id/button5"
-        android:layout_alignRight="@+id/button3"
-        android:layout_alignEnd="@+id/button3" />
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button4"
-        android:layout_above="@+id/button" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="matchRole"
-        android:id="@+id/textView9"
-        android:layout_above="@+id/button4"
+        android:id="@+id/lvResearch"
+        android:layout_above="@+id/bStartSearch"
+        android:layout_below="@+id/button7"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="matchRate"
-        android:id="@+id/textView10"
-        android:layout_below="@+id/editText"
-        android:layout_alignLeft="@+id/button5"
-        android:layout_alignStart="@+id/button5" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="matchCity"
-        android:id="@+id/textView11"
-        android:layout_below="@+id/editText"
-        android:layout_toRightOf="@+id/button5"
-        android:layout_toEndOf="@+id/button5" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -122,9 +52,34 @@
         android:layout_height="wrap_content"
         android:text="->"
         android:id="@+id/button7"
-        android:layout_above="@+id/textView11"
-        android:layout_toRightOf="@+id/editText"
-        android:layout_alignRight="@+id/listView"
-        android:layout_alignEnd="@+id/listView" />
+        android:layout_alignRight="@+id/lvResearch"
+        android:layout_alignEnd="@+id/lvResearch" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/bStartSearch"
+        android:layout_alignEnd="@+id/bStartSearch" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edRole"
+        android:layout_alignLeft="@+id/button2"
+        android:layout_alignRight="@+id/button2"
+        android:layout_alignEnd="@+id/button2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edRate"
+        android:layout_above="@+id/lvResearch"
+        android:layout_alignLeft="@+id/button3"
+        android:layout_alignStart="@+id/button3"
+        android:layout_alignRight="@+id/button3"
+        android:layout_alignEnd="@+id/button3" />
 
 </RelativeLayout>
