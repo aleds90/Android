@@ -4,8 +4,7 @@
     android:padding="18dp"
     android:layout_width="match_parent"
     android:id="@+id/id"
-    android:weightSum="1"
-    android:background="#fefff8">
+    android:weightSum="1">
 
 
     <ListView
@@ -25,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
-        android:background="#fdfdfd">
+        android:background="@android:color/holo_blue_dark">
 
     </Toolbar>
 
