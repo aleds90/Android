@@ -7,7 +7,14 @@
     <string name="title_activity_register">Register</string>
     <string name="title_activity_test">Test</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_research">ResearchActivity</string>
+    <string name="title_activity_follow">FollowActivity</string>
+    <string name="title_activity_my_profile">MyProfileActivity</string>
+    <string name="title_activity_message">MessageActivity</string>
+    <string name="title_activity_test_main">testMainActivity</string>
+    <string name="title_activity_test_search">testSearchActivity</string>
+    <string name="title_activity_test_follow">testFollowActivity</string>
+    <string name="title_activity_test_profile">testProfileActivity</string>
 </resources>

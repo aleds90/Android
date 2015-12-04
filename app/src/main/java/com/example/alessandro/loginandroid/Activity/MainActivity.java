@@ -25,6 +25,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -79,8 +80,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
         super.onStart();
         //in particolare controlliamo se non abbiamo token veniamo indirizzati direttamente alla activity di login
         if (clientLocalStore.getClient().getRefreshToken().equals("")) {
+            System.out.println("sei dentro");
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+
         }
         // se abbiamo il token proviamo ad effettuare il login tramite refresh
         else {
@@ -167,7 +170,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
             try {
                 HttpClient httpclient = new DefaultHttpClient();
                 // sito a cui fare il post
+
                 HttpPost httppost = new HttpPost("http://10.0.2.2:4567/users");
+               // HttpGet httpGet = new HttpGet("http://10.0.2.2:4567/users");
                 HttpResponse response = httpclient.execute(httppost);
 
                 HttpEntity entity = response.getEntity();
@@ -243,8 +248,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
             case R.id.Search:
                 intent = new Intent(this, ResearchActivity.class);
                 break;
+            case R.id.Follow:
+                intent = new Intent(this, FollowActivity.class);
+                break;
             case R.id.Profil:
-                intent = new Intent(this, OtherProfileActivity.class);
+                intent = new Intent(this, MyProfileActivity.class);
                 break;
         }
         startActivity(intent);

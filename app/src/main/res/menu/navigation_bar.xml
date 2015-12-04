@@ -3,18 +3,19 @@
     <item
         android:id="@+id/Home"
         android:showAsAction="always"
-        android:title="HOME" />
+        android:title="HOME  " />
     <item
         android:id="@+id/Search"
         android:showAsAction="always"
-        android:title="SEARCH" />
+        android:title="SEARCH  " />
+    <item
+        android:id="@+id/Follow"
+        android:showAsAction="always"
+        android:title="FOLLOW  " />
+
     <item
         android:id="@+id/Profil"
         android:showAsAction="always"
-        android:title="PROFIL" />
-    <item
-        android:id="@+id/Logout"
-        android:showAsAction="always"
-        android:title="LOGOUT" />
+        android:title="MYPROFILE " />
 
 </menu>

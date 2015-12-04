@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="HOME ACTIVITY"
+            android:id="@+id/textView10"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.73">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="380dp"
+            android:id="@+id/listView2"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_gravity="center_horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:layout_width="90dp"
+            android:layout_height="78dp"
+            android:text="HOME"
+            android:id="@+id/button2"
+            android:layout_weight="0.38" />
+
+        <Button
+            android:layout_width="90dp"
+            android:layout_height="79dp"
+            android:text="SEARCH"
+            android:id="@+id/button3" />
+
+        <Button
+            android:layout_width="90dp"
+            android:layout_height="78dp"
+            android:text="FOLLOW"
+            android:id="@+id/button7" />
+
+        <Button
+            android:layout_width="90dp"
+            android:layout_height="78dp"
+            android:text="PROFILE"
+            android:id="@+id/button12" />
+    </LinearLayout>
+
+</LinearLayout>
