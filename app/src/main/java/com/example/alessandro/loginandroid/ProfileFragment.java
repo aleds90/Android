@@ -71,6 +71,7 @@ public class ProfileFragment extends Fragment {
      * @return User passato dal Activity
      */
     private User getUserFromActivity() {
+        int id_user = this.getArguments().getInt("id_user");
         String name = this.getArguments().getString("name");
         String cognome = this.getArguments().getString("cognome");
         String city = this.getArguments().getString("city");
@@ -78,7 +79,7 @@ public class ProfileFragment extends Fragment {
         String bday = this.getArguments().getString("bday");
         String role = this.getArguments().getString("role");
         Double rate = this.getArguments().getDouble("rate");
-        return new User(name, cognome, email, "", bday, role, city, rate);
+        return new User(id_user, name, cognome, email, "", bday, role, city, rate);
     }
 
 

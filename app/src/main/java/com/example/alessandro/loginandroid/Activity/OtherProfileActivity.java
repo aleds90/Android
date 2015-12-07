@@ -40,6 +40,7 @@ public class OtherProfileActivity extends Activity {
     }
 
     private User getUserBybundle(Bundle bundle) {
+        int id_user = bundle.getInt("id_user");
         String name = bundle.getString("name");
         String cognome = bundle.getString("cognome");
         String city = bundle.getString("city");
@@ -47,6 +48,6 @@ public class OtherProfileActivity extends Activity {
         String bday = bundle.getString("bday");
         String role = bundle.getString("role");
         Double rate = bundle.getDouble("rate");
-        return new User(name, cognome, email, "", bday, role, city, rate);
+        return new User(id_user, name, cognome, email, "", bday, role, city, rate);
     }
 }

@@ -8,12 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.example.alessandro.loginandroid.Entity.Client;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.Response;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
+import com.example.alessandro.loginandroid.Test.testMainActivity;
 import com.google.gson.Gson;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -23,6 +26,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,7 +153,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 User user = responseServer.getUser();
                 Client client = new Client(responseServer.getAccess_Token(),responseServer.getRefresh_Token(), "");
                 clientLocalStore.storeClientData(client,user);
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, testMainActivity.class);
                 startActivity(intent);
                 break;
             //response:3, il login non e' andato a buon fine quindi rimane sulla login activity per ritentare

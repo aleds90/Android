@@ -2,8 +2,6 @@ package com.example.alessandro.loginandroid.Entity;
 
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Date;
 /*
 e' la classe che ci permette di identificare lo user
  */
@@ -19,7 +17,8 @@ public class User implements Serializable{
     private String city;
     private double rate;
 
-    public User(String name, String surname, String email, String password, String bday, String role,String city, double rate) {
+    public User(int id_user, String name, String surname, String email, String password, String bday, String role, String city, double rate) {
+        this.id_user = id_user;
         this.name = name;
         this.surname = surname;
         this.email = email;

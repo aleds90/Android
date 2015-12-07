@@ -3,11 +3,6 @@ package com.example.alessandro.loginandroid.Entity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by sjnao on 11/10/15.
  */
@@ -33,6 +28,7 @@ public class ClientLocalStore {
         editor.putString("access_Token", client.accessToken);
         editor.putString("refresh_Token", client.refreshToken);
 
+        editor.putInt("id_user", user.getId_user());
         editor.putString("email", user.getEmail());
         editor.putString("password", user.getPassword());
         editor.putString("name", user.getName());
@@ -54,15 +50,13 @@ public class ClientLocalStore {
         String access_token = clientLocalDB.getString("access_Token", "");
         String refresh_token = clientLocalDB.getString("refresh_Token", "");
 
-
-
-
         Client client = new Client(access_token, refresh_token, "");
 
         return client;
     }
 
     public User getUser(){
+        int id_user = clientLocalDB.getInt("id_user", 0);
         String email = clientLocalDB.getString("email", "");
         String password = clientLocalDB.getString("password", "");
         String name = clientLocalDB.getString("name", "");
@@ -72,7 +66,7 @@ public class ClientLocalStore {
         String bday = clientLocalDB.getString("bday", "");
         double rate = (double)clientLocalDB.getFloat("rate", 0f);
 
-        User user = new User(name,surname,email,password,bday,role,city,rate);
+        User user = new User(id_user, name, surname, email, password, bday, role, city, rate);
 
         return user;
     }
