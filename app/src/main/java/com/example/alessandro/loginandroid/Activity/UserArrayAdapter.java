@@ -2,11 +2,13 @@ package com.example.alessandro.loginandroid.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Entity.User;
@@ -48,11 +50,14 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
         // ci riferiamo a  user_layout come una riga/item di questa listView
         View rowView = inflater.inflate(R.layout.user_layout, parent, false);
         // definizione delle componenti del layout(item)
+        ImageView imageView= (ImageView)rowView.findViewById(R.id.imageViewFrag);
         TextView textView = (TextView) rowView.findViewById(R.id.tvUser);
-        ImageButton button = (ImageButton) rowView.findViewById(R.id.bProfilo);
+        Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/rspu.ttf");
+        textView.setTypeface(typeface);
+        //ImageButton button = (ImageButton) rowView.findViewById(R.id.bProfilo);
         // definiamo utente: ovvero il primo item(position=1) sara il primo utente nella lista users
         final User currentUser = users.get(position);
-        button.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //andiamo a vederci nel dettagli l item(utent) clickato

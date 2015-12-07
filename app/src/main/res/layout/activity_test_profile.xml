@@ -10,7 +10,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.92"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/black"
+                android:text="PROFILE"
+                android:textSize="45dp"
+                android:gravity="center"
+                android:id="@+id/textViewPROFILE"
+                android:background="#F4C430"/>
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -32,79 +52,82 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="32dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="name     "
-                        android:layout_weight="0.2" />
+                        android:text="name" />
 
-                    <EditText
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:editable="true"
                         android:id="@+id/profileNameEditText"
                         android:layout_weight="0.8"
-                        android:focusable="false" />
+                        android:focusable="false"
+                        android:textSize="15dp"
+                        android:gravity="center"/>
                 </LinearLayout>
-                [14:14:31] Alessandro Di Stefano:
+
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="31dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="surname"
-                        android:layout_weight="0.2" />
+                        android:text="surname" />
 
-                    <EditText
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/profileSurnameEditText"
                         android:layout_weight="0.75"
                         android:editable="true"
-                        android:focusable="false" />
+                        android:focusable="false"
+                        android:gravity="center"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="30dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="bday       " />
+                        android:text="bday" />
 
-                    <EditText
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/profileBdayEditText"
                         android:editable="true"
-                        android:focusable="false" />
+                        android:focusable="false"
+                        android:gravity="center"/>
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="city         " />
+                        android:text="city" />
 
-                    <EditText
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="31dp"
                         android:id="@+id/profileCityEditText"
                         android:editable="true"
-                        android:focusable="false" />
+                        android:focusable="false"
+                        android:gravity="center"/>
 
                 </LinearLayout>
 
@@ -116,23 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="email            " />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/profileEmailEditText"
-                    android:editable="true"
-                    android:focusable="false" />
-
-            </LinearLayout>
+                 " />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -141,14 +148,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="password            " />
+                    android:text="password" />
 
-                <EditText
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/profilePasswordEditText"
                     android:editable="true"
-                    android:focusable="false" />
+                    android:focusable="false"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
 
             </LinearLayout>
             <LinearLayout
@@ -160,13 +169,14 @@
                     android:layout_height="wrap_content"
                     android:text="role" />
 
-                <EditText
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/profileRoleEditText"
                     android:editable="true"
-                    android:focusable="false" />
-                [14:14:38] Alessandro Di Stefano:
+                    android:focusable="false"
+                    android:gravity="center"/>
+
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -177,12 +187,13 @@
                     android:layout_height="wrap_content"
                     android:text="rate" />
 
-                <EditText
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="321dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/profileRateEditText"
                     android:editable="true"
-                    android:focusable="false" />
+                    android:focusable="false"
+                    android:gravity="center"/>
 
             </LinearLayout>
 
@@ -231,39 +242,49 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="#F4C430"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:weightSum="1"
-        android:layout_height="wrap_content">
+        android:layout_gravity="bottom"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        >
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="HOME"
-            android:id="@+id/profileToHomeButton"
-            android:layout_weight="0.25" />
+            android:id="@+id/buttonHOME"
+            android:layout_weight="0.25"
+            android:background="@drawable/homeb"
+            android:layout_margin="5dp"
+            android:padding="5dp" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="SEARCH"
-            android:id="@+id/profileToSearchButton"
-            android:layout_weight="0.25" />
+            android:id="@+id/buttonSEARCH"
+            android:layout_weight="0.25"
+            android:background="@drawable/search"
+            android:padding="5dp"
+            android:layout_margin="5dp" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="FOLLOW"
-            android:id="@+id/profileToFollowButton"
-            android:layout_weight="0.25" />
+            android:id="@+id/buttonFOLLOW"
+            android:layout_weight="0.25"
+            android:background="@drawable/follow"
+            android:padding="5dp"
+            android:layout_margin="5dp" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="PROFILE"
-            android:id="@+id/profileToProfileButton"
-            android:layout_weight="0.25" />
+            android:id="@+id/buttonPROFILE"
+            android:layout_weight="0.25"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/profile" />
     </LinearLayout>
 
 </LinearLayout>

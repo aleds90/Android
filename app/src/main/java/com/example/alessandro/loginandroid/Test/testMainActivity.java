@@ -52,8 +52,8 @@ public class testMainActivity extends Activity implements View.OnClickListener {
 
         textviewHOME = (TextView) findViewById(R.id.textViewHOME);
 
-        textviewHOME.setText(clientLocalStore.getUser().getName() + "'s Home");
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/rspu.ttf");
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/cartoon.ttf");
         textviewHOME.setTypeface(typeface);
 
 

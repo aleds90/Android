@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="@drawable/hdblue">
+    android:background="@android:color/white">
 
 
     <LinearLayout
@@ -11,17 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="5dp">
+        >
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/holo_red_dark"
+            android:textColor="@android:color/black"
             android:text="HOME"
             android:textSize="45dp"
             android:gravity="center"
-            android:id="@+id/textViewHOME" />
+            android:id="@+id/textViewHOME"
+            android:background="#F4C430"/>
     </LinearLayout>
 
     <LinearLayout
@@ -41,18 +42,20 @@
 
 
     <LinearLayout
+        android:background="#F4C430"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp">
+        android:layout_marginBottom="40dp"
+        >
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/buttonHOME"
             android:layout_weight="0.25"
-            android:background="@drawable/homebutton"
+            android:background="@drawable/homeb"
             android:layout_margin="5dp"
             android:padding="5dp" />
 
@@ -61,7 +64,7 @@
             android:layout_height="match_parent"
             android:id="@+id/buttonSEARCH"
             android:layout_weight="0.25"
-            android:background="@drawable/searchbutton"
+            android:background="@drawable/search"
             android:padding="5dp"
             android:layout_margin="5dp" />
 
@@ -70,7 +73,7 @@
             android:layout_height="match_parent"
             android:id="@+id/buttonFOLLOW"
             android:layout_weight="0.25"
-            android:background="@drawable/followbutton"
+            android:background="@drawable/follow"
             android:padding="5dp"
             android:layout_margin="5dp" />
 
@@ -81,7 +84,7 @@
             android:layout_weight="0.25"
             android:padding="5dp"
             android:layout_margin="5dp"
-            android:background="@drawable/profilebutton" />
+            android:background="@drawable/profile" />
     </LinearLayout>
 
 </LinearLayout>

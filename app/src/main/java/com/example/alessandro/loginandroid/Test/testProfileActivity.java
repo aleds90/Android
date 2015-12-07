@@ -2,6 +2,7 @@ package com.example.alessandro.loginandroid.Test;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Activity.LoginActivity;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
@@ -35,10 +38,7 @@ import java.util.List;
  */
 public class testProfileActivity extends Activity implements View.OnClickListener {
     //bottoni per cambiare activity
-    private Button profileToHomeButton;
-    private Button profileToSearchButton;
-    private Button profileToFollowButton;
-    private Button profileToProfileButton;
+    ImageButton buttonHOME, buttonSEARCH, buttonFOLLOW, buttonPROFILE;
     //bottoni dei comandi specifici per questa activity
     private Button profileLogoutButton;
     private Button profileDeleteButton;
@@ -48,29 +48,33 @@ public class testProfileActivity extends Activity implements View.OnClickListene
     //database che contiene i dati di login dell' utente
     private ClientLocalStore clientLocalStore;
     //views che identificano i dati dell'utente
-    private EditText profileNameEditText;
-    private EditText profileSurnameEditText;
-    private EditText profileBdayEditText;
-    private EditText profileCityEditText;
-    private EditText profilePasswordEditText;
-    private EditText profileEmailEditText;
-    private EditText profileRoleEditText;
-    private EditText profileRateEditText;
+    private TextView profileNameEditText;
+    private TextView profileSurnameEditText;
+    private TextView profileBdayEditText;
+    private TextView profileCityEditText;
+    private TextView profilePasswordEditText;
+    private TextView profileEmailEditText;
+    private TextView profileRoleEditText;
+    private TextView profileRateEditText;
+    private TextView textViewPROFILE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_profile);
 
-        profileToHomeButton = (Button) findViewById(R.id.profileToHomeButton);
-        profileToSearchButton = (Button) findViewById(R.id.profileToSearchButton);
-        profileToFollowButton = (Button) findViewById(R.id.profileToFollowButton);
-        profileToProfileButton = (Button) findViewById(R.id.profileToProfileButton);
+        buttonHOME = (ImageButton) findViewById(R.id.buttonHOME);
+        buttonSEARCH = (ImageButton) findViewById(R.id.buttonSEARCH);
+        buttonFOLLOW = (ImageButton) findViewById(R.id.buttonFOLLOW);
+        buttonPROFILE = (ImageButton) findViewById(R.id.buttonPROFILE);
+        textViewPROFILE=(TextView)findViewById(R.id.textViewPROFILE);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/cartoon.ttf");
+        textViewPROFILE.setTypeface(typeface);
+        buttonHOME.setOnClickListener(this);
+        buttonSEARCH.setOnClickListener(this);
+        buttonFOLLOW.setOnClickListener(this);
+        buttonPROFILE.setOnClickListener(this);
 
-        profileToHomeButton.setOnClickListener(this);
-        profileToSearchButton.setOnClickListener(this);
-        profileToFollowButton.setOnClickListener(this);
-        profileToProfileButton.setOnClickListener(this);
 
         profileLogoutButton = (Button) findViewById(R.id.profileLogoutButton);
         profileDeleteButton = (Button) findViewById(R.id.profileDeleteButton);
@@ -82,14 +86,14 @@ public class testProfileActivity extends Activity implements View.OnClickListene
 
         profileUpdateButton.setOnClickListener(this);
 
-        profileNameEditText = (EditText) findViewById(R.id.profileNameEditText);
-        profileSurnameEditText = (EditText) findViewById(R.id.profileSurnameEditText);
-        profileBdayEditText = (EditText) findViewById(R.id.profileBdayEditText);
-        profileCityEditText = (EditText) findViewById(R.id.profileCityEditText);
-        profilePasswordEditText = (EditText) findViewById(R.id.profilePasswordEditText);
-        profileEmailEditText = (EditText) findViewById(R.id.profileEmailEditText);
-        profileRoleEditText = (EditText) findViewById(R.id.profileRoleEditText);
-        profileRateEditText = (EditText) findViewById(R.id.profileRateEditText);
+        profileNameEditText = (TextView) findViewById(R.id.profileNameEditText);
+        profileSurnameEditText = (TextView) findViewById(R.id.profileSurnameEditText);
+        profileBdayEditText = (TextView) findViewById(R.id.profileBdayEditText);
+        profileCityEditText = (TextView) findViewById(R.id.profileCityEditText);
+        profilePasswordEditText = (TextView) findViewById(R.id.profilePasswordEditText);
+
+        profileRoleEditText = (TextView) findViewById(R.id.profileRoleEditText);
+        profileRateEditText = (TextView) findViewById(R.id.profileRateEditText);
 
         clientLocalStore = new ClientLocalStore(this);
         User user = clientLocalStore.getUser();
@@ -98,7 +102,7 @@ public class testProfileActivity extends Activity implements View.OnClickListene
         profileBdayEditText.setText(user.getBday());
         profileCityEditText.setText(user.getCity());
         profilePasswordEditText.setText(user.getPassword());
-        profileEmailEditText.setText(user.getEmail());
+
         profileRoleEditText.setText(user.getRole());
         profileRateEditText.setText(String.valueOf(user.getRate()));
         profileUpdateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -121,8 +125,7 @@ public class testProfileActivity extends Activity implements View.OnClickListene
                     profilePasswordEditText.setFocusable(true);
                     profilePasswordEditText.setFocusableInTouchMode(true);
 
-                    profileEmailEditText.setFocusable(true);
-                    profileEmailEditText.setFocusableInTouchMode(true);
+
 
                     profileRoleEditText.setFocusable(true);
                     profileRoleEditText.setFocusableInTouchMode(true);
@@ -146,8 +149,7 @@ public class testProfileActivity extends Activity implements View.OnClickListene
                     profilePasswordEditText.setFocusable(false);
                     profilePasswordEditText.setFocusableInTouchMode(false);
 
-                    profileEmailEditText.setFocusable(false);
-                    profileEmailEditText.setFocusableInTouchMode(false);
+
 
                     profileRoleEditText.setFocusable(false);
                     profileRoleEditText.setFocusableInTouchMode(false);
@@ -163,21 +165,22 @@ public class testProfileActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.profileToHomeButton:
-                Intent intent1 = new Intent(this, testMainActivity.class);
-                startActivity(intent1);
+            case (R.id.buttonHOME):
+                Intent intent = new Intent(this, testMainActivity.class);
+                startActivity(intent);
                 break;
-            case R.id.profileToSearchButton:
-                Intent intent2 = new Intent(this, testSearchActivity.class);
+            case (R.id.buttonSEARCH):
+                Intent intent1 = new Intent(this, testSearchActivity.class);
+                startActivity(intent1);
+
+                break;
+            case (R.id.buttonFOLLOW):
+                Intent intent2 = new Intent(this, testFollowActivity.class);
                 startActivity(intent2);
                 break;
-            case R.id.profileToFollowButton:
-                Intent intent3 = new Intent(this, testFollowActivity.class);
+            case (R.id.buttonPROFILE):
+                Intent intent3 = new Intent(this, testProfileActivity.class);
                 startActivity(intent3);
-                break;
-            case R.id.profileToProfileButton:
-                Intent intent4 = new Intent(this, testProfileActivity.class);
-                startActivity(intent4);
                 break;
             case R.id.profileLogoutButton:
                 clientLocalStore.clearClient();
@@ -197,7 +200,7 @@ public class testProfileActivity extends Activity implements View.OnClickListene
                 user.setCity(profileCityEditText.getText().toString());
                 user.setRate(Double.parseDouble(profileRateEditText.getText().toString()));
                 user.setRole(profileRoleEditText.getText().toString());
-                user.setEmail(profileEmailEditText.getText().toString());
+
                 user.setPassword(profilePasswordEditText.getText().toString());
                 System.out.println(user.getId_user());
                 System.out.println(user.getName());

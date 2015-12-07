@@ -67,36 +67,49 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="#F4C430"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:layout_gravity="center_horizontal"
-        android:weightSum="1">
+        android:layout_gravity="bottom"
+        android:layout_height="wrap_content"
 
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="78dp"
-            android:text="HOME"
-            android:id="@+id/followToHomeButton"
-            android:layout_weight="0.38" />
+        >
 
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="79dp"
-            android:text="SEARCH"
-            android:id="@+id/followToSearchButton" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/buttonHOME"
+            android:layout_weight="0.25"
+            android:background="@drawable/homeb"
+            android:layout_margin="5dp"
+            android:padding="5dp" />
 
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="78dp"
-            android:text="FOLLOW"
-            android:id="@+id/followToFollowButton" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/buttonSEARCH"
+            android:layout_weight="0.25"
+            android:background="@drawable/search"
+            android:padding="5dp"
+            android:layout_margin="5dp" />
 
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="78dp"
-            android:text="PROFILE"
-            android:id="@+id/followToProfileButton" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/buttonFOLLOW"
+            android:layout_weight="0.25"
+            android:background="@drawable/follow"
+            android:padding="5dp"
+            android:layout_margin="5dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/buttonPROFILE"
+            android:layout_weight="0.25"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/profile" />
     </LinearLayout>
 
 </LinearLayout>
