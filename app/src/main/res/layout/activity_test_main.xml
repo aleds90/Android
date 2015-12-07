@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@drawable/hdblue">
 
 
     <LinearLayout
@@ -10,62 +11,77 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.10">
+        android:layout_margin="5dp">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="HOME ACTIVITY"
-            android:id="@+id/textView10"
-            android:layout_gravity="center_vertical" />
+            android:textColor="@android:color/holo_red_dark"
+            android:text="HOME"
+            android:textSize="45dp"
+            android:gravity="center"
+            android:id="@+id/textViewHOME" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.73">
+        android:layout_weight="0.73"
+        android:layout_margin="5dp">
 
         <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="380dp"
-            android:id="@+id/listView2"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listViewUSERLIST"
             android:layout_gravity="center_vertical" />
     </LinearLayout>
+
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:layout_gravity="center_horizontal"
-        android:weightSum="1">
+        android:layout_gravity="bottom"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp">
 
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="78dp"
-            android:text="HOME"
-            android:id="@+id/button2"
-            android:layout_weight="0.38" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/buttonHOME"
+            android:layout_weight="0.25"
+            android:background="@drawable/homebutton"
+            android:layout_margin="5dp"
+            android:padding="5dp" />
 
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="79dp"
-            android:text="SEARCH"
-            android:id="@+id/button3" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/buttonSEARCH"
+            android:layout_weight="0.25"
+            android:background="@drawable/searchbutton"
+            android:padding="5dp"
+            android:layout_margin="5dp" />
 
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="78dp"
-            android:text="FOLLOW"
-            android:id="@+id/button7" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/buttonFOLLOW"
+            android:layout_weight="0.25"
+            android:background="@drawable/followbutton"
+            android:padding="5dp"
+            android:layout_margin="5dp" />
 
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="78dp"
-            android:text="PROFILE"
-            android:id="@+id/button12" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/buttonPROFILE"
+            android:layout_weight="0.25"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/profilebutton" />
     </LinearLayout>
 
 </LinearLayout>

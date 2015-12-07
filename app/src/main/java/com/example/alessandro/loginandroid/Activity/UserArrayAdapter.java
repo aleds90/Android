@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Entity.User;
@@ -49,7 +49,7 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
         View rowView = inflater.inflate(R.layout.user_layout, parent, false);
         // definizione delle componenti del layout(item)
         TextView textView = (TextView) rowView.findViewById(R.id.tvUser);
-        Button button = (Button) rowView.findViewById(R.id.bProfilo);
+        ImageButton button = (ImageButton) rowView.findViewById(R.id.bProfilo);
         // definiamo utente: ovvero il primo item(position=1) sara il primo utente nella lista users
         final User currentUser = users.get(position);
         button.setOnClickListener(new View.OnClickListener() {

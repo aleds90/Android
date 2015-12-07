@@ -4,30 +4,33 @@ Consiglio di non metterci troppa roba che sennö si vedi tutto troppo piccolo
 (anzi si potrebbe togliere il bottone e metter il clickListener sull immagine)-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="#fffefb">
+    android:background="@android:color/transparent">
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/imageViewFrag"
-        android:src="@drawable/trainer_icon" />
+        android:src="@drawable/trainer_icon"
+        android:background="@android:color/white" />
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="PersonalTrainer"
         android:id="@+id/tvUser"
-        android:textColor="#000000" />
+        android:textColor="#FFFFFFFF"
+        android:minLines="2"
+        android:layout_weight="0.5" />
 
-    <Button
+    <ImageButton
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="VAI AL PROFILO"
-        android:id="@+id/bProfilo" />
-
+        android:id="@+id/bProfilo"
+        android:src="@drawable/vaialprofilo"
+        android:background="@android:color/transparent" />
 </LinearLayout>

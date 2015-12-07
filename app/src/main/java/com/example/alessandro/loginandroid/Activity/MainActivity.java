@@ -25,7 +25,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -204,6 +203,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
             //case 4, login tramite refresh andato a buon fine. otteniamo due token nuovi che salviamo nel local store
             case "4":
                 User user = clientLocalStore.getUser();
+                System.out.println(user.getName());
                 Client client = new Client(responseServer.getAccess_Token(), responseServer.getRefresh_Token(), "");
                 clientLocalStore.storeClientData(client, user);
                 break;
