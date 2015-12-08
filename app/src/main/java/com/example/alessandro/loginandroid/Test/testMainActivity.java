@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.alessandro.loginandroid.Activity.ListUser;
 import com.example.alessandro.loginandroid.Activity.LoginActivity;
 import com.example.alessandro.loginandroid.Activity.UserArrayAdapter;
 import com.example.alessandro.loginandroid.Entity.Client;
@@ -53,7 +54,7 @@ public class testMainActivity extends Activity implements View.OnClickListener {
         textviewHOME = (TextView) findViewById(R.id.textViewHOME);
 
 
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/cartoon.ttf");
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/font.ttf");
         textviewHOME.setTypeface(typeface);
 
 
@@ -71,7 +72,7 @@ public class testMainActivity extends Activity implements View.OnClickListener {
 
         users = new ArrayList<>();
         new UserListTask(clientLocalStore.getUser()).execute();
-        UserArrayAdapter adapter = new UserArrayAdapter(this, users);
+        ListUser adapter = new ListUser(this, users);
 
         listViewUSERLIST.setAdapter(adapter);
 

@@ -61,7 +61,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         // definiamo e settiamo la lista di utenti che riempira la nostra listview
         users = new ArrayList<>();
         new UserListTask().execute();
-        UserArrayAdapter adapter = new UserArrayAdapter(this, users);
+        ListUser adapter = new ListUser(this, users);
         userList.setAdapter(adapter);
 
         bLogout = (Button)findViewById(R.id.bLogout);
