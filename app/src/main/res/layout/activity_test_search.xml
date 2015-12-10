@@ -14,122 +14,95 @@
 
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="37dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@android:color/black"
             android:text="SEARCH"
             android:textSize="45dp"
             android:gravity="center"
-            android:id="@+id/textViewHOME"
+            android:id="@+id/textViewSearch"
             android:background="#F4C430"/>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="107dp"
-        android:paddingTop="5dp">
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="name"
-            android:id="@+id/textView11"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:hint="Find by name"
             android:id="@+id/searchNameText"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/textView11"
-            android:layout_toEndOf="@+id/textView11"
-            android:layout_toRightOf="@+id/textView11" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="role"
-            android:id="@+id/textView12"
-            android:layout_below="@+id/textView11"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <AutoCompleteTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/searchRoleAutoComplete"
-            android:layout_alignRight="@+id/searchNameText"
-            android:layout_toRightOf="@+id/textView11"
-            android:layout_toEndOf="@+id/textView11"
-            android:layout_alignBottom="@+id/textView12"
-            android:layout_alignTop="@+id/textView12"
             />
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Find by Role"
+            android:id="@+id/searchRoleText"/>
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Find by City"
+            android:id="@+id/searchCityText"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            >
+
+
 
         <TextView
             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:background="@android:color/black"
+            android:textAlignment="inherit"
+            android:text="Price under 200$/h"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            android:id="@+id/searchRateText"
+
+            android:layout_gravity="center_horizontal" />
+        <SeekBar
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="rate"
-            android:id="@+id/textView13"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView12" />
+            android:paddingLeft="8dp"
+            android:paddingRight="10dp"
+            android:id="@+id/searchRateSeekBar"/>
 
-        <AutoCompleteTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner2"
-            android:layout_alignBottom="@+id/textView13"
-            android:layout_alignLeft="@+id/searchNameText"
-            android:layout_alignRight="@+id/searchNameText"
-            android:layout_alignTop="@+id/textView13" />
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="START RESEARCH"
+                android:id="@+id/button2"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="city"
-            android:id="@+id/textView14"
-            android:layout_below="@+id/textView13"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
-        <AutoCompleteTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner3"
-
-            android:layout_alignBottom="@+id/textView14"
-            android:layout_alignLeft="@+id/searchNameText"
-            android:layout_alignRight="@+id/searchNameText"
-            android:layout_alignTop="@+id/textView14" />
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="301dp">
+        android:layout_width="wrap_content"
+        android:layout_height="237dp">
 
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="279dp"
-            android:id="@+id/listView2"
-            android:layout_gravity="center_vertical" />
+            android:layout_height="228dp"
+            android:id="@+id/listView2" />
     </LinearLayout>
 
     <LinearLayout
         android:background="#F4C430"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp">
 
         <ImageButton
             android:layout_width="match_parent"

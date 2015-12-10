@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
@@ -34,7 +36,14 @@ import java.util.Set;
 
 public class testSearchActivity extends Activity {
 
-    private AutoCompleteTextView searchRoleAutoComplete;
+    private AutoCompleteTextView searchRoleText;
+    private AutoCompleteTextView searchNameText;
+    private AutoCompleteTextView searchCityText;
+    private SeekBar searchRateSeekBar;
+    private TextView searchRateText;
+    private int pro;
+
+    List<String> names;
     List<String> roles;
     List<String> cities;
     String[] prices = {"0", "10", "15", "20", "25", "50", "75", "100"};
@@ -44,11 +53,19 @@ public class testSearchActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_search);
 
-        searchRoleAutoComplete = (AutoCompleteTextView)findViewById(R.id.searchRoleAutoComplete);
+        searchRateText = (TextView)findViewById(R.id.searchRateText);
+        searchNameText = (AutoCompleteTextView)findViewById(R.id.searchNameText);
+        searchRoleText = (AutoCompleteTextView)findViewById(R.id.searchRoleText);
+        searchCityText = (AutoCompleteTextView)findViewById(R.id.searchCityText);
+        searchRateSeekBar = (SeekBar)findViewById(R.id.searchRateSeekBar);
+        searchRateSeekBar.setMax(200);
+        searchRateSeekBar.setProgress(200);
 
         //setta le liste
         new UserListTask(new ClientLocalStore(this).getUser()).execute();
 
+        ArrayAdapter<String> adapterNames = new ArrayAdapter<String>(
+                this,android.R.layout.simple_dropdown_item_1line, new String[] {"marco","marcello"});
 
         ArrayAdapter<String> adapterRoles = new ArrayAdapter<String>
                 (this,android.R.layout.simple_dropdown_item_1line, roles);
@@ -62,8 +79,8 @@ public class testSearchActivity extends Activity {
         //TODO dichiare AUTOCOMPLETE per Citta e Prezzi e settare l Adapter, gia creati sopra, e
         //TODO onITEMlicklistener
 
-        searchRoleAutoComplete.setAdapter(adapterRoles);
-        searchRoleAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        searchNameText.setAdapter(adapterNames);
+        searchNameText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int pos, long id) {
                 String selected = (String) adapter.getItemAtPosition(pos);
@@ -72,6 +89,50 @@ public class testSearchActivity extends Activity {
                         "hai selezionato " + selected,
                         Toast.LENGTH_LONG
                 ).show();
+            }
+        });
+
+        searchRoleText.setAdapter(adapterRoles);
+        searchRoleText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int pos, long id) {
+                String selected = (String) adapter.getItemAtPosition(pos);
+                Toast.makeText(
+                        getApplicationContext(),
+                        "hai selezionato " + selected,
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        });
+
+        searchCityText.setAdapter(adapterCites);
+        searchCityText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int pos, long id) {
+                String selected = (String) adapter.getItemAtPosition(pos);
+                Toast.makeText(
+                        getApplicationContext(),
+                        "hai selezionato " + selected,
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        });
+
+        searchRateSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                pro = progress;
+                searchRateText.setText("Price under "+String.valueOf(progress)+ "$ / h");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
 
@@ -106,14 +167,18 @@ public class testSearchActivity extends Activity {
                 HttpEntity entity = response.getEntity();
                 String json = EntityUtils.toString(entity);
                 JSONArray usersArray = new JSONArray(json);
+                names = new ArrayList<>();
                 roles = new ArrayList<String>();
                 cities = new ArrayList<String>();
                 for (int i = 0; i < usersArray.length(); i++) {
                     User user = new Gson().fromJson(usersArray.get(i).toString(), User.class);
+                    names.add(user.getName());
                     roles.add(user.getRole());
                     cities.add(user.getCity());
+
                 }
                 //per rimuovere i valore che sono doppi
+
                 removeDoubleFromList(roles);
                 removeDoubleFromList(cities);
 
