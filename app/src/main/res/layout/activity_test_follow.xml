@@ -10,16 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.10">
+        >
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="FOLLOW ACTIVITY"
-            android:id="@+id/textView10"
-            android:layout_gravity="center_vertical" />
-
+            android:textColor="@android:color/black"
+            android:text="FOLLOW"
+            android:textSize="45dp"
+            android:gravity="center"
+            android:id="@+id/textViewHOME"
+            android:background="#F4C430"/>
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +62,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="297dp"
                 android:id="@+id/followListView"
-                android:layout_weight="0.92" />
+                android:layout_weight="0.92"
+                />
 
         </LinearLayout>
 

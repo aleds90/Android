@@ -8,23 +8,23 @@
 
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        >
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    >
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/black"
-            android:text="HOME"
-            android:textSize="45dp"
-            android:gravity="center"
-            android:id="@+id/textViewHOME"
-            android:background="#F4C430"/>
-    </LinearLayout>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/black"
+        android:text="HOME"
+        android:textSize="45dp"
+        android:gravity="center"
+        android:id="@+id/textViewHOME"
+        android:background="#F4C430"/>
+</LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
