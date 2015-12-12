@@ -64,8 +64,11 @@ public class testSearchActivity extends Activity {
         //setta le liste
         new UserListTask(new ClientLocalStore(this).getUser()).execute();
 
+        String[] namesString = new String[names.size()];
+        namesString = names.toArray(namesString);
+
         ArrayAdapter<String> adapterNames = new ArrayAdapter<String>(
-                this,android.R.layout.simple_dropdown_item_1line, new String[] {"marco","marcello"});
+                this,android.R.layout.simple_dropdown_item_1line,namesString );
 
         ArrayAdapter<String> adapterRoles = new ArrayAdapter<String>
                 (this,android.R.layout.simple_dropdown_item_1line, roles);
@@ -78,6 +81,8 @@ public class testSearchActivity extends Activity {
 
         //TODO dichiare AUTOCOMPLETE per Citta e Prezzi e settare l Adapter, gia creati sopra, e
         //TODO onITEMlicklistener
+
+
 
         searchNameText.setAdapter(adapterNames);
         searchNameText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -167,7 +172,7 @@ public class testSearchActivity extends Activity {
                 HttpEntity entity = response.getEntity();
                 String json = EntityUtils.toString(entity);
                 JSONArray usersArray = new JSONArray(json);
-                names = new ArrayList<>();
+                names = new ArrayList<String>();
                 roles = new ArrayList<String>();
                 cities = new ArrayList<String>();
                 for (int i = 0; i < usersArray.length(); i++) {
