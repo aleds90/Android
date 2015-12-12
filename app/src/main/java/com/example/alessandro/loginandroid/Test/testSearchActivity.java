@@ -3,14 +3,19 @@ package com.example.alessandro.loginandroid.Test;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alessandro.loginandroid.Activity.ListUser;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
@@ -34,6 +39,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static android.R.layout.simple_dropdown_item_1line;
+
 public class testSearchActivity extends Activity {
 
     private AutoCompleteTextView searchRoleText;
@@ -42,11 +49,17 @@ public class testSearchActivity extends Activity {
     private SeekBar searchRateSeekBar;
     private TextView searchRateText;
     private int pro;
-
-    List<String> names;
-    List<String> roles;
-    List<String> cities;
-    String[] prices = {"0", "10", "15", "20", "25", "50", "75", "100"};
+    RelativeLayout loadingpanel;
+    ArrayAdapter adapterNames, adapterRoles, adapterCites;
+    ArrayList<String> namesA, rolesA, citiesA;
+    String[] names;
+    String[] roles;
+    String[] cities;
+    ArrayList<User> users;
+    ClientLocalStore clientLocalStore;
+    Button buttonSTART;
+    ListView listViewSearched;
+    ListUser listUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,31 +71,25 @@ public class testSearchActivity extends Activity {
         searchRoleText = (AutoCompleteTextView)findViewById(R.id.searchRoleText);
         searchCityText = (AutoCompleteTextView)findViewById(R.id.searchCityText);
         searchRateSeekBar = (SeekBar)findViewById(R.id.searchRateSeekBar);
+        buttonSTART = (Button) findViewById(R.id.buttonSTART);
+        listViewSearched = (ListView) findViewById(R.id.listViewSearched);
         searchRateSeekBar.setMax(200);
         searchRateSeekBar.setProgress(200);
 
+        loadingpanel = (RelativeLayout) findViewById(R.id.loadingPanel);
+
+
+        clientLocalStore = new ClientLocalStore(this);
+        namesA = new ArrayList<>();
+        citiesA = new ArrayList<>();
+        rolesA = new ArrayList<>();
+
         //setta le liste
-        new UserListTask(new ClientLocalStore(this).getUser()).execute();
+        users = new ArrayList<>();
+        new UserListTask(clientLocalStore.getUser()).execute();
+        //per rimuovere i valore che sono doppi
 
-        String[] namesString = new String[names.size()];
-        namesString = names.toArray(namesString);
-
-        ArrayAdapter<String> adapterNames = new ArrayAdapter<String>(
-                this,android.R.layout.simple_dropdown_item_1line,namesString );
-
-        ArrayAdapter<String> adapterRoles = new ArrayAdapter<String>
-                (this,android.R.layout.simple_dropdown_item_1line, roles);
-
-        ArrayAdapter<String> adapterCites = new ArrayAdapter<String>
-                (this, android.R.layout.simple_dropdown_item_1line, cities);
-
-        ArrayAdapter<String> adapterPrices = new ArrayAdapter<String>
-                (this, android.R.layout.simple_dropdown_item_1line, prices);
-
-        //TODO dichiare AUTOCOMPLETE per Citta e Prezzi e settare l Adapter, gia creati sopra, e
-        //TODO onITEMlicklistener
-
-
+        Log.i("TOT UTENTI CREATE", "" + namesA.size());
 
         searchNameText.setAdapter(adapterNames);
         searchNameText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -96,8 +103,6 @@ public class testSearchActivity extends Activity {
                 ).show();
             }
         });
-
-        searchRoleText.setAdapter(adapterRoles);
         searchRoleText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int pos, long id) {
@@ -109,8 +114,6 @@ public class testSearchActivity extends Activity {
                 ).show();
             }
         });
-
-        searchCityText.setAdapter(adapterCites);
         searchCityText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int pos, long id) {
@@ -120,14 +123,16 @@ public class testSearchActivity extends Activity {
                         "hai selezionato " + selected,
                         Toast.LENGTH_LONG
                 ).show();
+
             }
         });
+
 
         searchRateSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 pro = progress;
-                searchRateText.setText("Price under "+String.valueOf(progress)+ "$ / h");
+                searchRateText.setText("Price under " + String.valueOf(progress) + "$ / h");
             }
 
             @Override
@@ -141,14 +146,57 @@ public class testSearchActivity extends Activity {
             }
         });
 
+        buttonSTART.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = new User();
+                user.setName(searchNameText.getText().toString());
+                user.setRole(searchRoleText.getText().toString());
+                user.setCity(searchCityText.getText().toString());
+                user.setRate(searchRateSeekBar.getProgress());
+                users = new ArrayList<User>();
+                new FilteredUserListTask(user).execute();
+                listUser = new ListUser(getApplicationContext(), users);
+                listViewSearched.setAdapter(listUser);
+            }
+        });
+
     }
 
+    private void removeDoubleFromList(List<String> lista) {
+        Set<String> set = new HashSet<>();
+        set.addAll(lista);
+        lista.clear();
+        lista.addAll(set);
+    }
+
+    private String[] convertiDaArray(List<String> l) {
+        String[] s = new String[l.size()];
+        s = l.toArray(s);
+        return s;
+    }
 
     public class UserListTask extends AsyncTask<Void, Void, Void> {
         private User user;
 
+
         public UserListTask(User user) {
             this.user = user;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loadingpanel.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.i("TOT POSTEXECUTE UTENTI", "" + namesA.size());
+            setEveryThing();
+            loadingpanel.setVisibility(View.GONE);
+
         }
 
         @Override
@@ -172,20 +220,16 @@ public class testSearchActivity extends Activity {
                 HttpEntity entity = response.getEntity();
                 String json = EntityUtils.toString(entity);
                 JSONArray usersArray = new JSONArray(json);
-                names = new ArrayList<String>();
-                roles = new ArrayList<String>();
-                cities = new ArrayList<String>();
+
                 for (int i = 0; i < usersArray.length(); i++) {
                     User user = new Gson().fromJson(usersArray.get(i).toString(), User.class);
-                    names.add(user.getName());
-                    roles.add(user.getRole());
-                    cities.add(user.getCity());
-
+                    namesA.add(user.getName());
+                    rolesA.add(user.getRole());
+                    citiesA.add(user.getCity());
+                    Log.i("INSERITO NUOVO UTENTE", user.getName() + " " + user.getRole() + " " +
+                            user.getCity());
+                    Log.i("TOT UTENTI", "" + namesA.size());
                 }
-                //per rimuovere i valore che sono doppi
-
-                removeDoubleFromList(roles);
-                removeDoubleFromList(cities);
 
 
             } catch (IOException e) {
@@ -196,12 +240,93 @@ public class testSearchActivity extends Activity {
             return null;
         }
 
-        private void removeDoubleFromList(List<String> lista) {
-            Set<String> set = new HashSet<>();
-            set.addAll(lista);
-            lista.clear();
-            lista.addAll(set);
-        }
+
     }
 
+    private void setEveryThing() {
+        names = convertiDaArray(namesA);
+        roles = convertiDaArray(rolesA);
+        cities = convertiDaArray(citiesA);
+
+
+        adapterNames = new ArrayAdapter<String>(this, simple_dropdown_item_1line, names);
+
+        adapterRoles = new ArrayAdapter<String>
+                (this, simple_dropdown_item_1line, roles);
+
+        adapterCites = new ArrayAdapter<String>
+                (this, simple_dropdown_item_1line, cities);
+
+
+        //TODO dichiare AUTOCOMPLETE per Citta e Prezzi e settare l Adapter, gia creati sopra, e
+        //TODO onITEMlicklistener
+        searchNameText.setAdapter(adapterNames);
+        searchRoleText.setAdapter(adapterRoles);
+        searchCityText.setAdapter(adapterCites);
+
+    }
+
+    public class FilteredUserListTask extends AsyncTask<Void, Void, Void> {
+
+        private User user;
+
+        public FilteredUserListTask(User user) {
+            this.user = user;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loadingpanel.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            loadingpanel.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                // sito a cui fare il post
+
+                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/getFiltered");
+                // HttpGet httpGet = new HttpGet("http://10.0.2.2:4567/users");
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
+                // Valori:
+                nameValuePairs.add(new BasicNameValuePair("name", user.getName()));
+                nameValuePairs.add(new BasicNameValuePair("city", user.getCity()));
+                nameValuePairs.add(new BasicNameValuePair("role", user.getRole()));
+                nameValuePairs.add(new BasicNameValuePair("rate", Double.toString(user.getRate())));
+
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = httpclient.execute(httppost);
+
+                HttpEntity entity = response.getEntity();
+                String json = EntityUtils.toString(entity);
+                JSONArray usersArray = new JSONArray(json);
+
+
+                for (int i = 0; i < usersArray.length(); i++) {
+                    User user = new Gson().fromJson(usersArray.get(i).toString(), User.class);
+                    users.add(user);
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 }
+
+
+
