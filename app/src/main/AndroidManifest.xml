@@ -8,9 +8,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:theme="@android:style/Theme.NoTitleBar">
-        <activity android:name=".Activity.MainActivity">
-
-        </activity>
+        <activity android:name=".Activity.MainActivity"></activity>
         <activity android:name=".Activity.LoginActivity" />
         <activity
             android:name=".Activity.RegisterActivity"
@@ -41,7 +39,10 @@
             android:label="@string/title_activity_test_follow" />
         <activity
             android:name=".Test.testProfileActivity"
-            android:label="@string/title_activity_test_profile"></activity>
+            android:label="@string/title_activity_test_profile" />
+        <activity
+            android:name=".Activity.MessageActivity"
+            android:label="@string/title_activity_message"></activity>
     </application>
 
 </manifest>

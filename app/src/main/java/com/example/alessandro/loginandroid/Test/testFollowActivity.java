@@ -75,7 +75,6 @@ public class testFollowActivity extends Activity implements View.OnClickListener
         followListView = (ListView)findViewById(R.id.followListView);
 
         users = new ArrayList<>();
-
         clientLocalStore = new ClientLocalStore(this);
         new GetFolloweedTask(clientLocalStore.getUser()).execute();
         ListUser adapter = new ListUser(this, users);
@@ -104,6 +103,11 @@ public class testFollowActivity extends Activity implements View.OnClickListener
                 startActivity(intent3);
                 break;
             case R.id.followContactButton:
+                users = new ArrayList<>();
+                clientLocalStore = new ClientLocalStore(this);
+                new GetFolloweedTask(clientLocalStore.getUser()).execute();
+                ListUser adapter = new ListUser(this, users);
+                followListView.setAdapter(adapter);
                 break;
             case R.id.followMessageButton:
                 messages = new ArrayList<Message>();
@@ -130,7 +134,6 @@ public class testFollowActivity extends Activity implements View.OnClickListener
             }
         }
         return usersb;
-
     }
 
     public boolean isUserinList(ArrayList<User> l, User u){

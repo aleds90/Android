@@ -17,4 +17,7 @@
     <string name="title_activity_test_search">testSearchActivity</string>
     <string name="title_activity_test_follow">testFollowActivity</string>
     <string name="title_activity_test_profile">testProfileActivity</string>
+
+    <string name="message"><u><b><i>Type message</i></b></u></string>
+
 </resources>
