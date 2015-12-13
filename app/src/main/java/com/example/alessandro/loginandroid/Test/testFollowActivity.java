@@ -50,6 +50,7 @@ public class testFollowActivity extends Activity implements View.OnClickListener
     ClientLocalStore clientLocalStore;
     ArrayList<Message> messages;
     private ListView followListView;
+    ArrayList<User> sortedusers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,17 +108,13 @@ public class testFollowActivity extends Activity implements View.OnClickListener
             case R.id.followMessageButton:
                 messages = new ArrayList<Message>();
                 new MessageTask(clientLocalStore.getUser()).execute();
-                List<User> users = this.createSortedUserList(messages);
-                ListUserConversations luc= new ListUserConversations(this,users,messages);
-                followListView.setAdapter(luc);
-
 
                 break;
         }
 
     }
 
-    private List<User> createSortedUserList(ArrayList<Message> lista) {
+    private ArrayList<User> createSortedUserList(ArrayList<Message> lista) {
         ArrayList<User> usersb = new ArrayList<>();
         for(Message m : lista){
             if(m.getId_receiver().getId_user() !=  clientLocalStore.getUser().getId_user() &&
@@ -164,8 +161,9 @@ public class testFollowActivity extends Activity implements View.OnClickListener
                 messages.add(message);
                 Log.d("MESSAGGIO RIVEVUTO", message.getText());
             }
-            createSortedUserList(messages);
-            users = new ArrayList<User>();
+            sortedusers = createSortedUserList(messages);
+            setAdapterInAsynk();
+
 
 
         }
@@ -195,6 +193,13 @@ public class testFollowActivity extends Activity implements View.OnClickListener
             }
             return null;
         }
+    }
+
+    private void setAdapterInAsynk() {
+        ListUserConversations luc= new ListUserConversations(this, sortedusers, messages);
+
+        followListView.setAdapter(luc);
+        followListView.deferNotifyDataSetChanged();
     }
 
     public class GetFolloweedTask extends AsyncTask<Void,Void,Void>{

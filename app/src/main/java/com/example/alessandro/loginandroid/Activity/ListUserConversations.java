@@ -19,10 +19,10 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListUserConversations extends ArrayAdapter<Message> {
+public class ListUserConversations extends ArrayAdapter<User> {
 
     private final Context context;
-    private final List<User> users;
+    private final ArrayList<User> users;
     private final ArrayList<Message> messages;
 
 
@@ -31,8 +31,8 @@ public class ListUserConversations extends ArrayAdapter<Message> {
      * @param context per capire a che Activity/Listview si riferisce
      * @param users lista di utenti che verrá visualizzata
      */
-    public ListUserConversations(Context context, List<User> users, ArrayList<Message> messages) {
-        super(context, R.layout.list_message, messages);
+    public ListUserConversations(Context context, ArrayList<User> users, ArrayList<Message> messages) {
+        super(context, R.layout.list_message, users);
         this.context = context;
         this.users = users;
         this.messages = messages;
