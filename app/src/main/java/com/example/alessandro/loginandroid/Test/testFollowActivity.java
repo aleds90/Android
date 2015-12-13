@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.alessandro.loginandroid.Activity.ListUser;
+import com.example.alessandro.loginandroid.Activity.ListUserConversations;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.Message;
 import com.example.alessandro.loginandroid.Entity.User;
@@ -106,6 +107,11 @@ public class testFollowActivity extends Activity implements View.OnClickListener
             case R.id.followMessageButton:
                 messages = new ArrayList<Message>();
                 new MessageTask(clientLocalStore.getUser()).execute();
+                List<User> users = this.createSortedUserList(messages);
+                ListUserConversations luc= new ListUserConversations(this,users,messages);
+                followListView.setAdapter(luc);
+
+
                 break;
         }
 
@@ -159,6 +165,8 @@ public class testFollowActivity extends Activity implements View.OnClickListener
                 Log.d("MESSAGGIO RIVEVUTO", message.getText());
             }
             createSortedUserList(messages);
+            users = new ArrayList<User>();
+
 
         }
 
