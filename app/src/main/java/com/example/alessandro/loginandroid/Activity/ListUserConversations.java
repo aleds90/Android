@@ -49,6 +49,7 @@ public class ListUserConversations extends ArrayAdapter<User> {
         TextView surname    =(TextView)rowView.findViewById(R.id.conversationUserSurnameText);
         TextView lastMessage =(TextView)rowView.findViewById(R.id.lastMessageText);
 
+
         final Message currentMessage = messages.get(position);
         final User currentUser = users.get(position);
         name.setText(currentUser.getName());
