@@ -55,6 +55,15 @@ public class ListUserConversations extends ArrayAdapter<User> {
         surname.setText(currentUser.getSurname());
         lastMessage.setText(currentMessage.getText());
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), MessageActivity.class);
+                intent.putExtra("userEmail", currentUser.getEmail());
+                getContext().startActivity(intent);
+            }
+        });
+
         return rowView;
     }
 

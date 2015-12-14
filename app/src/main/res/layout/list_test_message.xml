@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="5dip" >
+
+    <LinearLayout
+        android:id="@+id/layoutNamegg"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textMessage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="testo messagio"
+            android:textColor="#040404"
+            android:textSize="20dip"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp" />
+    </LinearLayout>
+
+    <!-- Weather Information-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dip"
+        android:id="@+id/linearLayoutgg">
+        <TextView
+            android:id="@+id/timeMessage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dip"
+            android:layout_centerHorizontal="true"
+            android:text="orario"
+            android:textColor="#343434"
+            android:textSize="15dip"
+            android:gravity="right" />
+    </LinearLayout>
+
+</LinearLayout>
