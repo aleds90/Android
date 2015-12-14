@@ -164,9 +164,24 @@ public class testMainActivity extends Activity implements View.OnClickListener {
 
     public class UserListTask extends AsyncTask<Void, Void, Void> {
         private User user;
+        private JSONArray usersArray;
 
         public UserListTask(User user) {
             this.user = user;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            for (int i = 0; i < usersArray.length(); i++) {
+                User user = null;
+                try {
+                    user = new Gson().fromJson(usersArray.get(i).toString(), User.class);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                users.add(user);
+            }
         }
 
         @Override
@@ -189,11 +204,7 @@ public class testMainActivity extends Activity implements View.OnClickListener {
 
                 HttpEntity entity = response.getEntity();
                 String json = EntityUtils.toString(entity);
-                JSONArray usersArray = new JSONArray(json);
-                for (int i = 0; i < usersArray.length(); i++) {
-                    User user = new Gson().fromJson(usersArray.get(i).toString(), User.class);
-                    users.add(user);
-                }
+                usersArray = new JSONArray(json);
 
             } catch (IOException e) {
                 e.printStackTrace();
