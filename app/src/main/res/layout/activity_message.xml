@@ -30,10 +30,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/typeMessageEditText"
             android:text="@string/message"
-            android:layout_weight="1.17"
+            android:layout_weight="1.1"
             />
 
         <ImageView
+            android:layout_weight="0.1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/sendMessageButton"
@@ -43,7 +44,7 @@
     <LinearLayout
         android:background="#F4C430"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         >
