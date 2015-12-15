@@ -1,4 +1,4 @@
-package com.example.alessandro.loginandroid.Activity;
+package com.example.alessandro.loginandroid.Adapters;
 
 import android.content.Context;
 import android.view.Gravity;

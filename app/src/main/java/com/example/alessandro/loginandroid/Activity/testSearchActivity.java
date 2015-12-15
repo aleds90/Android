@@ -1,4 +1,4 @@
-package com.example.alessandro.loginandroid.Test;
+package com.example.alessandro.loginandroid.Activity;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -15,7 +15,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.alessandro.loginandroid.Activity.ListUser;
+import com.example.alessandro.loginandroid.Adapters.ListUser;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;

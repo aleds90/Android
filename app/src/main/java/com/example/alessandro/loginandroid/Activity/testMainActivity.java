@@ -1,4 +1,4 @@
-package com.example.alessandro.loginandroid.Test;
+package com.example.alessandro.loginandroid.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,9 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.alessandro.loginandroid.Activity.ListUser;
-import com.example.alessandro.loginandroid.Activity.LoginActivity;
-import com.example.alessandro.loginandroid.Activity.UserArrayAdapter;
+import com.example.alessandro.loginandroid.Adapters.ListUser;
 import com.example.alessandro.loginandroid.Entity.Client;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.Response;

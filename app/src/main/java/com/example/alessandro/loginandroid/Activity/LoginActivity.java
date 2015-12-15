@@ -14,7 +14,6 @@ import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.Response;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
-import com.example.alessandro.loginandroid.Test.testMainActivity;
 import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;

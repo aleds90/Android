@@ -1,16 +1,15 @@
 
-        package com.example.alessandro.loginandroid.Activity;
-
-        import android.os.AsyncTask;
+package com.example.alessandro.loginandroid.Activity;
+import android.os.AsyncTask;
         import android.os.Bundle;
         import android.app.Activity;
         import android.view.View;
-        import android.widget.Button;
-        import android.widget.EditText;
+import android.widget.EditText;
         import android.widget.ImageView;
         import android.widget.ListView;
 
-        import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
+import com.example.alessandro.loginandroid.Adapters.ListMessage;
+import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
         import com.example.alessandro.loginandroid.Entity.Message;
         import com.example.alessandro.loginandroid.Entity.User;
         import com.example.alessandro.loginandroid.R;
@@ -18,12 +17,16 @@
 
         import org.apache.http.HttpEntity;
         import org.apache.http.HttpResponse;
+        import org.apache.http.HttpVersion;
         import org.apache.http.NameValuePair;
         import org.apache.http.client.HttpClient;
         import org.apache.http.client.entity.UrlEncodedFormEntity;
         import org.apache.http.client.methods.HttpPost;
         import org.apache.http.impl.client.DefaultHttpClient;
         import org.apache.http.message.BasicNameValuePair;
+        import org.apache.http.params.BasicHttpParams;
+        import org.apache.http.params.CoreProtocolPNames;
+        import org.apache.http.params.HttpParams;
         import org.apache.http.util.EntityUtils;
         import org.json.JSONArray;
         import org.json.JSONException;
@@ -60,6 +63,7 @@ public class MessageActivity extends Activity {
 
         messages = new ArrayList<>();
         new GetConversation(userEmail,myEmail).execute();
+        new SetRead(myEmail, userEmail).execute();
 
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +111,9 @@ public class MessageActivity extends Activity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                HttpClient httpClient = new DefaultHttpClient();
+                HttpParams httpParams = new BasicHttpParams();
+                httpParams.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+                HttpClient httpClient = new DefaultHttpClient(httpParams);
                 HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/getConversation");
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
                 nameValuePairs.add(new BasicNameValuePair("user_mail", userEmail));
@@ -153,7 +159,9 @@ public class MessageActivity extends Activity {
         protected Void doInBackground(Void... params) {
 
             try {
-                HttpClient httpClient = new DefaultHttpClient();
+                HttpParams httpParams = new BasicHttpParams();
+                httpParams.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+                HttpClient httpClient = new DefaultHttpClient(httpParams);
                 HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/addMessage");
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
                 nameValuePairs.add(new BasicNameValuePair("my_mail", myEmail));
@@ -170,5 +178,44 @@ public class MessageActivity extends Activity {
             return null;
         }
     }
+
+    public class SetRead extends AsyncTask<String, Void, Void> {
+
+        // attributi necessari per il login  tramite refresh
+        private String my_mail;
+        private String user_mail;
+
+        //costruttore
+
+        public SetRead(String my_mail, String user_mail) {
+            this.my_mail = my_mail;
+            this.user_mail = user_mail;
+        }
+
+        /*
+                 * Lavoro che svolge in background la classe Task. Invia la richiesta ad un indirizzo e riceve una risposta da quest'ultimo
+                 */
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                // sito a cui fare il post
+                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/setRead");
+                // Lista dei valori che mandiamo
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+                // Valori:
+                nameValuePairs.add(new BasicNameValuePair("my_mail", my_mail));
+                nameValuePairs.add(new BasicNameValuePair("user_mail", user_mail));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = httpclient.execute(httppost);
+                HttpEntity entity =response.getEntity();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 
 }

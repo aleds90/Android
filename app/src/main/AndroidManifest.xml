@@ -8,22 +8,15 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:theme="@android:style/Theme.NoTitleBar">
-        <activity android:name=".Activity.MainActivity"></activity>
         <activity android:name=".Activity.LoginActivity" />
         <activity
             android:name=".Activity.RegisterActivity"
             android:label="@string/title_activity_register" />
         <activity android:name=".Activity.OtherProfileActivity" />
         <activity
-            android:name=".Activity.ResearchActivity"
-            android:label="@string/title_activity_research" />
-        <activity
             android:name=".Activity.FollowActivity"
             android:label="@string/title_activity_follow" />
-        <activity
-            android:name=".Activity.MyProfileActivity"
-            android:label="@string/title_activity_my_profile" />
-        <activity android:name=".Test.testMainActivity">
+        <activity android:name=".Activity.testMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,13 +25,13 @@
         </activity>
         />
         <activity
-            android:name=".Test.testSearchActivity"
+            android:name=".Activity.testSearchActivity"
             android:label="@string/title_activity_test_search" />
         <activity
-            android:name=".Test.testFollowActivity"
+            android:name=".Activity.testFollowActivity"
             android:label="@string/title_activity_test_follow" />
         <activity
-            android:name=".Test.testProfileActivity"
+            android:name=".Activity.testProfileActivity"
             android:label="@string/title_activity_test_profile" />
         <activity
             android:name=".Activity.MessageActivity"

@@ -1,4 +1,4 @@
-package com.example.alessandro.loginandroid.Activity;
+package com.example.alessandro.loginandroid.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.alessandro.loginandroid.Activity.OtherProfileActivity;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  * passargli un utente per questo ci creiamo un nostro UserAdapter
  * Created by sjnao on 11/13/15.
  */
-public class ListUser extends ArrayAdapter<User> {
+public class UserArrayAdapter extends ArrayAdapter<User> {
 
     private final Context context;
     private final ArrayList<User> users;
@@ -32,8 +33,8 @@ public class ListUser extends ArrayAdapter<User> {
      * @param context per capire a che Activity/Listview si riferisce
      * @param users lista di utenti che verrá visualizzata
      */
-    public ListUser(Context context, ArrayList<User> users) {
-        super(context, R.layout.list_row, users);
+    public UserArrayAdapter(Context context, ArrayList<User> users) {
+        super(context, R.layout.user_layout, users);
         this.context = context;
         this.users = users;
     }
@@ -48,16 +49,12 @@ public class ListUser extends ArrayAdapter<User> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         // ci riferiamo a  user_layout come una riga/item di questa listView
-        View rowView = inflater.inflate(R.layout.list_row, parent, false);
+        View rowView = inflater.inflate(R.layout.user_layout, parent, false);
         // definizione delle componenti del layout(item)
-        ImageView imageView= (ImageView)rowView.findViewById(R.id.gotoprofileButton);
-        TextView textView = (TextView) rowView.findViewById(R.id.listNameTextView);
-        TextView textView1 = (TextView) rowView.findViewById(R.id.listSurnameTextView);
-        TextView textView2 = (TextView) rowView.findViewById(R.id.listRoleTextView);
-        TextView textView3 = (TextView) rowView.findViewById(R.id.listCityTextView);
+        ImageView imageView= (ImageView)rowView.findViewById(R.id.imageViewFrag);
+        TextView textView = (TextView) rowView.findViewById(R.id.tvUser);
         Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/rspu.ttf");
-
-
+        textView.setTypeface(typeface);
         //ImageButton button = (ImageButton) rowView.findViewById(R.id.bProfilo);
         // definiamo utente: ovvero il primo item(position=1) sara il primo utente nella lista users
         final User currentUser = users.get(position);
@@ -73,10 +70,7 @@ public class ListUser extends ArrayAdapter<User> {
             }
         });
         //Per ora l utente é  visualizzato come Nome - Ruolo
-        textView.setText(currentUser.getName());
-        textView1.setText(currentUser.getSurname());
-        textView2.setText(currentUser.getRole());
-        textView3.setText(currentUser.getCity());
+        textView.setText(currentUser.getName() + " - " + currentUser.getRole());
         return rowView;
     }
 

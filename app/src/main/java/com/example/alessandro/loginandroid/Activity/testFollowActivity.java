@@ -1,4 +1,4 @@
-package com.example.alessandro.loginandroid.Test;
+package com.example.alessandro.loginandroid.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.example.alessandro.loginandroid.Activity.ListUser;
-import com.example.alessandro.loginandroid.Activity.ListUserConversations;
+import com.example.alessandro.loginandroid.Adapters.ListUser;
+import com.example.alessandro.loginandroid.Adapters.ListUserConversations;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.Message;
 import com.example.alessandro.loginandroid.Entity.User;
@@ -21,7 +21,6 @@ import com.google.gson.Gson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -35,11 +34,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class testFollowActivity extends Activity implements View.OnClickListener {
     ImageButton buttonHOME, buttonSEARCH, buttonFOLLOW, buttonPROFILE;
