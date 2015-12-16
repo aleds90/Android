@@ -1,6 +1,7 @@
 package com.example.alessandro.loginandroid.Activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -41,7 +43,7 @@ import java.util.Set;
 
 import static android.R.layout.simple_dropdown_item_1line;
 
-public class testSearchActivity extends Activity {
+public class testSearchActivity extends Activity implements View.OnClickListener {
 
     private AutoCompleteTextView searchRoleText;
     private AutoCompleteTextView searchNameText;
@@ -49,6 +51,8 @@ public class testSearchActivity extends Activity {
     private SeekBar searchRateSeekBar;
     private TextView searchRateText;
     private int pro;
+    ImageButton buttonHOME, buttonSEARCH, buttonFOLLOW, buttonPROFILE;
+
     RelativeLayout loadingpanel;
     ArrayAdapter adapterNames, adapterRoles, adapterCites;
     ArrayList<String> namesA, rolesA, citiesA;
@@ -72,6 +76,18 @@ public class testSearchActivity extends Activity {
         searchCityText = (AutoCompleteTextView)findViewById(R.id.searchCityText);
         searchRateSeekBar = (SeekBar)findViewById(R.id.searchRateSeekBar);
         buttonSTART = (Button) findViewById(R.id.buttonSTART);
+
+        buttonHOME = (ImageButton) findViewById(R.id.buttonHOME);
+        buttonSEARCH = (ImageButton) findViewById(R.id.buttonSEARCH);
+        buttonFOLLOW = (ImageButton) findViewById(R.id.buttonFOLLOW);
+        buttonPROFILE = (ImageButton) findViewById(R.id.buttonPROFILE);
+
+        buttonHOME.setOnClickListener(this);
+        buttonSEARCH.setOnClickListener(this);
+        buttonFOLLOW.setOnClickListener(this);
+        buttonPROFILE.setOnClickListener(this);
+
+
         listViewSearched = (ListView) findViewById(R.id.listViewSearched);
         searchRateSeekBar.setMax(200);
         searchRateSeekBar.setProgress(200);
@@ -174,6 +190,26 @@ public class testSearchActivity extends Activity {
         String[] s = new String[l.size()];
         s = l.toArray(s);
         return s;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent i = null;
+        switch (v.getId()) {
+            case (R.id.buttonHOME):
+                i = new Intent(this, testMainActivity.class);
+                break;
+            case (R.id.buttonSEARCH):
+                i = new Intent(this, testSearchActivity.class);
+                break;
+            case (R.id.buttonFOLLOW):
+                i = new Intent(this, testFollowActivity.class);
+                break;
+            case (R.id.buttonPROFILE):
+                i = new Intent(this, testProfileActivity.class);
+                break;
+        }
+        startActivity(i);
     }
 
     public class UserListTask extends AsyncTask<Void, Void, Void> {

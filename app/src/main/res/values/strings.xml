@@ -19,5 +19,7 @@
     <string name="title_activity_test_profile">testProfileActivity</string>
 
     <string name="message"><u><b><i>Type message</i></b></u></string>
+    <string name="sendMessage">Send Message</string>
+    <string name="follow">Follow</string>
 
 </resources>

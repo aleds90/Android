@@ -86,6 +86,7 @@ public class ListUser extends ArrayAdapter<User> {
      * @param user per settare i vari Extras
      */
     private void passUserByIntent(Intent intent, User user) {
+        intent.putExtra("id_user", user.getId_user());
         intent.putExtra("name", user.getName());
         intent.putExtra("cognome", user.getSurname());
         intent.putExtra("email", user.getEmail());

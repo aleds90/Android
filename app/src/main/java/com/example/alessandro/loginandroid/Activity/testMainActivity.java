@@ -68,13 +68,13 @@ public class testMainActivity extends Activity implements View.OnClickListener {
 
         listViewUSERLIST = (ListView) findViewById(R.id.listViewUSERLIST);
 
-        users = new ArrayList<>();
         new UserListTask(clientLocalStore.getUser()).execute();
-        ListUser adapter = new ListUser(this, users);
 
-        listViewUSERLIST.setAdapter(adapter);
 
     }
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -171,6 +171,7 @@ public class testMainActivity extends Activity implements View.OnClickListener {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            users = new ArrayList<>();
             for (int i = 0; i < usersArray.length(); i++) {
                 User user = null;
                 try {
@@ -180,6 +181,8 @@ public class testMainActivity extends Activity implements View.OnClickListener {
                 }
                 users.add(user);
             }
+
+            setAdapter();
         }
 
         @Override
@@ -211,6 +214,11 @@ public class testMainActivity extends Activity implements View.OnClickListener {
             }
             return null;
         }
+    }
+
+    private void setAdapter() {
+        ListUser adapter = new ListUser(this, users);
+        listViewUSERLIST.setAdapter(adapter);
     }
 
     private void handleResponse(Response responseServer) {
