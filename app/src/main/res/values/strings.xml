@@ -21,5 +21,7 @@
     <string name="message"><u><b><i>Type message</i></b></u></string>
     <string name="sendMessage">Send Message</string>
     <string name="follow">Follow</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="context_menu">Context menu</string>
 
 </resources>
