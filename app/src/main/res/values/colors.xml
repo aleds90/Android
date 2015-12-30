@@ -4,5 +4,10 @@
     <color name="text_color">#222222</color>
     <color name="PrimaryColor">#2196F3</color>
     <color name="PrimaryDarkColor">#1976D2</color>
+    <color name="guillotine_background">#444153</color>
+    <color name="guillotine_background_dark">#383547</color>
+    <color name="selected_item_color">#30d1d5</color>
+    <color name="transparent_black">#D8000000</color>
+
 
 </resources>

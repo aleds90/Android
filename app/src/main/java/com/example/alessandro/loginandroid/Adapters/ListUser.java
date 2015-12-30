@@ -28,6 +28,7 @@ public class ListUser extends ArrayAdapter<User> {
 
     private final Context context;
     private final ArrayList<User> users;
+    ImageView imageView;
 
     /**
      * Costruttore
@@ -52,7 +53,7 @@ public class ListUser extends ArrayAdapter<User> {
         // ci riferiamo a  user_layout come una riga/item di questa listView
         View rowView = inflater.inflate(R.layout.list_row, parent, false);
         // definizione delle componenti del layout(item)
-        ImageView imageView= (ImageView)rowView.findViewById(R.id.gotoprofileButton);
+        imageView= (ImageView)rowView.findViewById(R.id.gotoprofileButton);
         TextView textView = (TextView) rowView.findViewById(R.id.listNameTextView);
         TextView textView1 = (TextView) rowView.findViewById(R.id.listSurnameTextView);
         TextView textView2 = (TextView) rowView.findViewById(R.id.listRoleTextView);
@@ -80,6 +81,18 @@ public class ListUser extends ArrayAdapter<User> {
         textView2.setText(currentUser.getRole());
         textView3.setText(currentUser.getCity());
         return rowView;
+    }
+
+    public void setClickNotEnable(){
+
+        imageView.setClickable(false);
+        imageView.setFocusableInTouchMode(false);
+        imageView.setFocusable(false);
+        imageView.setOnClickListener(null);
+        imageView.setEnabled(false);
+    }
+    public void setClickEnable(){
+        imageView.setClickable(true);
     }
 
     /**

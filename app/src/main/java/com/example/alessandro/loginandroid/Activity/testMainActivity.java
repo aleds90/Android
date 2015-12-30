@@ -5,8 +5,16 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,6 +25,8 @@ import com.example.alessandro.loginandroid.Entity.Response;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 import com.google.gson.Gson;
+import com.yalantis.guillotine.animation.GuillotineAnimation;
+import com.yalantis.guillotine.interfaces.GuillotineListener;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -34,13 +44,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class testMainActivity extends Activity implements View.OnClickListener {
+import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 
+public class testMainActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final long RIPPLE_DURATION = 250;
+    Toolbar toolbar;
+    FrameLayout root;
     ImageButton buttonHOME, buttonSEARCH, buttonFOLLOW, buttonPROFILE;
     TextView textviewHOME;
     ListView listViewUSERLIST;
     ClientLocalStore clientLocalStore;
     ArrayList<User> users;
+    ImageView hamburger;
+    ListUser adapter;
+    WaveSwipeRefreshLayout mWaveSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +70,46 @@ public class testMainActivity extends Activity implements View.OnClickListener {
 
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/font.ttf");
-        textviewHOME.setTypeface(typeface);
+        listViewUSERLIST = (ListView) findViewById(R.id.listViewUSERLIST);
+        mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) findViewById(R.id.main_swipe);
+        mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new UserListTask(clientLocalStore.getUser()).execute();
+            }
+        });
 
+
+        new UserListTask(clientLocalStore.getUser()).execute();
+
+        root=(FrameLayout)findViewById(R.id.root);
+        toolbar = (Toolbar)findViewById(R.id.toolbar_hamburger);
+        hamburger=(ImageView)findViewById(R.id.content_hamburger);
+
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle(null);
+        }
+        View navigationMenu = LayoutInflater.from(this).inflate(R.layout.navigation,null);
+        root.addView(navigationMenu);
+        new GuillotineAnimation.GuillotineBuilder(navigationMenu, navigationMenu.findViewById(R.id.guillotine_hamburger), hamburger)
+                .setStartDelay(RIPPLE_DURATION)
+                .setActionBarViewForAnimation(toolbar)
+                .setClosedOnStart(true)
+                .setGuillotineListener(new GuillotineListener() {
+                    @Override
+                    public void onGuillotineOpened() {
+
+
+                    }
+
+                    @Override
+                    public void onGuillotineClosed() {
+                        adapter.setClickEnable();
+
+                    }
+                })
+                .build();
 
         buttonHOME = (ImageButton) findViewById(R.id.buttonHOME);
         buttonSEARCH = (ImageButton) findViewById(R.id.buttonSEARCH);
@@ -66,12 +121,11 @@ public class testMainActivity extends Activity implements View.OnClickListener {
         buttonFOLLOW.setOnClickListener(this);
         buttonPROFILE.setOnClickListener(this);
 
-        listViewUSERLIST = (ListView) findViewById(R.id.listViewUSERLIST);
 
-        new UserListTask(clientLocalStore.getUser()).execute();
 
 
     }
+
 
 
 
@@ -183,6 +237,7 @@ public class testMainActivity extends Activity implements View.OnClickListener {
             }
 
             setAdapter();
+            mWaveSwipeRefreshLayout.setRefreshing(false);
         }
 
         @Override
@@ -217,7 +272,7 @@ public class testMainActivity extends Activity implements View.OnClickListener {
     }
 
     private void setAdapter() {
-        ListUser adapter = new ListUser(this, users);
+        adapter = new ListUser(this, users);
         listViewUSERLIST.setAdapter(adapter);
     }
 

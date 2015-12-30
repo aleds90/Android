@@ -1,8 +1,11 @@
 package com.example.alessandro.loginandroid.Activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
@@ -25,6 +29,19 @@ import com.yalantis.contextmenu.lib.MenuParams;
 import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
 import com.yalantis.contextmenu.lib.interfaces.OnMenuItemLongClickListener;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +49,12 @@ public class testOtherProfileActivity extends AppCompatActivity implements OnMen
 
     private FragmentManager fragmentManager;
     private ContextMenuDialogFragment mMenuDialogFragment;
-    TextView textViewName,textViewBday,textViewRole,textViewCity,textViewRate;
+    TextView textViewName,textViewBday,textViewRole,textViewCity,textViewRate,textViewStatus;
     User target;
+    MenuObject addFav;
+    ClientLocalStore clientLocalStore;
+
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,21 +65,41 @@ public class testOtherProfileActivity extends AppCompatActivity implements OnMen
         fragmentManager = getSupportFragmentManager();
         initToolbar();
         initMenuFragment();
+        setAllTextView();
+        clientLocalStore = new ClientLocalStore(this);
+        user = clientLocalStore.getUser();
+        new CheckFollowTask(user,target).execute();
 
-        textViewName = (TextView)findViewById(R.id.otherProfile_name_textview);
-        textViewBday = (TextView)findViewById(R.id.otherProfile_bday_textview);
-        textViewRole = (TextView)findViewById(R.id.otherProfile_role_textview);
-        textViewCity = (TextView)findViewById(R.id.otherProfile_city_textview);
-        textViewRate = (TextView)findViewById(R.id.otherProfile_rate_textview);
+    }
+
+    public void setAllTextView(){
+
+        textViewName    = (TextView)findViewById(R.id.otherProfile_name_textview);
+        textViewBday    = (TextView)findViewById(R.id.otherProfile_bday_textview);
+        textViewRole    = (TextView)findViewById(R.id.otherProfile_role_textview);
+        textViewCity    = (TextView)findViewById(R.id.otherProfile_city_textview);
+        textViewRate    = (TextView)findViewById(R.id.otherProfile_rate_textview);
+        textViewStatus  = (TextView)findViewById(R.id.otherProfile_status_textview);
+        //TEXTVIEW SETTINGS
         textViewName.setText(target.getName()+" "+target.getSurname());
         textViewBday.setText(target.getBday());
         textViewRole.setText(target.getRole());
         textViewCity.setText(target.getCity());
-        textViewRate.setText(String.valueOf(target.getRate()));
-    }
-
-    private void setTextView(){
-
+        //RATE TEXTVIEW
+        if (target.getRate()<=50) {
+            textViewRate.setText("(bassa)");
+            textViewRate.setTextColor(Color.parseColor("#ff00ff00"));
+        }else if(target.getRate()>50&&target.getRate()<100){
+            textViewRate.setText("(media)");
+            textViewRate.setTextColor(Color.parseColor("#ff0000ff"));
+        }else{
+            textViewRate.setText("(alta)");
+            textViewRate.setTextColor(Color.parseColor("#ffff0000"));
+        }
+        //STATUS TEXTVIEW
+        if (textViewStatus.getText().equals("(disponibile)"))
+            textViewStatus.setTextColor(Color.parseColor("#ff00ff00"));
+        else textViewStatus.setTextColor(Color.parseColor("#ffff0000"));
     }
 
     private User getUserBybundle(Bundle bundle) {
@@ -112,7 +153,7 @@ public class testOtherProfileActivity extends AppCompatActivity implements OnMen
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.icn_2);
         like.setBitmap(b);
 
-        MenuObject addFav = new MenuObject("Segui profilo");
+        addFav = new MenuObject("Segui profilo");
         addFav.setResource(R.drawable.icn_4);
 
         MenuObject block = new MenuObject("Blocca profilo");
@@ -189,10 +230,109 @@ public class testOtherProfileActivity extends AppCompatActivity implements OnMen
     @Override
     public void onMenuItemClick(View clickedView, int position) {
         Toast.makeText(this, "Clicked on position: " + position, Toast.LENGTH_SHORT).show();
+        switch (position){
+            case 1:
+                Intent intent = new Intent(this, MessageActivity.class);
+                intent.putExtra("userEmail", target.getEmail());
+                startActivity(intent);
+                break;
+            case 2:
+                break;
+            case 3:
+                new AddFollowTask(user, target).execute();
+                break;
+            case 4:
+                break;
+        }
     }
 
     @Override
     public void onMenuItemLongClick(View clickedView, int position) {
         Toast.makeText(this, "Long clicked on position: " + position, Toast.LENGTH_SHORT).show();
     }
+    public class CheckFollowTask extends AsyncTask<Void, Void, Void> {
+        User user;
+        User target;
+        boolean isFollower;
+
+        public CheckFollowTask(User user, User target) {
+            this.user = user;
+            this.target = target;
+        }
+        @Override
+        protected void onPostExecute (Void aVoid){
+            super.onPostExecute(aVoid);
+            if (isFollower) {
+                addFav.setTitle("Non seguire piu'");
+            } else {
+                addFav.setTitle("Segui profilo");
+            }
+        }
+        @Override
+        protected Void doInBackground (Void...params){
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/checkFollow");
+                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
+                nameValuePairs.add(new BasicNameValuePair("emailUser", user.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("emailTarget", target.getEmail()));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = httpclient.execute(httppost);
+                HttpEntity entity = response.getEntity();
+                String json = EntityUtils.toString(entity);
+                isFollower = json.equals("true");
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public class AddFollowTask extends AsyncTask<Void, Void, Void> {
+        User user;
+        User target;
+        String newText;
+
+        public AddFollowTask(User user, User target) {
+            this.user = user;
+            this.target = target;
+        }
+
+        @Override
+        protected void onPostExecute (Void aVoid){
+            super.onPostExecute(aVoid);
+            if (newText.equals("FOLLOW"))
+                addFav.setTitle("Segui Profilo");
+            else addFav.setTitle("Non seguire piu'");
+        }
+
+        @Override
+        protected Void doInBackground (Void...params){
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/addFollow");
+                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
+                nameValuePairs.add(new BasicNameValuePair("emailUser", user.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("emailTarget", target.getEmail()));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = httpclient.execute(httppost);
+                HttpEntity entity = response.getEntity();
+                newText = EntityUtils.toString(entity);
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+    }
+
+
 }

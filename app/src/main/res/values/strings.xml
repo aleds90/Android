@@ -23,5 +23,5 @@
     <string name="follow">Follow</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="context_menu">Context menu</string>
-
+    <string name="settings">SETTINGS</string>
 </resources>
