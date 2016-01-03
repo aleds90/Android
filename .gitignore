@@ -4,3 +4,7 @@
 /build
 /captures
 .idea
+app/app.iml
+app/build.gradle
+Android.iml
+library

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -41,9 +42,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
+
 import static android.R.layout.simple_dropdown_item_1line;
 
-public class testSearchActivity extends Activity implements View.OnClickListener {
+public class testSearchActivity extends ActionBarActivity implements View.OnClickListener {
 
     private AutoCompleteTextView searchRoleText;
     private AutoCompleteTextView searchNameText;
@@ -53,7 +56,7 @@ public class testSearchActivity extends Activity implements View.OnClickListener
     private int pro;
     ImageButton buttonHOME, buttonSEARCH, buttonFOLLOW, buttonPROFILE;
 
-    RelativeLayout loadingpanel;
+
     ArrayAdapter adapterNames, adapterRoles, adapterCites;
     ArrayList<String> namesA, rolesA, citiesA;
     String[] names;
@@ -75,7 +78,7 @@ public class testSearchActivity extends Activity implements View.OnClickListener
         searchRoleText = (AutoCompleteTextView)findViewById(R.id.searchRoleText);
         searchCityText = (AutoCompleteTextView)findViewById(R.id.searchCityText);
         searchRateSeekBar = (SeekBar)findViewById(R.id.searchRateSeekBar);
-        buttonSTART = (Button) findViewById(R.id.buttonSTART);
+
 
         buttonHOME = (ImageButton) findViewById(R.id.buttonHOME);
         buttonSEARCH = (ImageButton) findViewById(R.id.buttonSEARCH);
@@ -92,7 +95,7 @@ public class testSearchActivity extends Activity implements View.OnClickListener
         searchRateSeekBar.setMax(200);
         searchRateSeekBar.setProgress(200);
 
-        loadingpanel = (RelativeLayout) findViewById(R.id.loadingPanel);
+
 
 
         clientLocalStore = new ClientLocalStore(this);
@@ -161,21 +164,22 @@ public class testSearchActivity extends Activity implements View.OnClickListener
 
             }
         });
-
-        buttonSTART.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                User user = new User();
-                user.setName(searchNameText.getText().toString());
-                user.setRole(searchRoleText.getText().toString());
-                user.setCity(searchCityText.getText().toString());
-                user.setRate(searchRateSeekBar.getProgress());
-                users = new ArrayList<User>();
-                new FilteredUserListTask(user).execute();
-                listUser = new ListUser(getApplicationContext(), users);
-                listViewSearched.setAdapter(listUser);
-            }
-        });
+//
+//        elasticDownloadView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                elasticDownloadView.startIntro();
+//                User user = new User();
+//                user.setName(searchNameText.getText().toString());
+//                user.setRole(searchRoleText.getText().toString());
+//                user.setCity(searchCityText.getText().toString());
+//                user.setRate(searchRateSeekBar.getProgress());
+//                users = new ArrayList<User>();
+//                new FilteredUserListTask(user).execute();
+//                listUser = new ListUser(getApplicationContext(), users);
+//                listViewSearched.setAdapter(listUser);
+//            }
+//        });
 
     }
 
@@ -208,6 +212,7 @@ public class testSearchActivity extends Activity implements View.OnClickListener
             case (R.id.buttonPROFILE):
                 i = new Intent(this, testProfileActivity.class);
                 break;
+
         }
         startActivity(i);
     }
@@ -223,7 +228,7 @@ public class testSearchActivity extends Activity implements View.OnClickListener
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            loadingpanel.setVisibility(View.VISIBLE);
+
         }
 
         @Override
@@ -231,7 +236,7 @@ public class testSearchActivity extends Activity implements View.OnClickListener
             super.onPostExecute(aVoid);
             Log.i("TOT POSTEXECUTE UTENTI", "" + namesA.size());
             setEveryThing();
-            loadingpanel.setVisibility(View.GONE);
+
 
         }
 
@@ -313,13 +318,13 @@ public class testSearchActivity extends Activity implements View.OnClickListener
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            loadingpanel.setVisibility(View.VISIBLE);
+
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            loadingpanel.setVisibility(View.GONE);
+
         }
 
         @Override

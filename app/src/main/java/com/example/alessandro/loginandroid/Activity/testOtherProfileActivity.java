@@ -175,7 +175,7 @@ public class testOtherProfileActivity extends AppCompatActivity implements OnMen
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mToolbar.setNavigationIcon(R.drawable.btn_back);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
