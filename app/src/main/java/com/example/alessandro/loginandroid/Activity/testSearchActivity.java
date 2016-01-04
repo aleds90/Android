@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -67,6 +70,7 @@ public class testSearchActivity extends ActionBarActivity implements View.OnClic
     Button buttonSTART;
     ListView listViewSearched;
     ListUser listUser;
+    LinearLayout searchLayout,searchListViewLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +82,15 @@ public class testSearchActivity extends ActionBarActivity implements View.OnClic
         searchRoleText = (AutoCompleteTextView)findViewById(R.id.searchRoleText);
         searchCityText = (AutoCompleteTextView)findViewById(R.id.searchCityText);
         searchRateSeekBar = (SeekBar)findViewById(R.id.searchRateSeekBar);
+        searchLayout =(LinearLayout)findViewById(R.id.searchLayout);
+        searchListViewLayout = (LinearLayout)findViewById(R.id.searchListViewLayout);
 
 
         buttonHOME = (ImageButton) findViewById(R.id.buttonHOME);
         buttonSEARCH = (ImageButton) findViewById(R.id.buttonSEARCH);
         buttonFOLLOW = (ImageButton) findViewById(R.id.buttonFOLLOW);
         buttonPROFILE = (ImageButton) findViewById(R.id.buttonPROFILE);
+        buttonSTART = (Button)findViewById(R.id.buttonSTART);
 
         buttonHOME.setOnClickListener(this);
         buttonSEARCH.setOnClickListener(this);
@@ -151,7 +158,7 @@ public class testSearchActivity extends ActionBarActivity implements View.OnClic
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 pro = progress;
-                searchRateText.setText("Price under " + String.valueOf(progress) + "$ / h");
+                searchRateText.setText("Max: " + String.valueOf(progress) + "$ / h");
             }
 
             @Override
@@ -164,22 +171,38 @@ public class testSearchActivity extends ActionBarActivity implements View.OnClic
 
             }
         });
-//
-//        elasticDownloadView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                elasticDownloadView.startIntro();
-//                User user = new User();
-//                user.setName(searchNameText.getText().toString());
-//                user.setRole(searchRoleText.getText().toString());
-//                user.setCity(searchCityText.getText().toString());
-//                user.setRate(searchRateSeekBar.getProgress());
-//                users = new ArrayList<User>();
-//                new FilteredUserListTask(user).execute();
-//                listUser = new ListUser(getApplicationContext(), users);
-//                listViewSearched.setAdapter(listUser);
-//            }
-//        });
+
+        buttonSTART.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonSTART.getText().equals("START SEARCHING")){
+                    User user = new User();
+                user.setName(searchNameText.getText().toString());
+                user.setRole(searchRoleText.getText().toString());
+                user.setCity(searchCityText.getText().toString());
+                user.setRate(searchRateSeekBar.getProgress());
+                users = new ArrayList<User>();
+                new FilteredUserListTask(user).execute();
+                listUser = new ListUser(getApplicationContext(), users);
+                listViewSearched.setAdapter(listUser);
+                searchLayout.setVisibility(View.GONE);
+                final float scale = getResources().getDisplayMetrics().density;
+                int dpHeightInPx = (int) (400 * scale);
+                    searchListViewLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpHeightInPx));
+                buttonSTART.setText("");
+                buttonSTART.setBackgroundResource(R.drawable.ic_arrow_drop_down_black);
+                }else{
+                    searchLayout.setVisibility(View.VISIBLE);
+                    final float scale = getResources().getDisplayMetrics().density;
+                    int dpHeightInPx = (int) (220 * scale);
+                    searchListViewLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpHeightInPx));
+                    buttonSTART.setText("START SEARCHING");
+                    buttonSTART.setBackgroundResource(android.R.drawable.btn_default);
+
+
+                }
+            }
+        });
 
     }
 

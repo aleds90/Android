@@ -59,6 +59,7 @@ public class testMainActivity extends AppCompatActivity implements View.OnClickL
     ImageView hamburger;
     ListUser adapter;
     WaveSwipeRefreshLayout mWaveSwipeRefreshLayout;
+    TextView logout,delete,settings,status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class testMainActivity extends AppCompatActivity implements View.OnClickL
         clientLocalStore = new ClientLocalStore(this);
 
         textviewHOME = (TextView) findViewById(R.id.textViewHOME);
+
 
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/font.ttf");
@@ -100,6 +102,46 @@ public class testMainActivity extends AppCompatActivity implements View.OnClickL
                 .setGuillotineListener(new GuillotineListener() {
                     @Override
                     public void onGuillotineOpened() {
+                        //LOGOUT BUTTON
+                        logout = (TextView) findViewById(R.id.logout_textview);
+                        logout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                clientLocalStore.clearClient();
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        //DELETE BUTTON
+                        delete = (TextView) findViewById(R.id.delete_textview);
+                        delete.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new deleteTask(clientLocalStore.getUser()).execute();
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        //SETTING BUTTON
+                        settings=(TextView)findViewById(R.id.setting_textview);
+                        settings.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getApplicationContext(),SettingActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        //STATUS BUTTON
+                        status=(TextView)findViewById(R.id.status_textview);
+                        //status.setText("status:" + getStatus());
+                        status.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //updateStatus();
+                                //status.setText("status:" + getStatus());
+                            }
+                        });
+
 
 
                     }
@@ -107,7 +149,6 @@ public class testMainActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onGuillotineClosed() {
                         adapter.setClickEnable();
-
                     }
                 })
                 .build();
@@ -291,6 +332,39 @@ public class testMainActivity extends AppCompatActivity implements View.OnClickL
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 break;
+        }
+    }
+    public class deleteTask extends AsyncTask<Void, Void, Void> {
+        private User user;
+
+        private deleteTask(User user) {
+            this.user = user;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/delete");
+
+                List<NameValuePair> nameValuePairs = new ArrayList<>(1);
+
+                nameValuePairs.add(new BasicNameValuePair("id_user", Integer.toString(user.getId_user())));
+
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+
+                HttpEntity httpEntity = httpResponse.getEntity();
+                String response = EntityUtils.toString(httpEntity);
+
+                System.out.println(response);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 

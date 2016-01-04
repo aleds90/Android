@@ -36,6 +36,7 @@
             </android.support.v7.widget.Toolbar>
 
     <LinearLayout
+        android:id="@+id/searchLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
@@ -71,7 +72,7 @@
                 android:paddingLeft="5dp"
                 android:background="@android:color/white"
                 android:textAlignment="inherit"
-                android:text="Max 200$/h"
+                android:text="Max: 200$/h"
                 android:textColor="@android:color/black"
                 android:textSize="20dp"
                 android:id="@+id/searchRateText"
@@ -83,46 +84,39 @@
                 android:paddingRight="10dp"
                 android:id="@+id/searchRateSeekBar"/>
         </LinearLayout>
+    </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="56.10">
-
-
-                <!--<Button-->
-                <!--style="?android:attr/buttonStyleSmall"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="START SEARCHING"-->
-                <!--android:id="@+id/buttonSTART"-->
-                <!--android:layout_gravity="center_horizontal" />-->
-
+                <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="START SEARCHING"
+                android:id="@+id/buttonSTART"
+                android:layout_gravity="center_horizontal" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/searchListViewLayout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="220dp">
 
-
-
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="234dp">
-
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="215dp"
-            android:id="@+id/listViewSearched" />
-    </LinearLayout>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/listViewSearched" />
+            </LinearLayout>
 
             <LinearLayout
                 android:background="#F4C430"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
+                android:layout_gravity="bottom"
                 android:backgroundTint="@color/background">
 
                 <ImageButton

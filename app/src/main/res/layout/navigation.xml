@@ -24,6 +24,7 @@
         android:layout_marginLeft="100dp">
 
         <TextView
+            android:id="@+id/setting_textview"
             style="@style/TextView.GuillotineItem.Selected"
             android:textColor="@android:color/white"
             android:text="SETTINGS" />
@@ -34,9 +35,37 @@
         android:layout_marginTop="@dimen/guillotine_medium_margin"
         android:layout_marginLeft="100dp">
 
+
+
         <TextView
+            android:id="@+id/status_textview"
             style="@style/TextView.GuillotineItem.Selected"
             android:textColor="@android:color/white"
-            android:text="SETTINGS" />
+            android:text="STATUS" />
     </LinearLayout>
+    <LinearLayout
+        style="@style/LinearLayout.GuillotineItem"
+        android:layout_marginTop="@dimen/guillotine_medium_margin"
+        android:layout_marginLeft="100dp">
+
+        <TextView
+            android:id="@+id/logout_textview"
+            style="@style/TextView.GuillotineItem.Selected"
+            android:textColor="@android:color/white"
+            android:text="LOGOUT" />
+    </LinearLayout>
+    <LinearLayout
+
+        style="@style/LinearLayout.GuillotineItem"
+        android:layout_marginTop="@dimen/guillotine_medium_margin"
+        android:layout_marginLeft="100dp">
+
+        <TextView
+            android:id="@+id/delete_textview"
+            style="@style/TextView.GuillotineItem.Selected"
+            android:textColor="@android:color/white"
+            android:text="DELETE" />
+    </LinearLayout>
+
+
 </LinearLayout>
