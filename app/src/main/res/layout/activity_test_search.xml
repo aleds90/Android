@@ -94,7 +94,7 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="START SEARCHING"
+                android:text="AVVIA RICERCA"
                 android:id="@+id/buttonSTART"
                 android:layout_gravity="center_horizontal" />
             </LinearLayout>

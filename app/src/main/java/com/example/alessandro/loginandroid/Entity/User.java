@@ -16,8 +16,12 @@ public class User implements Serializable{
     private String role;
     private String city;
     private double rate;
+    private boolean active;
+    private String description;
 
-    public User(int id_user, String name, String surname, String email, String password, String bday, String role, String city, double rate) {
+    public User(int id_user, String name, String surname, String email, String password,
+                String bday, String role, String city, double rate, boolean active,
+                String description) {
         this.id_user = id_user;
         this.name = name;
         this.surname = surname;
@@ -27,6 +31,8 @@ public class User implements Serializable{
         this.role = role;
         this.city = city;
         this.rate = rate;
+        this.active = active;
+        this.description = description;
     }
 
     public User(){}
@@ -103,6 +109,19 @@ public class User implements Serializable{
         this.name = name;
     }
 
+    public boolean isActive() {
+        return active;
+    }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

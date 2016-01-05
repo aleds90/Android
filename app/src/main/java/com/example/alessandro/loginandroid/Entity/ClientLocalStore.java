@@ -66,7 +66,11 @@ public class ClientLocalStore {
         String bday = clientLocalDB.getString("bday", "");
         double rate = (double)clientLocalDB.getFloat("rate", 0f);
 
-        User user = new User(id_user, name, surname, email, password, bday, role, city, rate);
+        boolean active = clientLocalDB.getBoolean("active", true);
+        String description = clientLocalDB.getString("description", "insert description");
+
+        User user = new User(id_user, name, surname, email, password, bday, role, city, rate,
+                active, description);
 
         return user;
     }

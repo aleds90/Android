@@ -38,8 +38,7 @@ public class testProfileActivity extends Activity implements View.OnClickListene
     //bottoni per cambiare activity
     ImageButton buttonHOME, buttonSEARCH, buttonFOLLOW, buttonPROFILE;
     //bottoni dei comandi specifici per questa activity
-    private Button profileLogoutButton;
-    private Button profileDeleteButton;
+
     //bottoni per l'update
     private CheckBox profileUpdateCheckBox;
     private Button profileUpdateButton;
@@ -54,7 +53,7 @@ public class testProfileActivity extends Activity implements View.OnClickListene
     private TextView profileEmailEditText;
     private TextView profileRoleEditText;
     private TextView profileRateEditText;
-    private TextView textViewPROFILE;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,23 +64,18 @@ public class testProfileActivity extends Activity implements View.OnClickListene
         buttonSEARCH = (ImageButton) findViewById(R.id.buttonSEARCH);
         buttonFOLLOW = (ImageButton) findViewById(R.id.buttonFOLLOW);
         buttonPROFILE = (ImageButton) findViewById(R.id.buttonPROFILE);
-        textViewPROFILE=(TextView)findViewById(R.id.textViewPROFILE);
+
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/cartoon.ttf");
-        textViewPROFILE.setTypeface(typeface);
+        ;
         buttonHOME.setOnClickListener(this);
         buttonSEARCH.setOnClickListener(this);
         buttonFOLLOW.setOnClickListener(this);
         buttonPROFILE.setOnClickListener(this);
 
 
-        profileLogoutButton = (Button) findViewById(R.id.profileLogoutButton);
-        profileDeleteButton = (Button) findViewById(R.id.profileDeleteButton);
+
         profileUpdateCheckBox = (CheckBox) findViewById(R.id.profileUpdateCheckBox);
         profileUpdateButton = (Button) findViewById(R.id.profileUpdateButton);
-
-        profileLogoutButton.setOnClickListener(this);
-        profileDeleteButton.setOnClickListener(this);
-
         profileUpdateButton.setOnClickListener(this);
 
         profileNameEditText = (TextView) findViewById(R.id.profileNameEditText);
@@ -180,16 +174,6 @@ public class testProfileActivity extends Activity implements View.OnClickListene
                 Intent intent3 = new Intent(this, testProfileActivity.class);
                 startActivity(intent3);
                 break;
-            case R.id.profileLogoutButton:
-                clientLocalStore.clearClient();
-                Intent intent5 = new Intent(this, LoginActivity.class);
-                startActivity(intent5);
-                break;
-            case R.id.profileDeleteButton:
-                new deleteTask(clientLocalStore.getUser()).execute();
-                Intent intent6 = new Intent(this, LoginActivity.class);
-                startActivity(intent6);
-                break;
             case R.id.profileUpdateButton:
                 User user = new User();
                 user.setId_user(clientLocalStore.getUser().getId_user());
@@ -209,44 +193,6 @@ public class testProfileActivity extends Activity implements View.OnClickListene
                 System.out.println(user.getPassword());
 
                 new updateTask(user).execute();
-        }
-    }
-
-
-    /**
-     * Classe utilizzata per richiede al server la cancellazione di uno user.
-     */
-    public class deleteTask extends AsyncTask<Void, Void, Void> {
-        private User user;
-
-        private deleteTask(User user) {
-            this.user = user;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            try {
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/delete");
-
-                List<NameValuePair> nameValuePairs = new ArrayList<>(1);
-
-                nameValuePairs.add(new BasicNameValuePair("id_user", Integer.toString(user.getId_user())));
-
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-
-                HttpEntity httpEntity = httpResponse.getEntity();
-                String response = EntityUtils.toString(httpEntity);
-
-                System.out.println(response);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
         }
     }
 

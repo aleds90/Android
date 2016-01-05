@@ -111,7 +111,12 @@ public class testOtherProfileActivity extends AppCompatActivity implements OnMen
         String bday = bundle.getString("bday");
         String role = bundle.getString("role");
         Double rate = bundle.getDouble("rate");
-        return new User(id_user, name, cognome, email, "", bday, role, city, rate);
+        boolean active = bundle.getBoolean("active");
+        String description = bundle.getString("description");
+
+        User user = new User(id_user, name, cognome, email, "", bday, role, city, rate,
+                active, description);
+        return user;
     }
 
     private void initMenuFragment() {

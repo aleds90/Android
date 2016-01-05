@@ -39,9 +39,6 @@
             android:name=".Activity.MessageActivity"
             android:label="@string/title_activity_message" />
         <activity
-            android:name=".Activity.testMainActivity2"
-            android:label="@string/title_activity_test_main2" />
-        <activity
             android:name=".Activity.SettingActivity"
             android:label="@string/title_activity_setting">
         </activity>

@@ -82,11 +82,17 @@ public class OtherProfileActivity extends Activity implements View.OnClickListen
         String name = bundle.getString("name");
         String cognome = bundle.getString("cognome");
         String city = bundle.getString("city");
+
         String email = bundle.getString("email");
         String bday = bundle.getString("bday");
         String role = bundle.getString("role");
         Double rate = bundle.getDouble("rate");
-        return new User(id_user, name, cognome, email, "", bday, role, city, rate);
+        boolean active = bundle.getBoolean("active");
+        String description = bundle.getString("description");
+
+        User user = new User(id_user, name, cognome, email, "", bday, role, city, rate,
+                active, description);
+        return user;
     }
 
     @Override
