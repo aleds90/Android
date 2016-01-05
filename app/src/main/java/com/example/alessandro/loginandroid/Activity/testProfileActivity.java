@@ -13,8 +13,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
+import com.example.alessandro.loginandroid.Entity.Notice;
+import com.example.alessandro.loginandroid.Entity.Response;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
+import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -25,6 +28,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,6 +58,11 @@ public class testProfileActivity extends Activity implements View.OnClickListene
     private TextView profileEmailEditText;
     private TextView profileRoleEditText;
     private TextView profileRateEditText;
+    private TextView profileDescriptionEditText;
+    private TextView profileNoticeEditText;
+    private TextView profileFeedbackEditText;
+    private TextView profileFollowersEditText;
+    private TextView profileFollowedEditText;
 
 
     @Override
@@ -65,12 +75,13 @@ public class testProfileActivity extends Activity implements View.OnClickListene
         buttonFOLLOW = (ImageButton) findViewById(R.id.buttonFOLLOW);
         buttonPROFILE = (ImageButton) findViewById(R.id.buttonPROFILE);
 
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/cartoon.ttf");
-        ;
+
         buttonHOME.setOnClickListener(this);
         buttonSEARCH.setOnClickListener(this);
         buttonFOLLOW.setOnClickListener(this);
         buttonPROFILE.setOnClickListener(this);
+
+
 
 
 
@@ -83,20 +94,32 @@ public class testProfileActivity extends Activity implements View.OnClickListene
         profileBdayEditText = (TextView) findViewById(R.id.profileBdayEditText);
         profileCityEditText = (TextView) findViewById(R.id.profileCityEditText);
         profilePasswordEditText = (TextView) findViewById(R.id.profilePasswordEditText);
-
+        profileEmailEditText=(TextView)findViewById(R.id.profileEmailEditText);
         profileRoleEditText = (TextView) findViewById(R.id.profileRoleEditText);
         profileRateEditText = (TextView) findViewById(R.id.profileRateEditText);
+        profileDescriptionEditText = (TextView)findViewById(R.id.profileDescriptionEditText);
+        profileNoticeEditText=(TextView)findViewById(R.id.profileNoticeEditText);
+        profileFeedbackEditText=(TextView)findViewById(R.id.profileFeedbackEditText);
+        profileFollowersEditText=(TextView)findViewById(R.id.profileFollowersEditText);
+        profileFollowedEditText=(TextView)findViewById(R.id.profileFollowedEditText);
+
 
         clientLocalStore = new ClientLocalStore(this);
         User user = clientLocalStore.getUser();
+
+        new NoticeTask(user).execute();
+        new FeedBackTask(user).execute();
+
         profileNameEditText.setText(user.getName());
         profileSurnameEditText.setText(user.getSurname());
         profileBdayEditText.setText(user.getBday());
         profileCityEditText.setText(user.getCity());
         profilePasswordEditText.setText(user.getPassword());
-
+        profileEmailEditText.setText(user.getEmail());
+        profileDescriptionEditText.setText(user.getDescription());
         profileRoleEditText.setText(user.getRole());
         profileRateEditText.setText(String.valueOf(user.getRate()));
+
         profileUpdateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -219,8 +242,6 @@ public class testProfileActivity extends Activity implements View.OnClickListene
                 nameValuePairs.add(new BasicNameValuePair("role", user.getRole()));
                 nameValuePairs.add(new BasicNameValuePair("city", user.getCity()));
                 nameValuePairs.add(new BasicNameValuePair("rate", Double.toString(user.getRate())));
-
-
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 HttpResponse httpResponse = httpClient.execute(httpPost);
@@ -231,6 +252,99 @@ public class testProfileActivity extends Activity implements View.OnClickListene
                 System.out.println(response);
 
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+    public class NoticeTask extends AsyncTask<Void, Void, Void> {
+
+        private User user;
+        private Notice notice;
+
+        public NoticeTask(User user) {
+            this.user = user;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            profileNoticeEditText.setText(notice.getNotice_text());
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/getNotice");
+
+                List<NameValuePair> nameValuePairs = new ArrayList<>(1);
+                nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
+
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+
+                HttpEntity httpEntity = httpResponse.getEntity();
+
+                String response = EntityUtils.toString(httpEntity);
+                System.out.println(response);
+                notice = new Gson().fromJson(response, Notice.class);
+                System.out.println(notice.getNotice_text());
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+    public class FeedBackTask extends AsyncTask<Void, Void, Void> {
+
+        private User user;
+        private JSONArray list;
+
+
+        public FeedBackTask(User user) {
+            this.user = user;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+
+            try {
+                profileFeedbackEditText.setText(Integer.toString(list.getInt(0)));
+                profileFollowersEditText.setText(Integer.toString(list.getInt(1)));
+                profileFollowedEditText.setText(Integer.toString(list.getInt(2)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/countFeedback");
+
+                List<NameValuePair> nameValuePairs = new ArrayList<>(1);
+                nameValuePairs.add(new BasicNameValuePair("user_email", user.getEmail()));
+
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+
+                HttpEntity httpEntity = httpResponse.getEntity();
+
+                String response = EntityUtils.toString(httpEntity);
+                System.out.println(response);
+                list = new JSONArray(response);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return null;

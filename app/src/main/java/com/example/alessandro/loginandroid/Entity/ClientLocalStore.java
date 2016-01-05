@@ -37,6 +37,8 @@ public class ClientLocalStore {
         editor.putString("role", user.getRole());
         editor.putString("bday", user.getBday());
         editor.putFloat("rate", (float) user.getRate());
+        editor.putBoolean("active", user.isActive());
+        editor.putString("description", user.getDescription());
 
         editor.commit();
 
