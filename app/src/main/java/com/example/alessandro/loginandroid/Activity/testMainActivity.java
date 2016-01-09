@@ -302,6 +302,7 @@ public class testMainActivity extends AppCompatActivity implements View.OnClickL
 
                 HttpEntity entity = response.getEntity();
                 String json = EntityUtils.toString(entity);
+                System.out.println(json);
                 usersArray = new JSONArray(json);
 
             } catch (IOException e) {

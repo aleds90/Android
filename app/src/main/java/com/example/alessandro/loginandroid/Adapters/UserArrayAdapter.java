@@ -86,5 +86,7 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
         intent.putExtra("role", user.getRole());
         intent.putExtra("bday", user.getBday());
         intent.putExtra("rate", user.getRate());
+        intent.putExtra("status",user.isActive());
+        intent.putExtra("description",user.getDescription());
     }
 }

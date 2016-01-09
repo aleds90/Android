@@ -225,8 +225,6 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
         email.setText(user.getEmail());
         password.setText(user.getPassword());
         rate.setText(String.valueOf(user.getRate()));
