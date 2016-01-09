@@ -86,4 +86,23 @@ public class ClientLocalStore {
         editor.commit();
     }
 
+    public void updateUser(User user){
+
+        SharedPreferences.Editor editor = clientLocalDB.edit();
+
+        editor.putInt("id_user", user.getId_user());
+        editor.putString("email", user.getEmail());
+        editor.putString("password", user.getPassword());
+        editor.putString("name", user.getName());
+        editor.putString("surname", user.getSurname());
+        editor.putString("city", user.getCity());
+        editor.putString("role", user.getRole());
+        editor.putString("bday", user.getBday());
+        editor.putFloat("rate", (float) user.getRate());
+        editor.putBoolean("active", user.isActive());
+        editor.putString("description", user.getDescription());
+
+        editor.commit();
+    }
+
 }
