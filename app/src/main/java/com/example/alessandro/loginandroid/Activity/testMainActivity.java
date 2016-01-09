@@ -368,6 +368,55 @@ public class testMainActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public class updateTask extends AsyncTask<Void, Void, Void> {
+
+        private User user;
+        private String notice;
+
+        public updateTask(User user, String notice) {
+            this.user = user;
+            this.notice = notice;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            clientLocalStore.updateUser(user);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/update");
+
+                List<NameValuePair> nameValuePairs = new ArrayList<>(9);
+
+                nameValuePairs.add(new BasicNameValuePair("id_user", Integer.toString(user.getId_user())));
+                nameValuePairs.add(new BasicNameValuePair("name", user.getName()));
+                nameValuePairs.add(new BasicNameValuePair("surname", user.getSurname()));
+                nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("role", user.getRole()));
+                nameValuePairs.add(new BasicNameValuePair("city", user.getCity()));
+                nameValuePairs.add(new BasicNameValuePair("rate", Double.toString(user.getRate())));
+                nameValuePairs.add(new BasicNameValuePair("description", user.getDescription()));
+                nameValuePairs.add(new BasicNameValuePair("notice",notice));
+
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+
+                HttpEntity httpEntity = httpResponse.getEntity();
+
+                String response = EntityUtils.toString(httpEntity);
+                System.out.println(response);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 
 
 }

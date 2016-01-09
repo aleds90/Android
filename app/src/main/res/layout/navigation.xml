@@ -21,7 +21,7 @@
         android:id="@+id/test"
         style="@style/LinearLayout.GuillotineItem"
         android:layout_marginTop="@dimen/guillotine_medium_margin"
-        android:layout_marginLeft="100dp">
+        android:gravity="center_horizontal">
 
         <TextView
             android:id="@+id/setting_textview"
@@ -33,7 +33,7 @@
         android:id="@+id/tests"
         style="@style/LinearLayout.GuillotineItem"
         android:layout_marginTop="@dimen/guillotine_medium_margin"
-        android:layout_marginLeft="100dp">
+        android:gravity="center_horizontal">
 
 
 
@@ -41,12 +41,14 @@
             android:id="@+id/status_textview"
             style="@style/TextView.GuillotineItem.Selected"
             android:textColor="@android:color/white"
-            android:text="STATUS" />
+            android:text="STATUS: DISPONIBILE"
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content" />
     </LinearLayout>
     <LinearLayout
         style="@style/LinearLayout.GuillotineItem"
         android:layout_marginTop="@dimen/guillotine_medium_margin"
-        android:layout_marginLeft="100dp">
+        android:gravity="center_horizontal">
 
         <TextView
             android:id="@+id/logout_textview"
@@ -58,7 +60,7 @@
 
         style="@style/LinearLayout.GuillotineItem"
         android:layout_marginTop="@dimen/guillotine_medium_margin"
-        android:layout_marginLeft="100dp">
+        android:gravity="center_horizontal">
 
         <TextView
             android:id="@+id/delete_textview"

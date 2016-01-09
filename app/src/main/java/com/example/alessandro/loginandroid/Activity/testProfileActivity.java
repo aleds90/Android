@@ -133,25 +133,42 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
                             }
                         });
                         //SETTING BUTTON
-                        settings=(TextView)findViewById(R.id.setting_textview);
+                        settings = (TextView) findViewById(R.id.setting_textview);
                         settings.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(),SettingActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
                                 startActivity(intent);
                             }
                         });
                         //STATUS BUTTON
-                        status=(TextView)findViewById(R.id.status_textview);
-                        //status.setText("status:" + getStatus());
+                        status = (TextView) findViewById(R.id.status_textview);
+                        if (clientLocalStore.getUser().isActive()) {
+                            status.setText("STATUS: DISPONIBILE");
+                        } else {
+                            status.setText("STATUS: NON DISPONIBILE");
+                        }
+
                         status.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                if (status.getText().toString().equals("STATUS: DISPONIBILE")) {
+                                    status.setText("STATUS: NON DISPONIBILE");
+                                    User user = new User();
+                                    user.setEmail(clientLocalStore.getUser().getEmail());
+                                    user.setActive(false);
+                                    new UpdateStatusTask(user).execute();
+                                } else {
+                                    status.setText("STATUS: DISPONIBILE");
+                                    User user = new User();
+                                    user.setEmail(clientLocalStore.getUser().getEmail());
+                                    user.setActive(true);
+                                    new UpdateStatusTask(user).execute();
+                                }
                                 //updateStatus();
-                                //status.setText("status:" + getStatus());
+
                             }
                         });
-
 
 
                     }
@@ -255,8 +272,10 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
                     user.setRole(role.getText().toString());
                     user.setPassword(password.getText().toString());
                     user.setDescription(description_tv.getText().toString());
+                    boolean active = status.getText().toString().equals("STATUS: DISPONIBILE");
+                    user.setActive(active);
                     String notice = notice_tv.getText().toString();
-                    new updateTask(user,notice).execute();
+                    new UpdateTask(user,notice).execute();
                     cancel.setLayoutParams(new LinearLayout.LayoutParams(1, ViewGroup.LayoutParams.WRAP_CONTENT));
                     cancel.setText("");
                     update.setText("Modifica profilo");
@@ -349,12 +368,12 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
         description_tv.setClickable(true);
     }
 
-    public class updateTask extends AsyncTask<Void, Void, Void> {
+    public class UpdateTask extends AsyncTask<Void, Void, Void> {
 
         private User user;
         private String notice;
 
-        public updateTask(User user, String notice) {
+        public UpdateTask(User user, String notice) {
             this.user = user;
             this.notice = notice;
         }
@@ -380,6 +399,7 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
                 nameValuePairs.add(new BasicNameValuePair("city", user.getCity()));
                 nameValuePairs.add(new BasicNameValuePair("rate", Double.toString(user.getRate())));
                 nameValuePairs.add(new BasicNameValuePair("description", user.getDescription()));
+
                 nameValuePairs.add(new BasicNameValuePair("notice",notice));
 
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -388,6 +408,42 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
 
                 HttpEntity httpEntity = httpResponse.getEntity();
 
+                String response = EntityUtils.toString(httpEntity);
+                System.out.println(response);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+    public class UpdateStatusTask extends AsyncTask<Void, Void, Void> {
+
+        private User user;
+
+        public UpdateStatusTask(User user) {
+            this.user = user;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            clientLocalStore.updateUser(user);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/updateStatus");
+
+                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
+                nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("status", Boolean.toString(user.isActive())));
+
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+                HttpEntity httpEntity = httpResponse.getEntity();
                 String response = EntityUtils.toString(httpEntity);
                 System.out.println(response);
 
