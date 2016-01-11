@@ -1,20 +1,16 @@
 package com.example.alessandro.loginandroid.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,7 +43,7 @@ import java.util.List;
 
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 
-public class testMainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final long RIPPLE_DURATION = 250;
     Toolbar toolbar;
     FrameLayout root;
@@ -68,7 +64,7 @@ public class testMainActivity extends AppCompatActivity implements View.OnClickL
 
         clientLocalStore = new ClientLocalStore(this);
 
-        textviewHOME = (TextView) findViewById(R.id.textViewHOME);
+        //textviewHOME = (TextView) findViewById(R.id.textViewHOME);
 
 
 
@@ -148,7 +144,7 @@ public class testMainActivity extends AppCompatActivity implements View.OnClickL
 
                     @Override
                     public void onGuillotineClosed() {
-                        adapter.setClickEnable();
+                        //adapter.setClickEnable();
                     }
                 })
                 .build();
@@ -177,16 +173,16 @@ public class testMainActivity extends AppCompatActivity implements View.OnClickL
         Intent i = null;
         switch (v.getId()) {
             case (R.id.buttonHOME):
-                i = new Intent(this, testMainActivity.class);
+                i = new Intent(this, MainActivity.class);
                 break;
             case (R.id.buttonSEARCH):
-                i = new Intent(this, testSearchActivity.class);
+                i = new Intent(this, SearchActivity.class);
                 break;
             case (R.id.buttonFOLLOW):
-                i = new Intent(this, testFollowActivity.class);
+                i = new Intent(this, RelationActivity.class);
                 break;
             case (R.id.buttonPROFILE):
-                i = new Intent(this, testProfileActivity.class);
+                i = new Intent(this, ProfileActivity.class);
                 break;
         }
         startActivity(i);

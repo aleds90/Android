@@ -37,78 +37,76 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class testFollowActivity extends Activity implements View.OnClickListener {
-    ImageButton buttonHOME, buttonSEARCH, buttonFOLLOW, buttonPROFILE;
+public class RelationActivity extends Activity implements View.OnClickListener {
 
-    private Button followContactButton;
-    private Button followMessageButton;
+
+    ImageButton home, search, relation, profile;
+
+    private Button contact;
+    private Button message;
     ArrayList<User> users;
     ClientLocalStore clientLocalStore;
     ArrayList<Message> messages;
-    private ListView followListView;
+    private ListView userlist;
     ArrayList<User> sortedusers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_follow);
+        setContentView(R.layout.relation_activity);
 
-        buttonHOME = (ImageButton) findViewById(R.id.buttonHOME);
-        buttonSEARCH = (ImageButton) findViewById(R.id.buttonSEARCH);
-        buttonFOLLOW = (ImageButton) findViewById(R.id.buttonFOLLOW);
-        buttonPROFILE = (ImageButton) findViewById(R.id.buttonPROFILE);
+        home = (ImageButton) findViewById(R.id.follow_home_btn);
+        search = (ImageButton) findViewById(R.id.follow_search_btn);
+        relation = (ImageButton) findViewById(R.id.follow_relation_btn);
+        profile = (ImageButton) findViewById(R.id.follow_profile_btn);
 
-        buttonHOME.setOnClickListener(this);
-        buttonSEARCH.setOnClickListener(this);
-        buttonFOLLOW.setOnClickListener(this);
-        buttonPROFILE.setOnClickListener(this);
+        home.setOnClickListener(this);
+        search.setOnClickListener(this);
+        relation.setOnClickListener(this);
+        profile.setOnClickListener(this);
 
-        followContactButton = (Button) findViewById(R.id.followContactButton);
-        followMessageButton = (Button) findViewById(R.id.followMessageButton);
+        contact = (Button) findViewById(R.id.follow_contact_btn);
+        message = (Button) findViewById(R.id.follow_message_btn);
 
-        followContactButton.setOnClickListener(this);
-        followMessageButton.setOnClickListener(this);
-        followListView = (ListView)findViewById(R.id.followListView);
+        contact.setOnClickListener(this);
+        message.setOnClickListener(this);
+        userlist = (ListView)findViewById(R.id.follow_userlist_lv);
 
         users = new ArrayList<>();
         clientLocalStore = new ClientLocalStore(this);
         new GetFolloweedTask(clientLocalStore.getUser()).execute();
-        ListUser adapter = new ListUser(this, users);
-        followListView.setAdapter(adapter);
+
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case (R.id.buttonHOME):
-                Intent intent = new Intent(this, testMainActivity.class);
+            case (R.id.follow_home_btn):
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
-            case (R.id.buttonSEARCH):
-                Intent intent1 = new Intent(this, testSearchActivity.class);
+            case (R.id.follow_search_btn):
+                Intent intent1 = new Intent(this, SearchActivity.class);
                 startActivity(intent1);
 
                 break;
-            case (R.id.buttonFOLLOW):
-                Intent intent2 = new Intent(this, testFollowActivity.class);
+            case (R.id.follow_relation_btn):
+                Intent intent2 = new Intent(this, RelationActivity.class);
                 startActivity(intent2);
                 break;
-            case (R.id.buttonPROFILE):
-                Intent intent3 = new Intent(this, testProfileActivity.class);
+            case (R.id.follow_profile_btn):
+                Intent intent3 = new Intent(this, ProfileActivity.class);
                 startActivity(intent3);
                 break;
-            case R.id.followContactButton:
-                users = new ArrayList<>();
-                clientLocalStore = new ClientLocalStore(this);
+            case R.id.follow_contact_btn:
                 new GetFolloweedTask(clientLocalStore.getUser()).execute();
                 ListUser adapter = new ListUser(this, users);
-                followListView.setAdapter(adapter);
+                userlist.setAdapter(adapter);
                 break;
-            case R.id.followMessageButton:
+            case R.id.follow_message_btn:
                 messages = new ArrayList<Message>();
                 new MessageTask(clientLocalStore.getUser()).execute();
-
                 break;
         }
 
@@ -197,32 +195,49 @@ public class testFollowActivity extends Activity implements View.OnClickListener
     private void setAdapterInAsynk() {
         ListUserConversations luc= new ListUserConversations(this, sortedusers, messages);
 
-        followListView.setAdapter(luc);
-        followListView.deferNotifyDataSetChanged();
+        userlist.setAdapter(luc);
+        userlist.deferNotifyDataSetChanged();
     }
 
     public class GetFolloweedTask extends AsyncTask<Void,Void,Void>{
         private User user;
+        JSONArray usersArray;
         public GetFolloweedTask(User user){this.user=user;}
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+
+            users = new ArrayList<>();
+            for (int i = 0; i < usersArray.length(); i++) {
+
+                User user = null;
+                try {
+                    user = new Gson().fromJson(usersArray.get(i).toString(), User.class);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                users.add(user);
+            }
+            ListUser adapter = new ListUser(getApplicationContext(), users);
+            userlist.setAdapter(adapter);
+        }
+
         @Override
         protected Void doInBackground(Void... params) {
             try {
                 HttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/getFollowed");
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-                nameValuePairs.add(new BasicNameValuePair("id_user", Integer.toString(user.getId_user())));
+                nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpClient.execute(httpPost);
                 HttpEntity entity =response.getEntity();
                 String json = EntityUtils.toString(entity);
-                JSONArray usersArray = new JSONArray(json);
+                usersArray = new JSONArray(json);
                 System.out.println(json);
 
-                for (int i = 0; i < usersArray.length(); i++) {
-
-                    User user = new Gson().fromJson(usersArray.get(i).toString(), User.class);
-                    users.add(user);
-                }
             }catch (IOException e) {
                 e.printStackTrace();
             }catch (JSONException e) {

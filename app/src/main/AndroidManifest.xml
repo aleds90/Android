@@ -12,9 +12,8 @@
         <activity
             android:name=".Activity.RegisterActivity"
             android:label="@string/title_activity_register" />
-        <activity android:name=".Activity.OtherProfileActivity" />
 
-        <activity android:name=".Activity.testMainActivity">
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,16 +21,16 @@
             </intent-filter>
         </activity>
         />
-        <activity android:name=".Activity.testOtherProfileActivity" />
+        <activity android:name=".Activity.OtherProfileActivity" />
         <activity
-            android:name=".Activity.testSearchActivity"
+            android:name=".Activity.SearchActivity"
             android:label="@string/title_activity_test_search" />
 
         <activity
-            android:name=".Activity.testFollowActivity"
+            android:name=".Activity.RelationActivity"
             android:label="@string/title_activity_test_follow" />
         <activity
-            android:name=".Activity.testProfileActivity"
+            android:name=".Activity.ProfileActivity"
             android:label="@string/title_activity_test_profile" />
         <activity
             android:name=".Activity.MessageActivity"

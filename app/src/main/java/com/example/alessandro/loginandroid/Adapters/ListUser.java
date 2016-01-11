@@ -7,12 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Activity.OtherProfileActivity;
-import com.example.alessandro.loginandroid.Activity.testOtherProfileActivity;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 
@@ -69,7 +67,7 @@ public class ListUser extends ArrayAdapter<User> {
             public void onClick(View view) {
                 //andiamo a vederci nel dettagli l item(utent) clickato
 
-                Intent intent = new Intent(context, testOtherProfileActivity.class);
+                Intent intent = new Intent(context, OtherProfileActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 passUserByIntent(intent, currentUser);
                 context.startActivity(intent);

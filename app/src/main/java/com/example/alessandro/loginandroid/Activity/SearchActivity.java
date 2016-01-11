@@ -1,11 +1,9 @@
 package com.example.alessandro.loginandroid.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +22,7 @@ import com.example.alessandro.loginandroid.Adapters.ListUser;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
+import com.example.alessandro.loginandroid.Tasks.ToServerTasks;
 import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;
@@ -45,11 +43,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
-
 import static android.R.layout.simple_dropdown_item_1line;
 
-public class testSearchActivity extends ActionBarActivity implements View.OnClickListener {
+public class SearchActivity extends ActionBarActivity implements View.OnClickListener {
 
     private AutoCompleteTextView searchRoleText;
     private AutoCompleteTextView searchNameText;
@@ -182,7 +178,7 @@ public class testSearchActivity extends ActionBarActivity implements View.OnClic
                 user.setCity(searchCityText.getText().toString());
                 user.setRate(searchRateSeekBar.getProgress());
                 users = new ArrayList<User>();
-                new FilteredUserListTask(user).execute();
+                new ToServerTasks.FilteredUserListTask(user, users).execute();
                 listUser = new ListUser(getApplicationContext(), users);
                 listViewSearched.setAdapter(listUser);
                 searchLayout.setVisibility(View.GONE);
@@ -224,16 +220,16 @@ public class testSearchActivity extends ActionBarActivity implements View.OnClic
         Intent i = null;
         switch (v.getId()) {
             case (R.id.buttonHOME):
-                i = new Intent(this, testMainActivity.class);
+                i = new Intent(this, MainActivity.class);
                 break;
             case (R.id.buttonSEARCH):
-                i = new Intent(this, testSearchActivity.class);
+                i = new Intent(this, SearchActivity.class);
                 break;
             case (R.id.buttonFOLLOW):
-                i = new Intent(this, testFollowActivity.class);
+                i = new Intent(this, RelationActivity.class);
                 break;
             case (R.id.buttonPROFILE):
-                i = new Intent(this, testProfileActivity.class);
+                i = new Intent(this, ProfileActivity.class);
                 break;
 
         }
@@ -330,7 +326,7 @@ public class testSearchActivity extends ActionBarActivity implements View.OnClic
 
     }
 
-    public class FilteredUserListTask extends AsyncTask<Void, Void, Void> {
+    /*public class FilteredUserListTask extends AsyncTask<Void, Void, Void> {
 
         private User user;
 
@@ -389,7 +385,7 @@ public class testSearchActivity extends ActionBarActivity implements View.OnClic
             }
             return null;
         }
-    }
+    }*/
 }
 
 

@@ -1,8 +1,6 @@
 package com.example.alessandro.loginandroid.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,21 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.alessandro.loginandroid.Adapters.ListUser;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.Notice;
-import com.example.alessandro.loginandroid.Entity.Response;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 import com.google.gson.Gson;
@@ -45,7 +38,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,7 +49,7 @@ import java.util.Locale;
  * Classe che gestisce l'activity del profilo, un utente potra' cambiare i propri dati, cancellare
  * il proprio profilo o fare logout.
  */
-public class testProfileActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final long RIPPLE_DURATION = 250;
     private EditText name,surname, feedback, followers, followed, role, city, bday, email, password, rate, description_tv, notice_tv;
     private ImageButton home, search, follow, profile;
@@ -154,14 +146,12 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
                             public void onClick(View v) {
                                 if (status.getText().toString().equals("STATUS: DISPONIBILE")) {
                                     status.setText("STATUS: NON DISPONIBILE");
-                                    User user = new User();
-                                    user.setEmail(clientLocalStore.getUser().getEmail());
+                                    User user = clientLocalStore.getUser();
                                     user.setActive(false);
                                     new UpdateStatusTask(user).execute();
                                 } else {
                                     status.setText("STATUS: DISPONIBILE");
-                                    User user = new User();
-                                    user.setEmail(clientLocalStore.getUser().getEmail());
+                                    User user = clientLocalStore.getUser();
                                     user.setActive(true);
                                     new UpdateStatusTask(user).execute();
                                 }
@@ -177,6 +167,7 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
                     public void onGuillotineClosed() {
 
                     }
+
                 })
                 .build();
     }
@@ -215,7 +206,7 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
         surname.setText(user.getSurname());
         role.setText(user.getRole());
         city.setText(user.getCity());
-        SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy", Locale.ITALY);
+        SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy", Locale.GERMANY);
         try {
             Date date = format.parse(user.getBday());
             format.applyPattern(NEW_FORMAT);
@@ -237,20 +228,20 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case (R.id.profile_home_btn):
-                Intent intent = new Intent(this, testMainActivity.class);
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
             case (R.id.profile_search_btn):
-                Intent intent1 = new Intent(this, testSearchActivity.class);
+                Intent intent1 = new Intent(this, SearchActivity.class);
                 startActivity(intent1);
 
                 break;
             case (R.id.profile_follow_btn):
-                Intent intent2 = new Intent(this, testFollowActivity.class);
+                Intent intent2 = new Intent(this, RelationActivity.class);
                 startActivity(intent2);
                 break;
             case (R.id.profile_profile_btn):
-                Intent intent3 = new Intent(this, testProfileActivity.class);
+                Intent intent3 = new Intent(this, ProfileActivity.class);
                 startActivity(intent3);
                 break;
             case R.id.profile_update_btn:
@@ -266,6 +257,7 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
                     user.setId_user(clientLocalStore.getUser().getId_user());
                     user.setName(name.getText().toString());
                     user.setSurname(surname.getText().toString());
+                    user.setBday(clientLocalStore.getUser().getBday());
                     user.setCity(city.getText().toString());
                     user.setRate(Double.parseDouble(rate.getText().toString()));
                     user.setEmail(email.getText().toString());

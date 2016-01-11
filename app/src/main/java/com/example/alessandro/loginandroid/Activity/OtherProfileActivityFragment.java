@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.example.alessandro.loginandroid.R;
 
 
-public class testOtherProfileActivityFragment extends Fragment {
+public class OtherProfileActivityFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

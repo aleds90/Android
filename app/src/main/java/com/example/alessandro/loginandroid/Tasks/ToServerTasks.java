@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.alessandro.loginandroid.Activity.LoginActivity;
-import com.example.alessandro.loginandroid.Activity.testMainActivity;
+import com.example.alessandro.loginandroid.Activity.MainActivity;
 import com.example.alessandro.loginandroid.Adapters.ListUser;
 import com.example.alessandro.loginandroid.Entity.Client;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
@@ -107,7 +107,7 @@ public class ToServerTasks {
                 User user = responseServer.getUser();
                 Client client = new Client(responseServer.getAccess_Token(), responseServer.getRefresh_Token(), "");
                 clientLocalStore.storeClientData(client, user);
-                Intent intent = new Intent(context, testMainActivity.class);
+                Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
                 break;
             //response:3, il login non e' andato a buon fine quindi rimane sulla login activity per ritentare
@@ -418,6 +418,104 @@ public class ToServerTasks {
             }catch (IOException e) {
                 e.printStackTrace();
             }catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public static class DeleteTask extends AsyncTask<Void, Void, Void> {
+        private User user;
+
+        public DeleteTask(User user) {
+            this.user = user;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/delete");
+
+                List<NameValuePair> nameValuePairs = new ArrayList<>(1);
+
+                nameValuePairs.add(new BasicNameValuePair("id_user", Integer.toString(user.getId_user())));
+
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+
+                HttpEntity httpEntity = httpResponse.getEntity();
+                String response = EntityUtils.toString(httpEntity);
+
+                System.out.println(response);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public static class FilteredUserListTask extends AsyncTask<Void, Void, Void> {
+
+        private User user;
+        private ArrayList<User> users;
+
+        public FilteredUserListTask(User user, ArrayList<User> users) {
+
+            this.user = user;
+            this.users = users;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                // sito a cui fare il post
+
+                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/getFiltered");
+                // HttpGet httpGet = new HttpGet("http://10.0.2.2:4567/users");
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
+                // Valori:
+                nameValuePairs.add(new BasicNameValuePair("name", user.getName()));
+                nameValuePairs.add(new BasicNameValuePair("city", user.getCity()));
+                nameValuePairs.add(new BasicNameValuePair("role", user.getRole()));
+                nameValuePairs.add(new BasicNameValuePair("rate", Double.toString(user.getRate())));
+
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = httpclient.execute(httppost);
+
+                HttpEntity entity = response.getEntity();
+                String json = EntityUtils.toString(entity);
+                JSONArray usersArray = new JSONArray(json);
+
+
+                for (int i = 0; i < usersArray.length(); i++) {
+                    User user = new Gson().fromJson(usersArray.get(i).toString(), User.class);
+                    users.add(user);
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return null;

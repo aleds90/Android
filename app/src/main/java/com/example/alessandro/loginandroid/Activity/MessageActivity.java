@@ -37,11 +37,10 @@ import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 
 public class MessageActivity extends Activity {
 
-    private ListView messageListView;
-    private EditText typeMessageEditText;
-    private ImageView sendMessageButton;
+    private ListView messagelist;
+    private EditText text;
+    private ImageView send;
     private ClientLocalStore clientLocalStore;
-    private User user;
     private ArrayList<Message> messages;
 
 
@@ -50,11 +49,11 @@ public class MessageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message);
+        setContentView(R.layout.message_activity);
 
-        messageListView = (ListView)findViewById(R.id.messageListView);
-        typeMessageEditText = (EditText)findViewById(R.id.typeMessageEditText);
-        sendMessageButton = (ImageView)findViewById(R.id.sendMessageButton);
+        messagelist = (ListView)findViewById(R.id.message_messagelist_lv);
+        text = (EditText)findViewById(R.id.message_text_et);
+        send = (ImageView)findViewById(R.id.message_send_iv);
         clientLocalStore = new ClientLocalStore(this);
 
         Bundle bundle = getIntent().getExtras();
@@ -65,11 +64,11 @@ public class MessageActivity extends Activity {
         new GetConversation(userEmail,myEmail).execute();
         new SetRead(myEmail, userEmail).execute();
 
-        sendMessageButton.setOnClickListener(new View.OnClickListener() {
+        send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = typeMessageEditText.getText().toString();
-                new SendMessage(userEmail, myEmail, text).execute();
+                String writtentext = text.getText().toString();
+                new SendMessage(userEmail, myEmail, writtentext).execute();
             }
         });
 
@@ -78,9 +77,9 @@ public class MessageActivity extends Activity {
 
     public void setAdapter(){
         ListMessage adapter = new ListMessage(this, clientLocalStore.getUser(), messages);
-        messageListView.setAdapter(adapter);
-        messageListView.deferNotifyDataSetChanged();
-        messageListView.setSelection(adapter.getCount()-1);
+        messagelist.setAdapter(adapter);
+        messagelist.deferNotifyDataSetChanged();
+        messagelist.setSelection(adapter.getCount()-1);
     }
 
     public class GetConversation extends AsyncTask<Void,Void,Void> {
@@ -140,19 +139,20 @@ public class MessageActivity extends Activity {
 
         private String userEmail;
         private String myEmail;
-        private String text;
+        private String writtentext;
 
 
         public SendMessage(String userEmail, String myEmail, String text) {
             this.userEmail = userEmail;
             this.myEmail = myEmail;
-            this.text = text;
+            this.writtentext = text;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             new GetConversation(userEmail, myEmail).execute();
+            text.setText("");
         }
 
         @Override
@@ -166,7 +166,7 @@ public class MessageActivity extends Activity {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
                 nameValuePairs.add(new BasicNameValuePair("my_mail", myEmail));
                 nameValuePairs.add(new BasicNameValuePair("user_mail", userEmail));
-                nameValuePairs.add(new BasicNameValuePair("text",text));
+                nameValuePairs.add(new BasicNameValuePair("text",writtentext));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpClient.execute(httpPost);
 
