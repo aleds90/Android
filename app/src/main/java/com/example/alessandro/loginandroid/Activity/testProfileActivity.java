@@ -110,6 +110,7 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
                 .setActionBarViewForAnimation(toolbar)
                 .setClosedOnStart(true)
                 .setGuillotineListener(new GuillotineListener() {
+
                     @Override
                     public void onGuillotineOpened() {
                         //LOGOUT BUTTON
@@ -148,7 +149,6 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
                         } else {
                             status.setText("STATUS: NON DISPONIBILE");
                         }
-
                         status.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -229,6 +229,8 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
         password.setText(user.getPassword());
         rate.setText(String.valueOf(user.getRate()));
         description_tv.setText(user.getDescription());
+
+
     }
 
     @Override
@@ -270,8 +272,7 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
                     user.setRole(role.getText().toString());
                     user.setPassword(password.getText().toString());
                     user.setDescription(description_tv.getText().toString());
-                    boolean active = status.getText().toString().equals("STATUS: DISPONIBILE");
-                    user.setActive(active);
+                    user.setActive(true);
                     String notice = notice_tv.getText().toString();
                     new UpdateTask(user,notice).execute();
                     cancel.setLayoutParams(new LinearLayout.LayoutParams(1, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -463,7 +464,11 @@ public class testProfileActivity extends AppCompatActivity implements View.OnCli
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            notice_tv.setText(notice.getNotice_text());
+            if (notice.getNotice_text().equals("")){
+                notice_tv.setText("inserisci un annuncio per aiutare i clienti a conoscere le tue offerte");
+            }else {
+                notice_tv.setText(notice.getNotice_text());
+            }
         }
 
         @Override

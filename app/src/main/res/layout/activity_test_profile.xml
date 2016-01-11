@@ -356,7 +356,7 @@
                         android:textSize="16dp"/>
                     <EditText
                         android:id="@+id/profile_notice_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
                         android:textColor="@android:color/black"
