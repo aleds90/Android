@@ -206,7 +206,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         surname.setText(user.getSurname());
         role.setText(user.getRole());
         city.setText(user.getCity());
-        SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy", Locale.GERMANY);
+        SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy", Locale.ITALY);
         try {
             Date date = format.parse(user.getBday());
             format.applyPattern(NEW_FORMAT);

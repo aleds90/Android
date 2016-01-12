@@ -3,10 +3,12 @@ package com.example.alessandro.loginandroid.Activity;
 import android.os.AsyncTask;
         import android.os.Bundle;
         import android.app.Activity;
-        import android.view.View;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.EditText;
         import android.widget.ImageView;
         import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Adapters.ListMessage;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
@@ -42,6 +44,7 @@ public class MessageActivity extends Activity {
     private ImageView send;
     private ClientLocalStore clientLocalStore;
     private ArrayList<Message> messages;
+    String userName;
 
 
 
@@ -51,6 +54,8 @@ public class MessageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.message_activity);
 
+
+
         messagelist = (ListView)findViewById(R.id.message_messagelist_lv);
         text = (EditText)findViewById(R.id.message_text_et);
         send = (ImageView)findViewById(R.id.message_send_iv);
@@ -58,7 +63,9 @@ public class MessageActivity extends Activity {
 
         Bundle bundle = getIntent().getExtras();
         final String userEmail = bundle.getString("userEmail");
+        userName = bundle.getString("userName");
         final String myEmail = clientLocalStore.getUser().getEmail();
+        initToolbar();
 
         messages = new ArrayList<>();
         new GetConversation(userEmail,myEmail).execute();
@@ -73,6 +80,18 @@ public class MessageActivity extends Activity {
         });
 
 
+    }
+    private void initToolbar() {
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView mToolBarTextView = (TextView) findViewById(R.id.text_view_toolbar_title);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        mToolBarTextView.setText(userName);
     }
 
     public void setAdapter(){

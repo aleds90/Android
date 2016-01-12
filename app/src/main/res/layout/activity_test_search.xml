@@ -28,7 +28,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="HOME"
+                    android:text="Ricerca"
                     android:textColor="@android:color/black"
                     android:layout_gravity="center"
                     android:textSize="30dp"/>
@@ -47,18 +47,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Find by name"
-            android:id="@+id/searchNameText"
+            android:id="@+id/search_namefilter_actv"
             />
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Find by Role"
-            android:id="@+id/searchRoleText"/>
+            android:id="@+id/search_rolefilter_actv"/>
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Find by City"
-            android:id="@+id/searchCityText"/>
+            android:id="@+id/search_cityfilter_actv"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,14 +75,14 @@
                 android:text="Max: 200$/h"
                 android:textColor="@android:color/black"
                 android:textSize="20dp"
-                android:id="@+id/searchRateText"
+                android:id="@+id/search_rate_tv"
                 android:layout_gravity="center_vertical" />
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingLeft="8dp"
                 android:paddingRight="10dp"
-                android:id="@+id/searchRateSeekBar"/>
+                android:id="@+id/search_ratefilter_sb"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -94,9 +94,11 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="START SEARCHING"
-                android:id="@+id/buttonSTART"
-                android:layout_gravity="center_horizontal" />
+                android:text="AVVIA RICERCA"
+                android:id="@+id/search_startsearch_btn"
+                android:layout_gravity="center_horizontal"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@color/background"/>
             </LinearLayout>
 
             <LinearLayout
@@ -108,7 +110,7 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/listViewSearched" />
+                android:id="@+id/search_resultlist_lv" />
             </LinearLayout>
 
             <LinearLayout
@@ -122,7 +124,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:id="@+id/buttonHOME"
+                    android:id="@+id/search_home_btn"
                     android:layout_weight="0.25"
                     android:background="@drawable/homeb"
                     android:layout_margin="5dp"
@@ -131,7 +133,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/buttonSEARCH"
+                    android:id="@+id/search_search_btn"
                     android:layout_weight="0.25"
                     android:background="@drawable/search"
                     android:padding="5dp"
@@ -140,7 +142,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:id="@+id/buttonFOLLOW"
+                    android:id="@+id/search_relation_btn"
                     android:layout_weight="0.25"
                     android:background="@drawable/follow"
                     android:padding="5dp"
@@ -149,7 +151,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:id="@+id/buttonPROFILE"
+                    android:id="@+id/search_profile_btn"
                     android:layout_weight="0.25"
                     android:padding="5dp"
                     android:layout_margin="5dp"

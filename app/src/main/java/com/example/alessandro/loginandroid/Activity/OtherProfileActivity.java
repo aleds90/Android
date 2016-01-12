@@ -50,6 +50,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class OtherProfileActivity extends AppCompatActivity implements OnMenuItemClickListener, OnMenuItemLongClickListener{
 
@@ -97,7 +98,7 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
 
         //TEXTVIEW SETTINGS
         textViewName.setText(target.getName()+" "+target.getSurname());
-        SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy", Locale.ITALY);
         try {
             Date date = format.parse(target.getBday());
             format.applyPattern(NEW_FORMAT);

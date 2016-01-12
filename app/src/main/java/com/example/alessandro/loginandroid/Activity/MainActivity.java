@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_test_main);
 
         clientLocalStore = new ClientLocalStore(this);
+        createToolbar();
 
         //textviewHOME = (TextView) findViewById(R.id.textViewHOME);
 
@@ -81,6 +82,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         new UserListTask(clientLocalStore.getUser()).execute();
 
+        buttonHOME = (ImageButton) findViewById(R.id.buttonHOME);
+        buttonSEARCH = (ImageButton) findViewById(R.id.buttonSEARCH);
+        buttonFOLLOW = (ImageButton) findViewById(R.id.buttonFOLLOW);
+        buttonPROFILE = (ImageButton) findViewById(R.id.buttonPROFILE);
+
+        buttonHOME.setOnClickListener(this);
+        buttonSEARCH.setOnClickListener(this);
+        buttonFOLLOW.setOnClickListener(this);
+        buttonPROFILE.setOnClickListener(this);
+    }
+
+    private void createToolbar() {
         root=(FrameLayout)findViewById(R.id.root);
         toolbar = (Toolbar)findViewById(R.id.toolbar_hamburger);
         hamburger=(ImageView)findViewById(R.id.content_hamburger);
@@ -96,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setActionBarViewForAnimation(toolbar)
                 .setClosedOnStart(true)
                 .setGuillotineListener(new GuillotineListener() {
+
                     @Override
                     public void onGuillotineOpened() {
                         //LOGOUT BUTTON
@@ -113,55 +127,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         delete.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                new deleteTask(clientLocalStore.getUser()).execute();
+                                //new deleteTask(clientLocalStore.getUser()).execute();
                                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                 startActivity(intent);
                             }
                         });
                         //SETTING BUTTON
-                        settings=(TextView)findViewById(R.id.setting_textview);
+                        settings = (TextView) findViewById(R.id.setting_textview);
                         settings.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(),SettingActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
                                 startActivity(intent);
                             }
                         });
                         //STATUS BUTTON
-                        status=(TextView)findViewById(R.id.status_textview);
-                        //status.setText("status:" + getStatus());
+                        status = (TextView) findViewById(R.id.status_textview);
+                        if (clientLocalStore.getUser().isActive()) {
+                            status.setText("STATUS: DISPONIBILE");
+                        } else {
+                            status.setText("STATUS: NON DISPONIBILE");
+                        }
                         status.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                if (status.getText().toString().equals("STATUS: DISPONIBILE")) {
+                                    status.setText("STATUS: NON DISPONIBILE");
+                                    User user = clientLocalStore.getUser();
+                                    user.setActive(false);
+                                    new UpdateStatusTask(user).execute();
+                                } else {
+                                    status.setText("STATUS: DISPONIBILE");
+                                    User user = clientLocalStore.getUser();
+                                    user.setActive(true);
+                                    new UpdateStatusTask(user).execute();
+                                }
                                 //updateStatus();
-                                //status.setText("status:" + getStatus());
+
                             }
                         });
-
 
 
                     }
 
                     @Override
                     public void onGuillotineClosed() {
-                        //adapter.setClickEnable();
+
                     }
+
                 })
                 .build();
-
-        buttonHOME = (ImageButton) findViewById(R.id.buttonHOME);
-        buttonSEARCH = (ImageButton) findViewById(R.id.buttonSEARCH);
-        buttonFOLLOW = (ImageButton) findViewById(R.id.buttonFOLLOW);
-        buttonPROFILE = (ImageButton) findViewById(R.id.buttonPROFILE);
-
-        buttonHOME.setOnClickListener(this);
-        buttonSEARCH.setOnClickListener(this);
-        buttonFOLLOW.setOnClickListener(this);
-        buttonPROFILE.setOnClickListener(this);
-
-
-
-
     }
 
 
@@ -404,6 +419,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 HttpEntity httpEntity = httpResponse.getEntity();
 
+                String response = EntityUtils.toString(httpEntity);
+                System.out.println(response);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public class UpdateStatusTask extends AsyncTask<Void, Void, Void> {
+
+        private User user;
+
+        public UpdateStatusTask(User user) {
+            this.user = user;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            clientLocalStore.updateUser(user);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/updateStatus");
+
+                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
+                nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("status", Boolean.toString(user.isActive())));
+
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+                HttpEntity httpEntity = httpResponse.getEntity();
                 String response = EntityUtils.toString(httpEntity);
                 System.out.println(response);
 

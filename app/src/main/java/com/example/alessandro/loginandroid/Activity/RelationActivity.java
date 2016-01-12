@@ -4,11 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Adapters.ListUser;
 import com.example.alessandro.loginandroid.Adapters.ListUserConversations;
@@ -17,6 +23,8 @@ import com.example.alessandro.loginandroid.Entity.Message;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 import com.google.gson.Gson;
+import com.yalantis.guillotine.animation.GuillotineAnimation;
+import com.yalantis.guillotine.interfaces.GuillotineListener;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,7 +45,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelationActivity extends Activity implements View.OnClickListener {
+public class RelationActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final long RIPPLE_DURATION = 250;
 
 
     ImageButton home, search, relation, profile;
@@ -50,10 +59,16 @@ public class RelationActivity extends Activity implements View.OnClickListener {
     private ListView userlist;
     ArrayList<User> sortedusers;
 
+    ImageView hamburger;
+    Toolbar toolbar;
+    FrameLayout root;
+    TextView logout,delete,settings,status;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.relation_activity);
+        createToolbar();
 
         home = (ImageButton) findViewById(R.id.follow_home_btn);
         search = (ImageButton) findViewById(R.id.follow_search_btn);
@@ -77,6 +92,92 @@ public class RelationActivity extends Activity implements View.OnClickListener {
         new GetFolloweedTask(clientLocalStore.getUser()).execute();
 
 
+    }
+
+    private void createToolbar() {
+        root=(FrameLayout)findViewById(R.id.root);
+        toolbar = (Toolbar)findViewById(R.id.toolbar_hamburger);
+        hamburger=(ImageView)findViewById(R.id.content_hamburger);
+
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle(null);
+        }
+        View navigationMenu = LayoutInflater.from(this).inflate(R.layout.navigation,null);
+        root.addView(navigationMenu);
+        new GuillotineAnimation.GuillotineBuilder(navigationMenu, navigationMenu.findViewById(R.id.guillotine_hamburger), hamburger)
+                .setStartDelay(RIPPLE_DURATION)
+                .setActionBarViewForAnimation(toolbar)
+                .setClosedOnStart(true)
+                .setGuillotineListener(new GuillotineListener() {
+
+                    @Override
+                    public void onGuillotineOpened() {
+                        //LOGOUT BUTTON
+                        logout = (TextView) findViewById(R.id.logout_textview);
+                        logout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                clientLocalStore.clearClient();
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        //DELETE BUTTON
+                        delete = (TextView) findViewById(R.id.delete_textview);
+                        delete.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //new deleteTask(clientLocalStore.getUser()).execute();
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        //SETTING BUTTON
+                        settings = (TextView) findViewById(R.id.setting_textview);
+                        settings.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        //STATUS BUTTON
+                        status = (TextView) findViewById(R.id.status_textview);
+                        if (clientLocalStore.getUser().isActive()) {
+                            status.setText("STATUS: DISPONIBILE");
+                        } else {
+                            status.setText("STATUS: NON DISPONIBILE");
+                        }
+                        status.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (status.getText().toString().equals("STATUS: DISPONIBILE")) {
+                                    status.setText("STATUS: NON DISPONIBILE");
+                                    User user = clientLocalStore.getUser();
+                                    user.setActive(false);
+                                    new UpdateStatusTask(user).execute();
+                                } else {
+                                    status.setText("STATUS: DISPONIBILE");
+                                    User user = clientLocalStore.getUser();
+                                    user.setActive(true);
+                                    new UpdateStatusTask(user).execute();
+                                }
+                                //updateStatus();
+
+                            }
+                        });
+
+
+                    }
+
+                    @Override
+                    public void onGuillotineClosed() {
+
+                    }
+
+                })
+                .build();
     }
 
     @Override
@@ -241,6 +342,43 @@ public class RelationActivity extends Activity implements View.OnClickListener {
             }catch (IOException e) {
                 e.printStackTrace();
             }catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public class UpdateStatusTask extends AsyncTask<Void, Void, Void> {
+
+        private User user;
+
+        public UpdateStatusTask(User user) {
+            this.user = user;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            clientLocalStore.updateUser(user);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/updateStatus");
+
+                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
+                nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("status", Boolean.toString(user.isActive())));
+
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+                HttpEntity httpEntity = httpResponse.getEntity();
+                String response = EntityUtils.toString(httpEntity);
+                System.out.println(response);
+
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;

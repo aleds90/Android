@@ -61,6 +61,7 @@ public class ListUserConversations extends ArrayAdapter<User> {
             public void onClick(View v) {
                 Intent intent=new Intent(getContext(), MessageActivity.class);
                 intent.putExtra("userEmail", currentUser.getEmail());
+                intent.putExtra("userName", currentUser.getName());
                 getContext().startActivity(intent);
             }
         });

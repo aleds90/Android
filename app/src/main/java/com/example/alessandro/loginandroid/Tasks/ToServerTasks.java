@@ -462,6 +462,8 @@ public class ToServerTasks {
 
         private User user;
         private ArrayList<User> users;
+        JSONArray usersArray;
+
 
         public FilteredUserListTask(User user, ArrayList<User> users) {
 
@@ -478,6 +480,16 @@ public class ToServerTasks {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            for (int i = 0; i < usersArray.length(); i++) {
+                User user = null;
+                try {
+                    user = new Gson().fromJson(usersArray.get(i).toString(), User.class);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                users.add(user);
+            }
+
 
         }
 
@@ -504,13 +516,10 @@ public class ToServerTasks {
 
                 HttpEntity entity = response.getEntity();
                 String json = EntityUtils.toString(entity);
-                JSONArray usersArray = new JSONArray(json);
+                usersArray = new JSONArray(json);
 
 
-                for (int i = 0; i < usersArray.length(); i++) {
-                    User user = new Gson().fromJson(usersArray.get(i).toString(), User.class);
-                    users.add(user);
-                }
+
 
 
             } catch (IOException e) {
