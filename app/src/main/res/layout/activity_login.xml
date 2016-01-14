@@ -25,25 +25,21 @@
         android:layout_height="wrap_content"
         android:id="@+id/etPassword"/>
 
-    <com.dd.processbutton.iml.GenerateProcessButton
+    <Button
         android:id="@+id/bLogin"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/Sign_in"
+        android:text="accedi"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        custom:pb_colorComplete="@color/green_complete"
-        custom:pb_colorNormal="@color/blue_normal"
-        custom:pb_colorPressed="@color/blue_pressed"
-        custom:pb_colorProgress="@color/purple_progress"
-        custom:pb_textComplete="@string/Success"
-        custom:pb_textProgress="@string/Loading" />
+        android:backgroundTint="@color/background"
+      />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="Register"
+        android:text="Registrazione"
         android:id="@+id/tvRegister"
         />
 

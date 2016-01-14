@@ -2,6 +2,7 @@ package com.example.alessandro.loginandroid.Activity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         clientLocalStore = new ClientLocalStore(this);
         createToolbar();
+
+        new CheckMessage(clientLocalStore.getUser()).execute();
 
         //textviewHOME = (TextView) findViewById(R.id.textViewHOME);
 
@@ -458,6 +461,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 HttpEntity httpEntity = httpResponse.getEntity();
                 String response = EntityUtils.toString(httpEntity);
                 System.out.println(response);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public class CheckMessage extends AsyncTask<Void, Void, Void> {
+
+        private User user;
+        boolean checkMessage;
+
+        public CheckMessage(User user) {
+            this.user = user;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (!checkMessage){
+                buttonFOLLOW.setBackgroundResource(R.drawable.ic_chat_white_24dp);
+            }else{
+
+            }
+
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/checkMessage");
+                List<NameValuePair> nameValuePairs = new ArrayList<>(1);
+                nameValuePairs.add(new BasicNameValuePair("user_email", user.getEmail()));
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = httpClient.execute(httpPost);
+                HttpEntity entity = response.getEntity();
+                String json = EntityUtils.toString(entity);
+                System.out.println("HO MESSAGGI???"+json);
+                checkMessage = json.equals("true");
 
             } catch (IOException e) {
                 e.printStackTrace();

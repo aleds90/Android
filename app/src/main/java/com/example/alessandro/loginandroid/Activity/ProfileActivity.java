@@ -1,10 +1,14 @@
 package com.example.alessandro.loginandroid.Activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +29,7 @@ import com.google.gson.Gson;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 import com.yalantis.guillotine.interfaces.GuillotineListener;
 
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -37,6 +42,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,6 +51,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder;
+
 
 /**
  * Classe che gestisce l'activity del profilo, un utente potra' cambiare i propri dati, cancellare
@@ -53,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private static final long RIPPLE_DURATION = 250;
     private EditText name,surname, feedback, followers, followed, role, city, bday, email, password, rate, description_tv, notice_tv;
     private ImageButton home, search, follow, profile;
-    private Button update, cancel;
+    private Button update, cancel, upload;
     //database che contiene i dati di login dell' utente
     private ClientLocalStore clientLocalStore;
     final String NEW_FORMAT = "dd-MM-yyyy";
@@ -61,6 +71,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     Toolbar toolbar;
     FrameLayout root;
     TextView logout,delete,settings,status;
+    private ImageView imageprofile;
 
 
     //views che identificano i dati dell'utente
@@ -179,6 +190,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profile =(ImageButton)findViewById(R.id.profile_profile_btn);
         update  =(Button)findViewById(R.id.profile_update_btn);
         cancel  =(Button)findViewById(R.id.profile_cancel_update_btn);
+        imageprofile = (ImageView)findViewById(R.id.profile_imageprofile_iv);
+        upload = (Button)findViewById(R.id.profile_upload_btn);
+        upload.setOnClickListener(this);
         home.setOnClickListener(this);
         search.setOnClickListener(this);
         follow.setOnClickListener(this);
@@ -279,6 +293,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 cancel.setText("");
                 update.setText("Modifica profilo");
                 setTextViewNotFocusable();
+                break;
+            case R.id.profile_upload_btn:
+                Bitmap image=((BitmapDrawable)imageprofile.getDrawable()).getBitmap();
+                //new UploadTask(image,"anastasia").execute();
                 break;
         }
     }
@@ -527,6 +545,47 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+    public class UploadTask extends AsyncTask<Void, Void, Void> {
+
+        Bitmap image;
+        String name;
+
+
+        public UploadTask(Bitmap image, String name) {
+            this.image = image;
+            this.name = name;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            System.out.println("sono partito");
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/save");
+                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
+                nameValuePairs.add(new BasicNameValuePair("image", encodedImage));
+                nameValuePairs.add(new BasicNameValuePair("name", name));
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+                HttpEntity httpEntity = httpResponse.getEntity();
+                String response = EntityUtils.toString(httpEntity);
+                System.out.println(response);
+
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
