@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Toolbar toolbar;
     FrameLayout root;
     ImageButton buttonHOME, buttonSEARCH, buttonFOLLOW, buttonPROFILE;
-    TextView textviewHOME;
+    TextView messages;
     ListView listViewUSERLIST;
     ClientLocalStore clientLocalStore;
     ArrayList<User> users;
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         new CheckMessage(clientLocalStore.getUser()).execute();
 
-        //textviewHOME = (TextView) findViewById(R.id.textViewHOME);
+        messages = (TextView) findViewById(R.id.main_messages_tv);
 
 
 
@@ -349,6 +349,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
     public class deleteTask extends AsyncTask<Void, Void, Void> {
         private User user;
 
@@ -473,6 +474,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         private User user;
         boolean checkMessage;
+        String message;
 
         public CheckMessage(User user) {
             this.user = user;
@@ -481,8 +483,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (!checkMessage){
-                buttonFOLLOW.setBackgroundResource(R.drawable.ic_chat_white_24dp);
+            if (checkMessage){
+                messages.setText(message);
+                messages.setVisibility(View.VISIBLE);
+                //buttonFOLLOW.setBackgroundResource(R.drawable.ic_chat_white_24dp);
             }else{
 
             }
@@ -500,9 +504,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpClient.execute(httpPost);
                 HttpEntity entity = response.getEntity();
-                String json = EntityUtils.toString(entity);
-                System.out.println("HO MESSAGGI???"+json);
-                checkMessage = json.equals("true");
+                message = EntityUtils.toString(entity);
+                int count = Integer.parseInt(message);
+                checkMessage = count > 0;
 
             } catch (IOException e) {
                 e.printStackTrace();
