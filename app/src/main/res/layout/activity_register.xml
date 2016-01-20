@@ -145,11 +145,11 @@
             android:paddingRight="4dp"
             />
 
-        <EditText
+        <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextRole"
-            android:text="" />
+            android:id="@+id/spinnerRoles"
+            android:entries="@array/roles" />
 
     </LinearLayout>
 

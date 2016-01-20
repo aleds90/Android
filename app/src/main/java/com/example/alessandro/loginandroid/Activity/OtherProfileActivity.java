@@ -274,6 +274,7 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
             case 1:
                 Intent intent = new Intent(this, MessageActivity.class);
                 intent.putExtra("userEmail", target.getEmail());
+                intent.putExtra("userName", target.getName());
                 startActivity(intent);
                 break;
             case 2:

@@ -48,4 +48,108 @@
     </array>
     <string name="title_activity_test_main2">testMainActivity2</string>
     <string name="title_activity_setting">SettingActivity</string>
+
+    <string-array name="roles">
+        <item>Scegli la tua professione!</item>
+        <item>Animatore</item>
+        <item>Autore</item>
+        <item>Attore</item>
+        <item>Allevatore</item>
+        <item>Architetto</item>
+        <item>Agricoltore</item>
+        <item>Artista</item>
+        <item>Assistente Sociale</item>
+        <item>Acrobata</item>
+        <item>Agente</item>
+        <item>Antiquario</item>
+        <item>Barista</item>
+        <item>Barman</item>
+        <item>Barbiere</item>
+        <item>Ballerino</item>
+        <item>Baby sitter</item>
+        <item>Botanico</item>
+        <item>Biologo</item>
+        <item>Calzolaio</item>
+        <item>Cameriere</item>
+        <item>Ceramista</item>
+        <item>Carpentiere edile</item>
+        <item>Conducente</item>
+        <item>Cuoco</item>
+        <item>Danzatore</item>
+        <item>Decoratore</item>
+        <item>Designer</item>
+        <item>Dietista</item>
+        <item>Dentista</item>
+        <item>Dirigente sportivo</item>
+        <item>Docente</item>
+        <item>Elettricista</item>
+        <item>Erborista</item>
+        <item>Estetista</item>
+        <item>Falegname</item>
+        <item>Fisioterapista</item>
+        <item>Fonico</item>
+        <item>Fotografo</item>
+        <item>Fotoreporter</item>
+        <item>Grafico pubblicitario</item>
+        <item>Gruista</item>
+        <item>Guardia del corpo</item>
+        <item>Guida alpina</item>
+        <item>Giardiniere</item>
+        <item>Hostess</item>
+        <item>Idraulico</item>
+        <item>Igienista</item>
+        <item>Impiantista termoidraulico</item>
+        <item>Infermiere</item>
+        <item>Lettore</item>
+        <item>Logopedista</item>
+        <item>Macchinista</item>
+        <item>Maestro di fitness</item>
+        <item>Marmista</item>
+        <item>Maestro di sci</item>
+        <item>Media planner</item>
+        <item>Magazziniere</item>
+        <item>Mediatore culturale</item>
+        <item>Medico sportivo</item>
+        <item>Macchinista</item>
+        <item>Mobiliere</item>
+        <item>Modellista</item>
+        <item>Muratore</item>
+        <item>Nutrizionista</item>
+        <item>Nutrizionista animale</item>
+        <item>Operaio qualificato</item>
+        <item>Orafo</item>
+        <item>Orologiaio</item>
+        <item>Operatore di call center</item>
+        <item>Organizzatore di eventi culturali</item>
+        <item>Preparatore sportivo</item>
+        <item>Parrucchiere</item>
+        <item>Procuratore sportivo</item>
+        <item>Pasticciere</item>
+        <item>Perito</item>
+        <item>Personal Trainer</item>
+        <item>Progettista impianti elettrici</item>
+        <item>Programmatore</item>
+        <item>Promoter turistico</item>
+        <item>Rappresentante di vendita</item>
+        <item>Regista</item>
+        <item>Redattore editoriale</item>
+        <item>Saldatore</item>
+        <item>Skipper</item>
+        <item>Sound editor</item>
+        <item>Scultore</item>
+        <item>Specialista in animali da allevamento</item>
+        <item>Stilista</item>
+        <item>Storico dell arte</item>
+        <item>Tappezziere</item>
+        <item>Tartufaio</item>
+        <item>Tassista</item>
+        <item>Tutor per ripetizioni</item>
+        <item>Vetrinista</item>
+        <item>Verniciatore</item>
+        <item>Veterinario</item>
+        <item>Vetraio</item>
+        <item>Altro</item>
+
+    </string-array>
+
 </resources>

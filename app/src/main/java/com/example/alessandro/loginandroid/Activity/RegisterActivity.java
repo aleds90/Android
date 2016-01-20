@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
@@ -33,6 +34,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
     EditText editTextName, editTextSurname, editTextEmail, editTextPassword, editTextBirthday,editTextRole,editTextCity,editTextRate;
     //bottoni presenti nella activity di registrazione
     Button bRegister, bBackToMenu;
+    Spinner roles;
     /**
      *Definisco come un activity viene creata
      */
@@ -46,7 +48,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         editTextBirthday = (EditText) findViewById(R.id.editTextBirthday);
-        editTextRole = (EditText) findViewById(R.id.editTextRole);
+        roles = (Spinner)findViewById(R.id.spinnerRoles);
         editTextCity = (EditText) findViewById(R.id.editTextCity);
         editTextRate = (EditText) findViewById(R.id.editTextRate);
         // definisco le componenti che possono essere cliccate
@@ -70,7 +72,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
                 user.setEmail(editTextEmail.getText().toString());
                 user.setPassword(editTextPassword.getText().toString());
                 user.setBday(editTextBirthday.getText().toString());
-                user.setRole(editTextRole.getText().toString());
+                user.setRole(roles.getSelectedItem().toString());
                 user.setCity(editTextCity.getText().toString());
                 user.setRate(Double.parseDouble(editTextRate.getText().toString()));
                 // richiamo la classe e invio

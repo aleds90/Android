@@ -486,7 +486,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (checkMessage){
                 messages.setText(message);
                 messages.setVisibility(View.VISIBLE);
-                //buttonFOLLOW.setBackgroundResource(R.drawable.ic_chat_white_24dp);
+                //buttonFOLLOW.setBackgroundResource(R.drawable.ic_group_add_black_24dp);
             }else{
 
             }
