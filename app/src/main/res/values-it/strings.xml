@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Login Android</string>
+    <string name="Login_Button">Accedi</string>
+    <string name="Register_Button">Registrazione</string>
+    <string name="Register_page_title">Pagina Di Registraione</string>
+    <string name="Name_TextView">Nome</string>
+    <string name="name_hint">Il tuo nome</string>
+    <string name="surname_hint">Il tuo cognome</string>
+    <string name="surname">Cognome</string>
+    <string name="birthday">Data Nascita</string>
+    <string name="password_hint">Digita una password</string>
+    <string name="role">Professione</string>
+    <string name="role_hint">Seleziona il tuo lavoro</string>
+    <string name="rate">Prezzo</string>
+    <string name="rate_hint">Il tuo prezzo medio</string>
+    <string name="city">Citta</string>
+    <string name="city_hint">Area di competenza</string>
+    <string name="register">registrazione</string>
+    <string name="register_title">Pagina di Registrazione</string>
+    <string name="home">Bacheca</string>
+    <string name="status_available">STATO: Disponibile</string>
+    <string name="status_not_available">STATO: Non Disponibile</string>
+    <string name="settings">IMPOSTAZIONI</string>
+    <string name="delete_account">CANCELLA IL PROFILO</string>
+    <string name="edit_profile">MODIFICA IL PROFILO</string>
+    <string name="logout">ESCI DAL PROFILO</string>
+    <string name="go_profile">VAI AL PROFILO</string>
+    <string name="profile_title">Il Mio Profilo</string>
+    <string name="followers">Seguaci: </string>
+    <string name="followed">Seguiti: </string>
+    <string name="description_profile">Descrizione: </string>
+    <string name="notice_profile">Annunci: </string>
+    <string name="edit_profile_btn">Modifica Profilo</string>
+    <string name="change_avatar">Carica Avatar</string>
+    <string name="type_message_hint">Scrivi il messaggio</string>
+    <string name="relations">Relazioni</string>
+    <string name="contact">Contatti</string>
+    <string name="message_btn">Messaggi</string>
+</resources>

@@ -41,4 +41,8 @@ public class Response {
     public void setUser(User user) {
         this.user = user;
     }
+
+
 }
+
+

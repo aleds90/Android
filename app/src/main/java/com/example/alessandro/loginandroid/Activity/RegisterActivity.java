@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
+import com.example.alessandro.loginandroid.Tasks.ToServerTasks;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -27,87 +29,84 @@ import java.util.List;
 
 
 /**
- * e' la classe che si occupa di gestire l'interfaccia per la registrazione
+ * Classe che si occupa di gestire l'interfaccia per la registrazione
  */
 public class RegisterActivity extends Activity implements View.OnClickListener{
-    //field dove vengono inseriti i campi per la registrazione
-    EditText editTextName, editTextSurname, editTextEmail, editTextPassword, editTextBirthday,editTextRole,editTextCity,editTextRate;
-    //bottoni presenti nella activity di registrazione
-    Button bRegister, bBackToMenu;
+    EditText name, surname, email, password, bday,city,rate;
+    Button register, menu;
     Spinner roles;
-    /**
-     *Definisco come un activity viene creata
-     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        // collego tutte le componenti ai corrispondenti elementi del activity_register.xml
-        editTextName = (EditText) findViewById(R.id.editTextName);
-        editTextSurname = (EditText) findViewById(R.id.editTextSurname);
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        editTextBirthday = (EditText) findViewById(R.id.editTextBirthday);
-        roles = (Spinner)findViewById(R.id.spinnerRoles);
-        editTextCity = (EditText) findViewById(R.id.editTextCity);
-        editTextRate = (EditText) findViewById(R.id.editTextRate);
-        // definisco le componenti che possono essere cliccate
-        bRegister = (Button) findViewById(R.id.bRegisterUser);
-        bBackToMenu = (Button) findViewById(R.id.bRegisterToLogin);
-        bRegister.setOnClickListener(this);
-        bBackToMenu.setOnClickListener(this);
+        setContentView(R.layout.activity_test_register);
+        setViews();
+
     }
-      /*
-     *Definisco le azioni che ogni ogni componente con ClickListener settato deve effettuare al suo click
+
+    /**
+     * Metodo che inizializza tutti le componenti della Register Activity
      */
+    private void setViews() {
+        name        = (EditText) findViewById(R.id.register_name);
+        surname     = (EditText) findViewById(R.id.register_surname);
+        email       = (EditText) findViewById(R.id.register_email);
+        password    = (EditText) findViewById(R.id.register_password);
+        bday        = (EditText) findViewById(R.id.register_bday);
+        roles       = (Spinner)findViewById(R.id.register_roles);
+        city        = (EditText) findViewById(R.id.register_city);
+        rate        = (EditText) findViewById(R.id.register_rate);
+        register    = (Button) findViewById(R.id.register_register);
+        menu        = (Button) findViewById(R.id.register_menu);
+
+        register.setOnClickListener(this);
+        menu.setOnClickListener(this);
+    }
+
+   /**
+    *Definisco le azioni che ogni ogni componente con ClickListener settato deve effettuare al suo click
+    */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            // il bottone register invia tutti i dati inseriti al server tramite la classe Task
-            case R.id.bRegisterUser:
-                //creo un utente composto dai dati inseriti
+            case R.id.register_register:
                 User user = new User();
-                user.setName(editTextName.getText().toString());
-                user.setSurname(editTextSurname.getText().toString());
-                user.setEmail(editTextEmail.getText().toString());
-                user.setPassword(editTextPassword.getText().toString());
-                user.setBday(editTextBirthday.getText().toString());
+                user.setName(name.getText().toString());
+                user.setSurname(surname.getText().toString());
+                user.setEmail(email.getText().toString());
+                user.setPassword(password.getText().toString());
+                user.setBday(bday.getText().toString());
                 user.setRole(roles.getSelectedItem().toString());
-                user.setCity(editTextCity.getText().toString());
-                user.setRate(Double.parseDouble(editTextRate.getText().toString()));
-                // richiamo la classe e invio
+                user.setCity(city.getText().toString());
+                user.setRate(Double.parseDouble(rate.getText().toString()));
+                user.setAvatar(1);
                 new RegisterTask(user).execute();
                 break;
-            // serve per tornare nel menu di login nel caso si vuole annullare la registrazione
-            case R.id.bRegisterToLogin:
+
+            case R.id.register_menu:
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
+                break;
         }
     }
 
     /**
      * classe Task che in Background manda un post ad /add per effettuare la registrazione sul server
      */
-
     public class RegisterTask extends AsyncTask<String, Void, Void> {
-        // attributo che identifica lo user che stiamo per registrare
         private User user;
-        // costruttore della classe
+
         public RegisterTask(User user) {
             this.user= user;
         }
-        /*
-        * Lavoro che svolge in background la classe Task. Invia la richiesta ad un indirizzo e riceve una risposta da quest'ultimo
-        */
+
         @Override
         protected Void doInBackground(String... params) {
+
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                // sito a cui fare il post
-                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/add");
-                // Lista dei valori che mandiamo
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(8);
-                // Valori:
+                HttpPost httppost = new HttpPost("http://njsao.pythonanywhere.com/insert_user");
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(9);
                 nameValuePairs.add(new BasicNameValuePair("name", user.getName()));
                 nameValuePairs.add(new BasicNameValuePair("surname", user.getSurname()));
                 nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
@@ -116,18 +115,13 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
                 nameValuePairs.add(new BasicNameValuePair("city", user.getCity()));
                 nameValuePairs.add(new BasicNameValuePair("rate", Double.toString(user.getRate())));
                 nameValuePairs.add(new BasicNameValuePair("password", user.getPassword()));
-                //Mettere la lista nel post, cosi da poterla mandare
-                // prima l aveva solo creata ma non settata come da mandare
+                nameValuePairs.add(new BasicNameValuePair("avatar", Integer.toString(user.getAvatar())));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                // con l execute, mandiamo il post
                 HttpResponse response = httpclient.execute(httppost);
-                // prendiamo la risposta del server e lo salviamo come stringa in "json"
                 HttpEntity entity = response.getEntity();
-                // la risposta in questo caso sara' una stringa che dice al client se la registrazione e' stata accettata o meno
                 String json = EntityUtils.toString(entity);
-                // Metodo per gestire la risposta ottenuta
+                System.out.println(json);
                 handleResponse(json);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -146,8 +140,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
                 startActivity(intent);
                 break;
             //case NO, indica il caso in cui la registrazione non e' andata a buon fine per probabile errori dell'utente
-            case "NO":
-                //TODO: creare un Popup di errore
+            default:
+                Toast.makeText(RegisterActivity.this, "Register Error", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

@@ -273,10 +273,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         searchLayout =(LinearLayout)findViewById(R.id.searchLayout);
         searchListViewLayout = (LinearLayout)findViewById(R.id.searchListViewLayout);
 
-        home = (ImageButton) findViewById(R.id.search_home_btn);
-        search = (ImageButton) findViewById(R.id.search_search_btn);
-        relation = (ImageButton) findViewById(R.id.search_relation_btn);
-        profile = (ImageButton) findViewById(R.id.search_profile_btn);
+        home = (ImageButton) findViewById(R.id.home);
+        search = (ImageButton) findViewById(R.id.search);
+        relation = (ImageButton) findViewById(R.id.relation);
+        profile = (ImageButton) findViewById(R.id.profile);
         startSearch = (Button)findViewById(R.id.search_startsearch_btn);
 
         home.setOnClickListener(this);
@@ -313,16 +313,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         Intent i = null;
         switch (v.getId()) {
-            case (R.id.search_home_btn):
+            case (R.id.home):
                 i = new Intent(this, MainActivity.class);
                 break;
-            case (R.id.search_search_btn):
+            case (R.id.search):
                 i = new Intent(this, SearchActivity.class);
                 break;
-            case (R.id.search_relation_btn):
+            case (R.id.relation):
                 i = new Intent(this, RelationActivity.class);
                 break;
-            case (R.id.search_profile_btn):
+            case (R.id.profile):
                 i = new Intent(this, ProfileActivity.class);
                 break;
 

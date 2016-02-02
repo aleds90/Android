@@ -6,31 +6,39 @@
     android:padding="18dp"
     android:layout_width="match_parent"
     android:id="@+id/id">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="e-mail"
-        android:id="@+id/tvEmail"/>
+        android:text="@string/Email_TextView"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etEmail"/>
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/etEmail"
+        android:layout_gravity="center_horizontal" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="password"
+        android:text="@string/Password_TextView"
         android:id="@+id/tvPassword"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etPassword"/>
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/etPassword" />
 
     <Button
         android:id="@+id/bLogin"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginBottom="16dp"
-        android:text="accedi"
+        android:text="@string/Login_Button"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:backgroundTint="@color/background"
@@ -39,16 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="Registrazione"
+        android:text="@string/Register_Button"
         android:id="@+id/tvRegister"
         />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Error"
-        android:id="@+id/bError"
-        android:layout_gravity="center_horizontal"
-        android:visibility="invisible" />
 
 </LinearLayout>

@@ -108,6 +108,5 @@ public class ListUser extends ArrayAdapter<User> {
         intent.putExtra("rate", user.getRate());
         intent.putExtra("status",user.isActive());
         intent.putExtra("description",user.getDescription());
-
     }
 }

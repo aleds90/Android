@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Il Mio Profilo"
+            android:text="@string/profile_title"
             android:textColor="@android:color/black"
             android:layout_gravity="center"
             android:textSize="30dp"/>
@@ -181,7 +181,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Seguaci: "
+                    android:text="@string/followers"
                     android:textColor="@android:color/black"
                     android:textSize="16dp"
                     android:layout_gravity="center"/>
@@ -204,7 +204,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Seguiti: "
+                    android:text="@string/followed"
                     android:textColor="@android:color/black"
                     android:textSize="16dp"
                     android:layout_gravity="center"/>
@@ -227,7 +227,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Feedback: "
+                    android:text="@string/feedback"
                     android:textColor="@android:color/black"
                     android:textSize="16dp"
                     android:layout_gravity="center"/>
@@ -329,7 +329,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Descrizione: "
+                        android:text="@string/description_profile"
                         android:textColor="@android:color/black"
                         android:textSize="16dp"
                         />
@@ -352,7 +352,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Annunci:        "
+                        android:text="@string/notice_profile"
                         android:textColor="@android:color/black"
                         android:textSize="16dp"/>
                     <EditText
@@ -383,7 +383,7 @@
         <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Modifica profilo"
+                android:text="@string/edit_profile_btn"
                 android:textColor="@android:color/white"
                 android:id="@+id/profile_update_btn"
                 android:backgroundTint="@color/background"/>
@@ -391,61 +391,64 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:text="Upload"
+            android:text="@string/change_avatar"
             android:backgroundTint="@color/background"
             android:id="@+id/profile_upload_btn"/>
         </LinearLayout>
-    <LinearLayout
-        android:background="#F4C430"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_height="64dp"
-        android:backgroundTint="@color/background"
-        android:gravity="bottom"
-        android:weightSum="1">
-
-        <ImageButton
-            android:layout_width="50dp"
+        <LinearLayout
+            android:background="#F4C430"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_gravity="bottom"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center"
-            android:id="@+id/profile_home_btn"
-            android:background="@drawable/homeb"
-            android:layout_margin="5dp"
-            android:padding="5dp"
-            android:layout_weight="0.25"/>
+            android:backgroundTint="@color/background">
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center"
-            android:id="@+id/profile_search_btn"
-            android:background="@drawable/search"
-            android:padding="5dp"
-            android:layout_margin="5dp"
-            android:layout_weight="0.25"/>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <ImageButton
+                    android:src="@drawable/ic_home_white_24dp_xhdpi"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginRight="8dp"
+                    android:background="?selectableItemBackground"
+                    android:id="@+id/home"/>
+                <ImageButton
+                    android:src="@drawable/ic_search_white_24dp_xhdpi"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="48dp"
+                    android:background="?selectableItemBackground"
+                    android:id="@+id/search" />
+                <ImageButton
+                    android:src="@drawable/ic_message_white_24dp_xhdpi"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="8dp"
+                    android:background="?selectableItemBackground"
+                    android:id="@+id/relation"/>
+                <ImageView
+                    android:id="@+id/messages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="25dp"
+                    android:src="@drawable/ic_filter_1_white_24dp"/>
+                <ImageButton
+                    android:src="@drawable/ic_person_white_24dp_xhdpi"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="18dp"
+                    android:background="?selectableItemBackground"
+                    android:id="@+id/profile" />
+            </android.support.v7.widget.Toolbar>
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center"
-            android:id="@+id/profile_follow_btn"
-
-            android:background="@drawable/follow"
-            android:padding="5dp"
-            android:layout_margin="5dp"
-            android:layout_weight="0.25"/>
-
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center"
-            android:id="@+id/profile_profile_btn"
-            android:layout_weight="0.25"
-            android:padding="5dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/profile" />
-    </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>
 

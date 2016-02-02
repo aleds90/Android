@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.example.alessandro.loginandroid"
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -36,6 +36,7 @@ dependencies {
     compile 'com.github.recruit-lifestyle:WaveSwipeRefreshLayout:1.4'
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
     compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.yalantis:flipviewpager:1.0.0'
 
 
 

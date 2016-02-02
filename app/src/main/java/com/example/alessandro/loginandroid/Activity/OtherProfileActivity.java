@@ -69,8 +69,10 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.other_profile_activity);
+
         Bundle bundle = getIntent().getExtras();
         target = getUserBybundle(bundle);
+
         fragmentManager = getSupportFragmentManager();
         initToolbar();
         initMenuFragment();
@@ -147,10 +149,9 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         Double rate = bundle.getDouble("rate");
         boolean active = bundle.getBoolean("status");
         String description = bundle.getString("description");
-        System.out.println("descrizione ");
-
+        int avatar  =bundle.getInt("avatar");
         User user = new User(id_user, name, cognome, email, "", bday, role, city, rate,
-                active, description);
+                active, description,avatar);
         return user;
     }
 

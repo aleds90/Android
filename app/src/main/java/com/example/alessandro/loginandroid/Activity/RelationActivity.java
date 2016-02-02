@@ -70,10 +70,10 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.relation_activity);
         createToolbar();
 
-        home = (ImageButton) findViewById(R.id.follow_home_btn);
-        search = (ImageButton) findViewById(R.id.follow_search_btn);
-        relation = (ImageButton) findViewById(R.id.follow_relation_btn);
-        profile = (ImageButton) findViewById(R.id.follow_profile_btn);
+        home = (ImageButton) findViewById(R.id.home);
+        search = (ImageButton) findViewById(R.id.search);
+        relation = (ImageButton) findViewById(R.id.relation);
+        profile = (ImageButton) findViewById(R.id.profile);
 
         home.setOnClickListener(this);
         search.setOnClickListener(this);
@@ -183,20 +183,20 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case (R.id.follow_home_btn):
+            case (R.id.home):
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
-            case (R.id.follow_search_btn):
+            case (R.id.search):
                 Intent intent1 = new Intent(this, SearchActivity.class);
                 startActivity(intent1);
 
                 break;
-            case (R.id.follow_relation_btn):
+            case (R.id.relation):
                 Intent intent2 = new Intent(this, RelationActivity.class);
                 startActivity(intent2);
                 break;
-            case (R.id.follow_profile_btn):
+            case (R.id.profile):
                 Intent intent3 = new Intent(this, ProfileActivity.class);
                 startActivity(intent3);
                 break;

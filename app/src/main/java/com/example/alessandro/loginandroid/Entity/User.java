@@ -1,7 +1,12 @@
 package com.example.alessandro.loginandroid.Entity;
 
 
+import com.example.alessandro.loginandroid.R;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /*
 e' la classe che ci permette di identificare lo user
  */
@@ -18,10 +23,12 @@ public class User implements Serializable{
     private double rate;
     private boolean active;
     private String description;
+    private List<String> interests = new ArrayList<>();
+    private int avatar;
 
     public User(int id_user, String name, String surname, String email, String password,
                 String bday, String role, String city, double rate, boolean active,
-                String description) {
+                String description,int avatar) {
         this.id_user = id_user;
         this.name = name;
         this.surname = surname;
@@ -33,9 +40,18 @@ public class User implements Serializable{
         this.rate = rate;
         this.active = active;
         this.description = description;
+        this.avatar = avatar;
     }
 
     public User(){}
+
+    public int getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(int avatar) {
+        this.avatar = avatar;
+    }
 
     public String getRole() {
         return role;
@@ -124,4 +140,40 @@ public class User implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public List<String> getInterests() {
+        interests.add(role);
+        interests.add(Double.toString(rate)+"€");
+        String status = new String();
+        if (isActive())
+            status = "Disponibile";
+        else status = "Non disponibile";
+        interests.add(city);
+        interests.add(status);
+        return interests;
+    }
+
+    public int getDrawableAvatar(int avatar){
+        if (avatar ==1)
+            return R.drawable.anastasia;
+        else if (avatar==2)
+            return R.drawable.daria;
+        else if (avatar==3)
+            return R.drawable.julia;
+        else if (avatar==4)
+            return R.drawable.irene;
+        else if (avatar==5)
+            return R.drawable.kate;
+        else if (avatar==6)
+            return R.drawable.kirill;
+        else if (avatar==7)
+            return R.drawable.paul;
+        else if (avatar==8)
+            return R.drawable.alessandro;
+        else
+            return R.drawable.yalantis;
+
+    }
+
+
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Login Android</string>
+    <string name="Login_Button">Anmeldung</string>
+    <string name="Register_Button">Aufzeichnung</string>
+    <string name="Register_page_title">Aufzeichnung</string>
+    <string name="Name_TextView">Name</string>
+    <string name="name_hint"> Ihr name</string>
+    <string name="surname_hint"> dein Familienname</string>
+    <string name="surname">Familienname</string>
+    <string name="birthday">Geburtstag</string>
+    <string name="password_hint">geben Sie eine Password ein</string>
+    <string name="role">Beruf</string>
+    <string name="role_hint">Wählen Sie Ihren Job</string>
+    <string name="rate">Preis</string>
+    <string name="rate_hint"> Ihre Standardsatz</string>
+    <string name="city">Stadt</string>
+    <string name="city_hint"> Kompetenzbereich</string>
+    <string name="register">Registrieren</string>
+    <string name="register_title">Registrieren Seite</string>
+    <string name="home">Home</string>
+    <string name="status_available">STATUS: Verfugbar</string>
+    <string name="status_not_available">STATUS: Nicht Verfugbar </string>
+    <string name="settings" translatable="false">EINSTELLUNGEN</string>
+    <string name="delete_account">KONTO LOSCHEN</string>
+    <string name="edit_profile">BENUTZERPRIFL ANDERN</string>
+    <string name="logout">LOG-OUT</string>
+    <string name="go_profile">GO TO PROFILE</string>
+    <string name="profile_title">mein Profil</string>
+    <string name="followers">Anhänger: </string>
+    <string name="followed">Gefolgt: </string>
+    <string name="description_profile">Beschreibung: </string>
+    <string name="notice_profile">Anzeigen: </string>
+    <string name="edit_profile_btn"> Profil bearbeiten</string>
+    <string name="change_avatar">Upload Avatar</string>
+    <string name="type_message_hint"> Typ Nachricht</string>
+    <string name="relations">Beziehungen</string>
+    <string name="contact">Kontakt</string>
+    <string name="message_btn">Nachricht</string>
+</resources>

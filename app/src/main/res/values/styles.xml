@@ -14,6 +14,14 @@
         <item name="android:layout_marginTop">@dimen/guillotine_small_margin</item>
     </style>
 
+    <style name="LinearLayout.InterestsTest">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
     <style name="TextView" />
 
     <style name="TextView.ToolbarTitle">
@@ -73,6 +81,21 @@
     <style name="TextView.Interest" parent="TextView">
         <item name="android:background">@drawable/round_textview</item>
         <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="TextView.interest1" parent="TextView">
+        <item name="android:background">@drawable/round_textview</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextView.InterestB" parent="TextView">
+        <item name="android:background">@drawable/round_textview</item>
+        <item name="android:layout_margin">10dp</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
     </style>

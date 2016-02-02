@@ -41,6 +41,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -87,7 +88,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         description_tv = (EditText) findViewById(R.id.profile_description_tv);
         notice_tv = (EditText) findViewById(R.id.profile_notice_tv);
         //lancio la task per prendere l ultimo annuncio scritto
-        new NoticeTask(user).execute();
+        //new NoticeTask(user).execute();
         //lancio task per conteggio dei feedback e followers
         new FeedBackTask(user).execute();
         //inizializza i textview
@@ -97,6 +98,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         createToolbar();
     }
 
+    /**
+     * Metodo che inizializza la toolbar superiore e tutti i suoi oggetti
+     */
     private void createToolbar() {
         root=(FrameLayout)findViewById(R.id.root);
         toolbar = (Toolbar)findViewById(R.id.toolbar_hamburger);
@@ -131,6 +135,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         delete.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                //// TODO: 28/01/2016 Abilitare il delete
                                 //new deleteTask(clientLocalStore.getUser()).execute();
                                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                 startActivity(intent);
@@ -145,29 +150,37 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 startActivity(intent);
                             }
                         });
+                        //EDIT BUTTON
+                        TextView edit = (TextView)findViewById(R.id.edit_textview);
+                        edit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+
                         //STATUS BUTTON
                         status = (TextView) findViewById(R.id.status_textview);
                         if (clientLocalStore.getUser().isActive()) {
-                            status.setText("STATUS: DISPONIBILE");
+                            status.setText(getResources().getString(R.string.status_available));
                         } else {
-                            status.setText("STATUS: NON DISPONIBILE");
+                            status.setText(getResources().getString(R.string.status_not_available));
                         }
                         status.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (status.getText().toString().equals("STATUS: DISPONIBILE")) {
-                                    status.setText("STATUS: NON DISPONIBILE");
+                                if (status.getText().equals(getResources().getString(R.string.status_available))) {
+                                    status.setText(getResources().getString(R.string.status_not_available));
                                     User user = clientLocalStore.getUser();
                                     user.setActive(false);
                                     new UpdateStatusTask(user).execute();
                                 } else {
-                                    status.setText("STATUS: DISPONIBILE");
+                                    status.setText(getResources().getString(R.string.status_available));
                                     User user = clientLocalStore.getUser();
                                     user.setActive(true);
                                     new UpdateStatusTask(user).execute();
                                 }
-                                //updateStatus();
-
                             }
                         });
 
@@ -184,10 +197,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setButtons() {
-        home    =(ImageButton)findViewById(R.id.profile_home_btn);
-        search  =(ImageButton)findViewById(R.id.profile_search_btn);
-        follow  =(ImageButton)findViewById(R.id.profile_follow_btn);
-        profile =(ImageButton)findViewById(R.id.profile_profile_btn);
+        home    =(ImageButton)findViewById(R.id.home);
+        search  =(ImageButton)findViewById(R.id.search);
+        follow  =(ImageButton)findViewById(R.id.relation);
+        profile =(ImageButton)findViewById(R.id.profile);
         update  =(Button)findViewById(R.id.profile_update_btn);
         cancel  =(Button)findViewById(R.id.profile_cancel_update_btn);
         imageprofile = (ImageView)findViewById(R.id.profile_imageprofile_iv);
@@ -220,7 +233,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         surname.setText(user.getSurname());
         role.setText(user.getRole());
         city.setText(user.getCity());
-        SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy", Locale.ITALY);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ITALY);
         try {
             Date date = format.parse(user.getBday());
             format.applyPattern(NEW_FORMAT);
@@ -241,20 +254,20 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case (R.id.profile_home_btn):
+            case (R.id.home):
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
-            case (R.id.profile_search_btn):
+            case (R.id.search):
                 Intent intent1 = new Intent(this, SearchActivity.class);
                 startActivity(intent1);
 
                 break;
-            case (R.id.profile_follow_btn):
+            case (R.id.relation):
                 Intent intent2 = new Intent(this, RelationActivity.class);
                 startActivity(intent2);
                 break;
-            case (R.id.profile_profile_btn):
+            case (R.id.profile):
                 Intent intent3 = new Intent(this, ProfileActivity.class);
                 startActivity(intent3);
                 break;
@@ -274,11 +287,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     user.setBday(clientLocalStore.getUser().getBday());
                     user.setCity(city.getText().toString());
                     user.setRate(Double.parseDouble(rate.getText().toString()));
-                    user.setEmail(email.getText().toString());
+                    user.setEmail(clientLocalStore.getUser().getEmail());
                     user.setRole(role.getText().toString());
                     user.setPassword(password.getText().toString());
                     user.setDescription(description_tv.getText().toString());
-                    user.setActive(true);
+                    user.setAvatar(clientLocalStore.getUser().getAvatar());
+                    user.setActive(clientLocalStore.getUser().isActive());
                     String notice = notice_tv.getText().toString();
                     new UpdateTask(user,notice).execute();
                     cancel.setLayoutParams(new LinearLayout.LayoutParams(1, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -396,20 +410,32 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         protected Void doInBackground(Void... params) {
             try {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/update");
+                HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/update_user");
 
                 List<NameValuePair> nameValuePairs = new ArrayList<>(9);
+                nameValuePairs.add(new BasicNameValuePair("id", Integer.toString(user.getId_user())));
 
-                nameValuePairs.add(new BasicNameValuePair("id_user", Integer.toString(user.getId_user())));
                 nameValuePairs.add(new BasicNameValuePair("name", user.getName()));
+
                 nameValuePairs.add(new BasicNameValuePair("surname", user.getSurname()));
+
                 nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
+
+                nameValuePairs.add(new BasicNameValuePair("password", user.getPassword()));
+
                 nameValuePairs.add(new BasicNameValuePair("role", user.getRole()));
+
                 nameValuePairs.add(new BasicNameValuePair("city", user.getCity()));
+
                 nameValuePairs.add(new BasicNameValuePair("rate", Double.toString(user.getRate())));
+
                 nameValuePairs.add(new BasicNameValuePair("description", user.getDescription()));
 
-                nameValuePairs.add(new BasicNameValuePair("notice",notice));
+                nameValuePairs.add(new BasicNameValuePair("bday", user.getBday()));
+
+                nameValuePairs.add(new BasicNameValuePair("avatar", Integer.toString(user.getAvatar())));
+
+                nameValuePairs.add(new BasicNameValuePair("active", Integer.toString(user.isActive() ? 1 : 0)));
 
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -426,36 +452,32 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             return null;
         }
     }
+    /**
+     * Classe che si occupa dell'Update dello status quando viene cambiato nella NavigationBar
+     */
     public class UpdateStatusTask extends AsyncTask<Void, Void, Void> {
-
         private User user;
 
         public UpdateStatusTask(User user) {
             this.user = user;
-
         }
-
         @Override
         protected void onPostExecute(Void aVoid) {
             clientLocalStore.updateUser(user);
         }
-
         @Override
         protected Void doInBackground(Void... params) {
             try {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/updateStatus");
-
+                HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/update_status");
                 List<NameValuePair> nameValuePairs = new ArrayList<>(2);
                 nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
-                nameValuePairs.add(new BasicNameValuePair("status", Boolean.toString(user.isActive())));
-
+                nameValuePairs.add(new BasicNameValuePair("active", Integer.toString(user.isActive()?1:0)));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse httpResponse = httpClient.execute(httpPost);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 String response = EntityUtils.toString(httpEntity);
                 System.out.println(response);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -505,7 +527,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public class FeedBackTask extends AsyncTask<Void, Void, Void> {
 
         private User user;
-        private JSONArray list;
+        private int feedbackCount;
+        private int followersCount;
+        private int followedCount;
+        private String noticeTxt;
+
 
         public FeedBackTask(User user) {
             this.user = user;
@@ -513,35 +539,32 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
-
-            try {
-                feedback.setText(Integer.toString(list.getInt(0)));
-                followers.setText(Integer.toString(list.getInt(1)));
-                followed.setText(Integer.toString(list.getInt(2)));
-            } catch (JSONException e) {
-                e.printStackTrace();
+            feedback.setText(Integer.toString(feedbackCount));
+            followers.setText(Integer.toString(followersCount));
+            followed.setText(Integer.toString(followedCount));
+            if (noticeTxt.equals(" ")){
+                notice_tv.setText("inserisci un annuncio per aiutare i clienti a conoscere le tue offerte");
+            }else {
+                notice_tv.setText(noticeTxt);
             }
+
         }
         @Override
         protected Void doInBackground(Void... params) {
             try {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/countFeedback");
-
+                HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/get_counters");
                 List<NameValuePair> nameValuePairs = new ArrayList<>(1);
-                nameValuePairs.add(new BasicNameValuePair("user_email", user.getEmail()));
-
+                nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
                 HttpResponse httpResponse = httpClient.execute(httpPost);
-
                 HttpEntity httpEntity = httpResponse.getEntity();
-
-                String response = EntityUtils.toString(httpEntity);
-                System.out.println(response);
-                list = new JSONArray(response);
-
+                String json = EntityUtils.toString(httpEntity);
+                JSONObject jsonObject= new JSONObject(json);
+                feedbackCount = jsonObject.getInt("feedbacks");
+                followersCount = jsonObject.getInt("followers");
+                followedCount = jsonObject.getInt("followed");
+                noticeTxt = jsonObject.getString("notice");
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {

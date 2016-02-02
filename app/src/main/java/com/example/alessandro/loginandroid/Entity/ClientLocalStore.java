@@ -39,6 +39,7 @@ public class ClientLocalStore {
         editor.putFloat("rate", (float) user.getRate());
         editor.putBoolean("active", user.isActive());
         editor.putString("description", user.getDescription());
+        editor.putInt("avatar", user.getAvatar());
 
         editor.commit();
 
@@ -58,21 +59,22 @@ public class ClientLocalStore {
     }
 
     public User getUser(){
-        int id_user = clientLocalDB.getInt("id_user", 0);
-        String email = clientLocalDB.getString("email", "");
+        int id_user     = clientLocalDB.getInt("id_user", 0);
+        String email    = clientLocalDB.getString("email", "");
         String password = clientLocalDB.getString("password", "");
-        String name = clientLocalDB.getString("name", "");
-        String surname = clientLocalDB.getString("surname", "");
-        String city = clientLocalDB.getString("city", "");
-        String role = clientLocalDB.getString("role", "");
-        String bday = clientLocalDB.getString("bday", "");
-        double rate = (double)clientLocalDB.getFloat("rate", 0f);
+        String name     = clientLocalDB.getString("name", "");
+        String surname  = clientLocalDB.getString("surname", "");
+        String city     = clientLocalDB.getString("city", "");
+        String role     = clientLocalDB.getString("role", "");
+        String bday     = clientLocalDB.getString("bday", "");
+        double rate     =(double)clientLocalDB.getFloat("rate", 0f);
+        int avatar      = clientLocalDB.getInt("avatar",1);
 
         boolean active = clientLocalDB.getBoolean("active", true);
         String description = clientLocalDB.getString("description", "insert description");
 
         User user = new User(id_user, name, surname, email, password, bday, role, city, rate,
-                active, description);
+                active, description, avatar);
 
         return user;
     }
@@ -101,7 +103,7 @@ public class ClientLocalStore {
         editor.putFloat("rate", (float) user.getRate());
         editor.putBoolean("active", user.isActive());
         editor.putString("description", user.getDescription());
-
+        editor.putInt("avatar", user.getAvatar());
         editor.commit();
     }
 

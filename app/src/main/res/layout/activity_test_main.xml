@@ -6,7 +6,8 @@
     android:weightSum="1"
     android:background="@android:color/white"
     android:backgroundTint="@android:color/primary_text_light"
-    android:id="@+id/root">
+    android:id="@+id/root"
+    >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -26,10 +27,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Home"
+                android:text="@string/home"
                 android:textColor="@android:color/white"
                 android:layout_gravity="center"
-                android:textSize="30dp"/>
+                android:textSize="30dp"
+                android:textStyle="bold"/>
 
         </android.support.v7.widget.Toolbar>
 
@@ -50,7 +52,8 @@
             android:layout_height="match_parent"
             android:id="@+id/listViewUSERLIST"
             android:layout_gravity="center_vertical"
-            android:listSelector="@drawable/list_selector"/>
+            android:listSelector="@drawable/list_selector"
+          />
 
         </jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout>
     </LinearLayout>
@@ -61,52 +64,54 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         android:backgroundTint="@color/background">
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/buttonHOME"
-            android:layout_weight="0.25"
-            android:background="@drawable/homeb"
-            android:layout_margin="5dp"
-            android:padding="5dp" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_bottom"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonSEARCH"
-            android:layout_weight="0.25"
-            android:background="@drawable/search"
-            android:padding="5dp"
-            android:layout_margin="5dp" />
+            >
+            <ImageButton
+                android:src="@drawable/ic_home_white_24dp_xhdpi"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginRight="8dp"
+                android:background="?selectableItemBackground"
+                android:id="@+id/home"/>
+            <ImageButton
+                android:src="@drawable/ic_search_white_24dp_xhdpi"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="48dp"
+                android:background="?selectableItemBackground"
+                android:id="@+id/search" />
+            <ImageButton
+                android:src="@drawable/ic_message_white_24dp_xhdpi"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="8dp"
+                android:background="?selectableItemBackground"
+                android:id="@+id/relation"/>
+            <ImageView
+                android:id="@+id/messages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="25dp"
+                android:src="@drawable/ic_filter_1_white_24dp"/>
+            <ImageButton
+                android:src="@drawable/ic_person_white_24dp_xhdpi"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="18dp"
+                android:background="?selectableItemBackground"
+                android:id="@+id/profile" />
+        </android.support.v7.widget.Toolbar>
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/buttonFOLLOW"
-            android:layout_weight="0.25"
-            android:background="@drawable/follow"
-            android:padding="5dp"
-            android:layout_margin="5dp" />
-        <TextView
-            android:id="@+id/main_messages_tv"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:textColor="@android:color/holo_red_dark"
-            android:visibility="gone"
-            android:textStyle="bold"
-            />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/buttonPROFILE"
-            android:layout_weight="0.25"
-            android:padding="5dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/profile" />
     </LinearLayout>
     </LinearLayout>
 

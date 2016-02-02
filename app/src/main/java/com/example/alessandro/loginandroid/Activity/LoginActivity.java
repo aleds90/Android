@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * e' la classe che si occupa di gestire l'interfaccia per effettuare un login.
+ * classe che si occupa di gestire l'interfaccia per effettuare un login.
  */
 public class LoginActivity extends Activity implements View.OnClickListener {
 
@@ -40,15 +40,19 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     TextView tvRegister; //bottone che manda all'interfaccia di registrazione
     ClientLocalStore clientLocalStore; //db provvisorio per raccogliere i dati della session
 
-
-    /**
-     *Definisco come un activity viene creata
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         clientLocalStore = new ClientLocalStore(this);
+        createView();
+
+    }
+
+    /**
+     * Metodo per settare tutte le view presenti nella Login Activity
+     */
+    private void createView() {
         //creo collegamento tra le componenti la classe e activity_login.xml
         etEmail = (EditText)findViewById(R.id.etEmail);
         etPassword = (EditText)findViewById(R.id.etPassword);
@@ -70,7 +74,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 User user = new User();
                 user.setEmail(etEmail.getText().toString());
                 user.setPassword(etPassword.getText().toString());
-                Client client = new Client("ciao", "ciao", "Password");
+                Client client = new Client("Ciao", "Ciao", "Password");
                 login(client, user);
                 break;
             //il tvRegister invia l'utente all'interfaccia per la registrazione
@@ -87,8 +91,4 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void login(Client client, User user){
         new ToServerTasks.LoginTask(client, user, clientLocalStore,this).execute();
     }
-    /**
-     * classe Task che in Background manda un post ad /authotization
-     */
-
 }

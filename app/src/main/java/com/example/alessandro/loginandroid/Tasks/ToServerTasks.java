@@ -69,7 +69,7 @@ public class ToServerTasks {
 
                 HttpClient httpclient = new DefaultHttpClient();
                 // sito a cui fare il post
-                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/authorization");
+                HttpPost httppost = new HttpPost("http://njsao.pythonanywhere.com/login");
                 // Lista dei valori che mandiamo
                 List<NameValuePair> nameValuePairs = new ArrayList<>(5);
                 // Valori:

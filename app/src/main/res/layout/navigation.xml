@@ -22,28 +22,27 @@
         style="@style/LinearLayout.GuillotineItem"
         android:layout_marginTop="@dimen/guillotine_medium_margin"
         android:gravity="center_horizontal">
-
         <TextView
-            android:id="@+id/setting_textview"
+            android:id="@+id/status_textview"
             style="@style/TextView.GuillotineItem.Selected"
             android:textColor="@android:color/white"
-            android:text="SETTINGS" />
+            android:text="@string/status_available"
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content" />
+
+
     </LinearLayout>
     <LinearLayout
         android:id="@+id/tests"
         style="@style/LinearLayout.GuillotineItem"
         android:layout_marginTop="@dimen/guillotine_medium_margin"
         android:gravity="center_horizontal">
-
-
-
         <TextView
-            android:id="@+id/status_textview"
+            android:id="@+id/setting_textview"
             style="@style/TextView.GuillotineItem.Selected"
             android:textColor="@android:color/white"
-            android:text="STATUS: DISPONIBILE"
-            android:layout_gravity="bottom"
-            android:layout_width="wrap_content" />
+            android:text="@string/settings" />
+
     </LinearLayout>
     <LinearLayout
         style="@style/LinearLayout.GuillotineItem"
@@ -54,8 +53,21 @@
             android:id="@+id/logout_textview"
             style="@style/TextView.GuillotineItem.Selected"
             android:textColor="@android:color/white"
-            android:text="LOGOUT" />
+            android:text="@string/logout" />
     </LinearLayout>
+    <LinearLayout
+
+        style="@style/LinearLayout.GuillotineItem"
+        android:layout_marginTop="@dimen/guillotine_medium_margin"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/edit_textview"
+            style="@style/TextView.GuillotineItem.Selected"
+            android:textColor="@android:color/white"
+            android:text="@string/edit_profile" />
+    </LinearLayout>
+
     <LinearLayout
 
         style="@style/LinearLayout.GuillotineItem"
@@ -66,7 +78,7 @@
             android:id="@+id/delete_textview"
             style="@style/TextView.GuillotineItem.Selected"
             android:textColor="@android:color/white"
-            android:text="DELETE" />
+            android:text="@string/delete_account" />
     </LinearLayout>
 
 

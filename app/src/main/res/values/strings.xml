@@ -1,43 +1,42 @@
 <resources>
     <string name="app_name">Login Android</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_login">Login</string>
-    <string name="title_activity_register">Register</string>
-    <string name="title_activity_test">Test</string>
+    <string name="hello_world" translatable="false">Hello world!</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="title_activity_login" translatable="false">Login</string>
+    <string name="title_activity_register" translatable="false">Register</string>
+    <string name="title_activity_test" translatable="false">Test</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_research">ResearchActivity</string>
-    <string name="title_activity_follow">FollowActivity</string>
-    <string name="title_activity_my_profile">MyProfileActivity</string>
-    <string name="title_activity_message">MessageActivity</string>
-    <string name="title_activity_test_main">testMainActivity</string>
-    <string name="title_activity_test_search">testSearchActivity</string>
-    <string name="title_activity_test_follow">testFollowActivity</string>
-    <string name="title_activity_test_profile">testProfileActivity</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="title_activity_research" translatable="false">ResearchActivity</string>
+    <string name="title_activity_follow" translatable="false">FollowActivity</string>
+    <string name="title_activity_my_profile" translatable="false">MyProfileActivity</string>
+    <string name="title_activity_message" translatable="false">MessageActivity</string>
+    <string name="title_activity_test_main" translatable="false">testMainActivity</string>
+    <string name="title_activity_test_search" translatable="false">testSearchActivity</string>
+    <string name="title_activity_test_follow" translatable="false">testFollowActivity</string>
+    <string name="title_activity_test_profile" translatable="false">testProfileActivity</string>
 
-    <string name="message"><u><b><i>Type message</i></b></u></string>
-    <string name="sendMessage">Send Message</string>
-    <string name="follow">Follow</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="context_menu">Context menu</string>
+    <string name="message" translatable="false"><u><b><i>Type message</i></b></u></string>
+    <string name="sendMessage" translatable="false">Send Message</string>
+    <string name="follow" translatable="false">Follow</string>
+    <string name="title_activity_main" translatable="false">MainActivity</string>
+    <string name="context_menu" translatable="false">Context menu</string>
     <string name="settings">SETTINGS</string>
 
 
-    <string name="dummy_email">jondoe@gmail.com</string>
-    <string name="dummy_password">123456789</string>
-    <string name="Sign_in">Sign in</string>
-    <string name="Success">Success</string>
-    <string name="Loading">Loading..</string>
-    <string name="Question">How are you?</string>
-    <string name="Send">Send</string>
-    <string name="Done">Done</string>
-    <string name="Upload">Upload</string>
-    <string name="Beautiful_Picture">Beautiful Picture</string>
-    <string name="Uploading">Uploading</string>
-    <string name="Loading_Complete">Loading Complete, button is disabled</string>
+    <string name="dummy_email" translatable="false">jondoe@gmail.com</string>
+    <string name="dummy_password" translatable="false">123456789</string>
+    <string name="Sign_in" translatable="false">Sign in</string>
+    <string name="Success" translatable="false">Success</string>
+    <string name="Loading" translatable="false">Loading..</string>
+    <string name="Question" translatable="false">How are you?</string>
+    <string name="Send" translatable="false">Send</string>
+    <string name="Done" translatable="false">Done</string>
+    <string name="Upload" translatable="false">Upload</string>
+    <string name="Beautiful_Picture" translatable="false">Beautiful Picture</string>
+    <string name="Uploading" translatable="false">Uploading</string>
+    <string name="Loading_Complete" translatable="false">Loading Complete, button is disabled</string>
 
     <array name="sample_list">
         <item>Action Button Progress sample</item>
@@ -46,11 +45,11 @@
         <item>Generate Button Progress sample</item>
         <item>Button State sample</item>
     </array>
-    <string name="title_activity_test_main2">testMainActivity2</string>
-    <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_test_main2" translatable="false">testMainActivity2</string>
+    <string name="title_activity_setting" translatable="false">SettingActivity</string>
 
     <string-array name="roles">
-        <item>Scegli la tua professione!</item>
+        <item>@string/role_hint</item>
         <item>Animatore</item>
         <item>Autore</item>
         <item>Attore</item>
@@ -152,4 +151,45 @@
 
     </string-array>
 
+    <string name="Email_TextView" translatable="false">Email</string>
+    <string name="Password_TextView" translatable="false">Password</string>
+    <string name="Login_Button">Log-in</string>
+    <string name="Register_Button">Register</string>
+    <string name="Register_page_title">Register Page</string>
+    <string name="Name_TextView">Name</string>
+    <string name="Email_hint" translatable="false">abcefg@hil.mno</string>
+    <string name="bday_hint" translatable="false">2000-31-12</string>
+    <string name="name_hint">Your name</string>
+    <string name="surname_hint">Your surname</string>
+    <string name="surname">Surname</string>
+    <string name="birthday">Birthday</string>
+    <string name="password_hint">Digit password</string>
+    <string name="role">Profession</string>
+    <string name="role_hint">Choose Your Job</string>
+    <string name="rate">Rate</string>
+    <string name="rate_hint">Your standard rate</string>
+    <string name="city">City</string>
+    <string name="city_hint">Area of competence</string>
+    <string name="menu" translatable="false">menu</string>
+    <string name="register">register</string>
+    <string name="register_title">Register Page</string>
+    <string name="home">Home</string>
+    <string name="status_available">STATUS: Available</string>
+    <string name="status_not_available">STATUS: Not Available</string>
+    <string name="delete_account">DELETE ACCOUNT</string>
+    <string name="edit_profile">EDIT PROFILE</string>
+    <string name="logout">LOG-OUT</string>
+    <string name="go_profile">GO TO PROFILE</string>
+    <string name="profile_title">My Profile</string>
+    <string name="followers">Followers: </string>
+    <string name="followed">Followed: </string>
+    <string name="feedback" translatable="false">Feedback: </string>
+    <string name="description_profile">Description:</string>
+    <string name="notice_profile">Notice:</string>
+    <string name="edit_profile_btn">Edit Profile</string>
+    <string name="change_avatar">Upload Avatar</string>
+    <string name="type_message_hint">Type message</string>
+    <string name="relations">Relations</string>
+    <string name="contact">Contact</string>
+    <string name="message_btn">Message</string>
 </resources>

@@ -105,11 +105,11 @@
                 android:id="@+id/searchListViewLayout"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="220dp">
+                android:layout_height="253dp">
 
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="255dp"
                 android:id="@+id/search_resultlist_lv" />
             </LinearLayout>
 
@@ -117,45 +117,55 @@
                 android:background="#F4C430"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
                 android:layout_gravity="bottom"
+                android:layout_height="wrap_content"
                 android:backgroundTint="@color/background">
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:id="@+id/search_home_btn"
-                    android:layout_weight="0.25"
-                    android:background="@drawable/homeb"
-                    android:layout_margin="5dp"
-                    android:padding="5dp" />
-
-                <ImageButton
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar_bottom"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/search_search_btn"
-                    android:layout_weight="0.25"
-                    android:background="@drawable/search"
-                    android:padding="5dp"
-                    android:layout_margin="5dp" />
+                    >
+                    <ImageButton
+                        android:src="@drawable/ic_home_white_24dp_xhdpi"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginRight="8dp"
+                        android:background="?selectableItemBackground"
+                        android:id="@+id/home"/>
+                    <ImageButton
+                        android:src="@drawable/ic_search_white_24dp_xhdpi"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="48dp"
+                        android:background="?selectableItemBackground"
+                        android:id="@+id/search" />
+                    <ImageButton
+                        android:src="@drawable/ic_message_white_24dp_xhdpi"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="8dp"
+                        android:background="?selectableItemBackground"
+                        android:id="@+id/relation"/>
+                    <ImageView
+                        android:id="@+id/messages"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="25dp"
+                        android:src="@drawable/ic_filter_1_white_24dp"/>
+                    <ImageButton
+                        android:src="@drawable/ic_person_white_24dp_xhdpi"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="end"
+                        android:layout_marginRight="18dp"
+                        android:background="?selectableItemBackground"
+                        android:id="@+id/profile" />
+                </android.support.v7.widget.Toolbar>
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:id="@+id/search_relation_btn"
-                    android:layout_weight="0.25"
-                    android:background="@drawable/follow"
-                    android:padding="5dp"
-                    android:layout_margin="5dp" />
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:id="@+id/search_profile_btn"
-                    android:layout_weight="0.25"
-                    android:padding="5dp"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/profile" />
             </LinearLayout>
 
 </LinearLayout>
