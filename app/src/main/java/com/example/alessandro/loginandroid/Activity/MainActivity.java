@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         createViews();
         createToolbar();
         clientLocalStore = new ClientLocalStore(this);
+
+        System.out.println(clientLocalStore.getClient().getAccessToken());
+        System.out.println(clientLocalStore.getClient().getRefreshToken());
         new UserListTask(clientLocalStore.getUser()).execute();
         mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) findViewById(R.id.main_swipe);
         mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
@@ -228,14 +231,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
+
+
         //in particolare controlliamo se non abbiamo token veniamo indirizzati direttamente alla activity di login
         if (clientLocalStore.getClient().getRefreshToken().equals("")) {
+            System.out.println("stampa sono nell if");
+            System.out.println(clientLocalStore.getClient().getRefreshToken());
+            System.out.println(clientLocalStore);
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
 
         }
         // se abbiamo il token proviamo ad effettuare il login tramite refresh
         else {
+            System.out.println("stampa sono nell else");
             Client client = clientLocalStore.getClient();
             client.setGRANT_TYPES("Refresh");
             User user = clientLocalStore.getUser();
@@ -389,12 +398,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (responseServer.getType()) {
             //case 4, login tramite refresh andato a buon fine. otteniamo due token nuovi che salviamo nel local store
             case "4":
+                System.out.println("stampa 4");
+
                 User user = clientLocalStore.getUser();
                 Client client = new Client(responseServer.getAccess_Token(), responseServer.getRefresh_Token(), "");
                 clientLocalStore.storeClientData(client, user);
+                System.out.println(clientLocalStore.getClient().getRefreshToken());
+                System.out.println(clientLocalStore.getClient().getAccessToken());
+
                 break;
             //login tramite refresh non andato a buon fine. Veniamo reinderizzati nella pagina di login
             case "401":
+                System.out.println("stampa 401");
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 break;
@@ -460,9 +475,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 holder.infoPage     = getLayoutInflater().inflate(R.layout.friends_info, parent, false);
                 holder.nickName     = (TextView) holder.infoPage.findViewById(R.id.nickname);
                 holder.surname      = (TextView)holder.infoPage.findViewById(R.id.surname);
-
-
-
 
                 for (int id : IDS_INTEREST)
                     holder.interests.add((TextView) holder.infoPage.findViewById(id));

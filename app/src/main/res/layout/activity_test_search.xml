@@ -24,14 +24,16 @@
                 <ImageView
                     android:id="@+id/content_hamburger"
                     style="@style/ImageView.Hamburger"
-                    android:src="@drawable/ic_menu_black"/>
+                    android:src="@drawable/ic_menu"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ricerca"
-                    android:textColor="@android:color/black"
+                    android:text="@string/search_title"
+                    android:textColor="@android:color/white"
                     android:layout_gravity="center"
-                    android:textSize="30dp"/>
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    />
 
             </android.support.v7.widget.Toolbar>
 
@@ -46,18 +48,18 @@
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Find by name"
+            android:hint="@string/name_search_hint"
             android:id="@+id/search_namefilter_actv"
             />
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Find by Role"
+            android:hint="@string/role_search_hint"
             android:id="@+id/search_rolefilter_actv"/>
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Find by City"
+            android:hint="@string/city_search_hint"
             android:id="@+id/search_cityfilter_actv"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,31 +87,25 @@
                 android:id="@+id/search_ratefilter_sb"/>
         </LinearLayout>
     </LinearLayout>
-
-            <LinearLayout
+            <Button
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="56.10">
-                <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="AVVIA RICERCA"
+                android:layout_height="60dp"
+                android:text="@string/start_research"
                 android:id="@+id/search_startsearch_btn"
                 android:layout_gravity="center_horizontal"
-                    android:textColor="@android:color/white"
-                    android:backgroundTint="@color/background"/>
-            </LinearLayout>
+                android:textColor="@android:color/white"
+                android:backgroundTint="@color/background"/>
+
 
             <LinearLayout
                 android:id="@+id/searchListViewLayout"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="253dp">
+                android:layout_height="239dp">
 
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="255dp"
+                android:layout_height="243dp"
                 android:id="@+id/search_resultlist_lv" />
             </LinearLayout>
 

@@ -10,21 +10,23 @@
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".Activity.LoginActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>/>
         </activity>
         <activity
             android:name=".Activity.RegisterActivity"
             android:label="@string/title_activity_register" />
 
-        <activity android:name=".Activity.MainActivity"/>
+        <activity android:name=".Activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>/>
+        </activity>
         <activity android:name=".Activity.OtherProfileActivity" />
         <activity
             android:name=".Activity.SearchActivity"
-            android:label="@string/title_activity_test_search" />
+            android:label="@string/title_activity_test_search"
+            android:windowSoftInputMode="stateHidden"/>
 
         <activity
             android:name=".Activity.RelationActivity"

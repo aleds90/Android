@@ -37,4 +37,9 @@
     <string name="relations">Beziehungen</string>
     <string name="contact">Kontakt</string>
     <string name="message_btn">Nachricht</string>
+    <string name="search_title">Search</string>
+    <string name="name_search_hint">Find by name</string>
+    <string name="city_search_hint">Find by city</string>
+    <string name="role_search_hint">Find by role</string>
+    <string name="start_research">Start Research</string>
 </resources>

@@ -196,12 +196,9 @@
                     android:focusableInTouchMode="false"
                     android:clickable="false"
                     android:background="@android:color/transparent"/>
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="        "
-                    android:layout_gravity="center"/>
-                <TextView
+                    android:paddingLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/followed"
@@ -219,12 +216,9 @@
                     android:focusableInTouchMode="false"
                     android:clickable="false"
                     android:background="@android:color/transparent"/>
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="        "
-                    android:layout_gravity="center"/>
-                <TextView
+                    android:paddingLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/feedback"

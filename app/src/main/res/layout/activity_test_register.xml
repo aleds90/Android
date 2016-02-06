@@ -21,11 +21,12 @@
         />
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="0.25">
 
 
         <TableRow
+            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -46,6 +47,7 @@
         </TableRow>
 
         <TableRow
+            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -66,13 +68,10 @@
                 android:hint="@string/password_hint"/>
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-        </TableRow>
 
         <TableRow
+            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -94,6 +93,7 @@
         </TableRow>
 
         <TableRow
+            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -114,13 +114,9 @@
                 android:hint="@string/surname_hint"/>
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </TableRow>
 
         <TableRow
+            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -141,6 +137,7 @@
         </TableRow>
 
         <TableRow
+            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -162,6 +159,7 @@
         </TableRow>
 
         <TableRow
+            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -183,6 +181,7 @@
         </TableRow>
 
         <TableRow
+            android:paddingBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -206,13 +205,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="0.75"
         android:orientation="horizontal"
         >
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/menu"
             android:id="@+id/register_menu"
@@ -225,7 +224,7 @@
             />
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/register"
             android:id="@+id/register_register"

@@ -163,7 +163,6 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
                                     user.setActive(true);
                                     new UpdateStatusTask(user).execute();
                                 }
-                                //updateStatus();
 
                             }
                         });

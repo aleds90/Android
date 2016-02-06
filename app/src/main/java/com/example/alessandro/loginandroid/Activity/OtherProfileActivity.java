@@ -82,7 +82,7 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         new CheckFollowTask(user,target).execute();
         new CheckFeedbackTask(user,target).execute();
         new FeedBackTask(target).execute();
-        new NoticeTask(target).execute();
+        //new NoticeTask(target).execute();
     }
 
     public void setAllTextView(){
@@ -100,7 +100,7 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
 
         //TEXTVIEW SETTINGS
         textViewName.setText(target.getName()+" "+target.getSurname());
-        SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy", Locale.ITALY);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ITALY);
         try {
             Date date = format.parse(target.getBday());
             format.applyPattern(NEW_FORMAT);
@@ -220,7 +220,8 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
         mToolBarTextView.setText(target.getName());
