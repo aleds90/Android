@@ -51,102 +51,39 @@
     <string-array name="roles">
         <item>@string/role_hint</item>
         <item>Animatore</item>
-        <item>Autore</item>
-        <item>Attore</item>
-        <item>Allevatore</item>
-        <item>Architetto</item>
-        <item>Agricoltore</item>
-        <item>Artista</item>
-        <item>Assistente Sociale</item>
-        <item>Acrobata</item>
-        <item>Agente</item>
-        <item>Antiquario</item>
         <item>Barista</item>
         <item>Barman</item>
         <item>Barbiere</item>
-        <item>Ballerino</item>
         <item>Baby sitter</item>
-        <item>Botanico</item>
-        <item>Biologo</item>
-        <item>Calzolaio</item>
         <item>Cameriere</item>
-        <item>Ceramista</item>
-        <item>Carpentiere edile</item>
         <item>Conducente</item>
-        <item>Cuoco</item>
-        <item>Danzatore</item>
-        <item>Decoratore</item>
+        <item>Cuoco</item>>
         <item>Designer</item>
         <item>Dietista</item>
-        <item>Dentista</item>
-        <item>Dirigente sportivo</item>
-        <item>Docente</item>
         <item>Elettricista</item>
-        <item>Erborista</item>
         <item>Estetista</item>
-        <item>Falegname</item>
         <item>Fisioterapista</item>
-        <item>Fonico</item>
         <item>Fotografo</item>
-        <item>Fotoreporter</item>
         <item>Grafico pubblicitario</item>
-        <item>Gruista</item>
         <item>Guardia del corpo</item>
-        <item>Guida alpina</item>
+        <item>Guida</item>
         <item>Giardiniere</item>
-        <item>Hostess</item>
         <item>Idraulico</item>
-        <item>Igienista</item>
-        <item>Impiantista termoidraulico</item>
         <item>Infermiere</item>
-        <item>Lettore</item>
-        <item>Logopedista</item>
-        <item>Macchinista</item>
-        <item>Maestro di fitness</item>
-        <item>Marmista</item>
         <item>Maestro di sci</item>
-        <item>Media planner</item>
-        <item>Magazziniere</item>
-        <item>Mediatore culturale</item>
-        <item>Medico sportivo</item>
-        <item>Macchinista</item>
-        <item>Mobiliere</item>
-        <item>Modellista</item>
         <item>Muratore</item>
         <item>Nutrizionista</item>
         <item>Nutrizionista animale</item>
-        <item>Operaio qualificato</item>
-        <item>Orafo</item>
-        <item>Orologiaio</item>
-        <item>Operatore di call center</item>
-        <item>Organizzatore di eventi culturali</item>
         <item>Preparatore sportivo</item>
         <item>Parrucchiere</item>
         <item>Procuratore sportivo</item>
         <item>Pasticciere</item>
-        <item>Perito</item>
         <item>Personal Trainer</item>
-        <item>Progettista impianti elettrici</item>
         <item>Programmatore</item>
-        <item>Promoter turistico</item>
-        <item>Rappresentante di vendita</item>
-        <item>Regista</item>
-        <item>Redattore editoriale</item>
-        <item>Saldatore</item>
-        <item>Skipper</item>
-        <item>Sound editor</item>
-        <item>Scultore</item>
-        <item>Specialista in animali da allevamento</item>
-        <item>Stilista</item>
-        <item>Storico dell arte</item>
-        <item>Tappezziere</item>
-        <item>Tartufaio</item>
         <item>Tassista</item>
         <item>Tutor per ripetizioni</item>
-        <item>Vetrinista</item>
         <item>Verniciatore</item>
         <item>Veterinario</item>
-        <item>Vetraio</item>
         <item>Altro</item>
 
     </string-array>
@@ -181,10 +118,10 @@
     <string name="logout">LOG-OUT</string>
     <string name="go_profile">GO TO PROFILE</string>
     <string name="profile_title">My Profile</string>
-    <string name="followers">Followers: </string>
-    <string name="followed">Followed: </string>
-    <string name="feedback" translatable="false">Feedback: </string>
-    <string name="description_profile">Description:</string>
+    <string name="followers">Followers</string>
+    <string name="followed">Followed</string>
+    <string name="feedback" translatable="false">Feedback</string>
+    <string name="description_profile">Description</string>
     <string name="notice_profile">Notice:</string>
     <string name="edit_profile_btn">Edit Profile</string>
     <string name="change_avatar">Upload Avatar</string>
@@ -198,4 +135,11 @@
     <string name="role_search_hint">Find by role</string>
     <string name="max" translatable="false">Max:</string>
     <string name="start_research">Start Research</string>
+    <string name="price_range">Rate</string>
+    <string name="available">Available</string>
+    <string name="not_available">Not Available</string>
+    <string name="offers"><![CDATA[Offers & Ads]]></string>
+    <string name="send_message">Send Message</string>
+    <string name="block_profile">Block Profile</string>
+    <string name="follow_profile">Follow Profile</string>
 </resources>

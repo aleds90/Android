@@ -115,23 +115,13 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         textViewRole.setText(target.getRole());
         textViewCity.setText(target.getCity());
         //RATE TEXTVIEW
-        if (target.getRate()<=50) {
-            textViewRate.setText("(bassa)");
-            textViewRate.setTextColor(Color.parseColor("#ff00ff00"));
-        }else if(target.getRate()>50&&target.getRate()<100){
-            textViewRate.setText("(media)");
-            textViewRate.setTextColor(Color.parseColor("#ff0000ff"));
-        }else{
-            textViewRate.setText("(alta)");
-            textViewRate.setTextColor(Color.parseColor("#ffff0000"));
-        }
+        textViewRate.setText("(" + target.getRate() + ")");
         //STATUS TEXTVIEW
-        System.out.println(target.isActive()+" ciao");
-        if (target.isActive()){
-            textViewStatus.setText("Disponibile");
+            if (target.isActive()){
+            textViewStatus.setText(getResources().getText(R.string.available));
             textViewStatus.setTextColor(Color.parseColor("#ff00ff00"));
         }else {
-            textViewStatus.setText("Non Disponibile");
+            textViewStatus.setText(getResources().getText(R.string.not_available));
             textViewStatus.setTextColor(Color.parseColor("#ffff0000"));
         }
         description.setText(target.getDescription());
@@ -187,17 +177,17 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         MenuObject close = new MenuObject();
         close.setResource(R.drawable.icn_close);
 
-        MenuObject send = new MenuObject("Invia messaggio");
+        MenuObject send = new MenuObject(getResources().getString(R.string.send_message));
         send.setResource(R.drawable.icn_1);
 
-        like = new MenuObject("Lascia feedback");
+        like = new MenuObject(getResources().getString(R.string.feedback));
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.icn_2);
         like.setBitmap(b);
 
-        addFav = new MenuObject("Segui profilo");
+        addFav = new MenuObject(getResources().getString(R.string.follow_profile));
         addFav.setResource(R.drawable.icn_4);
 
-        MenuObject block = new MenuObject("Blocca profilo");
+        MenuObject block = new MenuObject(getResources().getString(R.string.block_profile));
         block.setResource(R.drawable.icn_5);
 
         menuObjects.add(close);
@@ -220,8 +210,7 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
         mToolBarTextView.setText(target.getName());

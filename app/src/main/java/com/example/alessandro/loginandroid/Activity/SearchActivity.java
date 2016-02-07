@@ -83,9 +83,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         setTextView();
         createToolbar();
-
         //setta le liste
-
         new UserListTask(clientLocalStore.getUser()).execute();
         //per rimuovere i valore che sono doppi
 

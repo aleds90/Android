@@ -46,15 +46,10 @@ public class MessageActivity extends Activity {
     private ArrayList<Message> messages;
     String userName;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.message_activity);
-
-
 
         messagelist = (ListView)findViewById(R.id.message_messagelist_lv);
         text = (EditText)findViewById(R.id.message_text_et);

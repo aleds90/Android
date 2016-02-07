@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ClientLocalStore clientLocalStore;
     ArrayList<User> users;
     ImageView hamburger, messages;
-    ListUser adapter;
     WaveSwipeRefreshLayout mWaveSwipeRefreshLayout;
     TextView logout,delete,settings,status;
 
@@ -74,9 +73,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         createToolbar();
         clientLocalStore = new ClientLocalStore(this);
 
-        System.out.println(clientLocalStore.getClient().getAccessToken());
-        System.out.println(clientLocalStore.getClient().getRefreshToken());
+        String email = clientLocalStore.getUser().getEmail();
+        System.out.println("email: "+email);
         new UserListTask(clientLocalStore.getUser()).execute();
+
         mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) findViewById(R.id.main_swipe);
         mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -235,16 +235,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //in particolare controlliamo se non abbiamo token veniamo indirizzati direttamente alla activity di login
         if (clientLocalStore.getClient().getRefreshToken().equals("")) {
-            System.out.println("stampa sono nell if");
-            System.out.println(clientLocalStore.getClient().getRefreshToken());
-            System.out.println(clientLocalStore);
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
 
         }
         // se abbiamo il token proviamo ad effettuare il login tramite refresh
         else {
-            System.out.println("stampa sono nell else");
             Client client = clientLocalStore.getClient();
             client.setGRANT_TYPES("Refresh");
             User user = clientLocalStore.getUser();
@@ -297,6 +293,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         boolean checkMessage;
         String message;
 
+
         public UserListTask(User user) {
             this.user = user;
         }
@@ -340,8 +337,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 usersArray = jsonObject.getJSONArray("users");
                 int count = Integer.parseInt(message);
                 checkMessage = count > 0;
-
-
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -487,13 +482,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // Merged page with 2 friends
                 case 1:
 
-                    holder.leftAvatar.setBackgroundResource(friend1.getDrawableAvatar(friend1.getAvatar()));
+                    holder.leftAvatar.setBackgroundResource(friend1.getDrawableAvatar(friend1.getRole()));
                     holder.leftAvatar.setText(friend1.getRole());
+                    holder.leftAvatar.setTextColor(getResources().getColor(R.color.background));
 
                     if (friend2 != null) {
-                        holder.rightAvatar.setBackgroundResource(friend2.getDrawableAvatar(friend2.getAvatar()));
+                        holder.rightAvatar.setBackgroundResource(friend2.getDrawableAvatar(friend2.getRole()));
                         holder.rightAvatar.setText(friend2.getRole());
-
+                        holder.rightAvatar.setTextColor(getResources().getColor(R.color.background));
                     }
                     break;
                 default:

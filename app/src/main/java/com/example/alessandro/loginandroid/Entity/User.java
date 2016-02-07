@@ -153,23 +153,43 @@ public class User implements Serializable{
         return interests;
     }
 
-    public int getDrawableAvatar(int avatar){
-        if (avatar ==1)
-            return R.drawable.anastasia;
-        else if (avatar==2)
-            return R.drawable.daria;
-        else if (avatar==3)
-            return R.drawable.julia;
-        else if (avatar==4)
-            return R.drawable.irene;
-        else if (avatar==5)
-            return R.drawable.kate;
-        else if (avatar==6)
-            return R.drawable.kirill;
-        else if (avatar==7)
-            return R.drawable.paul;
-        else if (avatar==8)
-            return R.drawable.alessandro;
+    public int getDrawableAvatar(String role){
+        if (role.equals("Animatore"))
+            return R.drawable.animatore;
+        else if (role.equals("Barista")||role.equals("Barman")||role.equals("Cameriere"))
+            return R.drawable.cameriere;
+        else if (role.equals("Barbiere")||role.equals("Estetista")||role.equals("Parrucchiere"))
+            return R.drawable.barbiere;
+        else if (role.equals("Baby sitter"))
+            return R.drawable.donnapercasa;
+        else if (role.equals("Conducente")||role.equals("Tassista"))
+            return R.drawable.autista;
+        else if (role.equals("Cuoco")||role.equals("Pasticciere"))
+            return R.drawable.cuoco;
+        else if (role.equals("Designer")||role.equals("Grafico pubblicitario"))
+            return R.drawable.artista;
+        else if (role.equals("Dietista")||role.equals("Fisioterapista")||role.equals("Infermiere")
+                ||role.equals("Nutrizionista")||role.equals("Nutrizionista animale")
+                ||role.equals("Veterinario"))
+            return R.drawable.medico;
+        else if (role.equals("Elettricista")||role.equals("Idraulico")||role.equals("Muratore"))
+            return R.drawable.aggiustatore;
+        else if (role.equals("Fotografo"))
+            return R.drawable.fotografo;
+        else if (role.equals("Guardia del corpo"))
+            return R.drawable.agente;
+        else if (role.equals("Guida"))
+            return R.drawable.guida;
+        else if (role.equals("Giardiniere"))
+            return R.drawable.falegname;
+        else if (role.equals("Maestro di sci"))
+            return R.drawable.sci;
+        else if (role.equals("Preparatore sportivo")||role.equals("Procuratore sportivo")||role.equals("Personal Trainer"))
+            return R.drawable.sport;
+        else if (role.equals("Programmatore"))
+            return R.drawable.nerd;
+        else if (role.equals("Tutor per ripetizioni"))
+            return R.drawable.prof;
         else
             return R.drawable.yalantis;
 

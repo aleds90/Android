@@ -27,9 +27,9 @@
     <string name="logout">LOG-OUT</string>
     <string name="go_profile">GO TO PROFILE</string>
     <string name="profile_title">mein Profil</string>
-    <string name="followers">Anhänger: </string>
-    <string name="followed">Gefolgt: </string>
-    <string name="description_profile">Beschreibung: </string>
+    <string name="followers">Anhänger</string>
+    <string name="followed">Gefolgt</string>
+    <string name="description_profile">Beschreibung</string>
     <string name="notice_profile">Anzeigen: </string>
     <string name="edit_profile_btn"> Profil bearbeiten</string>
     <string name="change_avatar">Upload Avatar</string>
@@ -42,4 +42,11 @@
     <string name="city_search_hint">Find by city</string>
     <string name="role_search_hint">Find by role</string>
     <string name="start_research">Start Research</string>
+    <string name="price_range">Preis</string>
+    <string name="available">Verfugbar</string>
+    <string name="not_available">Nicht Verfügbar</string>
+    <string name="offers"><![CDATA[Angebote & Anzeigen]]></string>
+    <string name="send_message">Nachricht Senden</string>
+    <string name="block_profile"> Blockprofil</string>
+    <string name="follow_profile">Folgen Profil</string>
 </resources>

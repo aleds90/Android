@@ -27,9 +27,9 @@
     <string name="logout">ESCI DAL PROFILO</string>
     <string name="go_profile">VAI AL PROFILO</string>
     <string name="profile_title">Il Mio Profilo</string>
-    <string name="followers">Seguaci: </string>
-    <string name="followed">Seguiti: </string>
-    <string name="description_profile">Descrizione: </string>
+    <string name="followers">Seguaci</string>
+    <string name="followed">Seguiti</string>
+    <string name="description_profile">Descrizione</string>
     <string name="notice_profile">Annunci: </string>
     <string name="edit_profile_btn">Modifica Profilo</string>
     <string name="change_avatar">Carica Avatar</string>
@@ -42,4 +42,11 @@
     <string name="city_search_hint">Ricerca per citta</string>
     <string name="role_search_hint">Ricerca per ruolo</string>
     <string name="start_research">Avvia Ricerca</string>
+    <string name="price_range">Prezzo</string>
+    <string name="available">Disponibile</string>
+    <string name="not_available">Non Disponibile</string>
+    <string name="offers"><![CDATA[Annunci & Offerte]]></string>
+    <string name="send_message">Invia Messaggio</string>
+    <string name="block_profile">Blocca profilo</string>
+    <string name="follow_profile">Segui Profilo</string>
 </resources>
