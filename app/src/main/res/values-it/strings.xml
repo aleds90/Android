@@ -30,7 +30,7 @@
     <string name="followers">Seguaci</string>
     <string name="followed">Seguiti</string>
     <string name="description_profile">Descrizione</string>
-    <string name="notice_profile">Annunci: </string>
+    <string name="notice_profile">Annunci</string>
     <string name="edit_profile_btn">Modifica Profilo</string>
     <string name="change_avatar">Carica Avatar</string>
     <string name="type_message_hint">Scrivi il messaggio</string>
@@ -49,4 +49,20 @@
     <string name="send_message">Invia Messaggio</string>
     <string name="block_profile">Blocca profilo</string>
     <string name="follow_profile">Segui Profilo</string>
+    <string name="register_visitor">Registrati come Visitatore</string>
+    <string name="register_worker">Registrati come Lavoratore</string>
+    <string name="or">oppure</string>
+    <string name="register_toast">Devi compilare tutti i campi</string>
+    <string name="terms_label">accetto termini e condizioni</string>
+    <string name="search_back_filter">↓↓ Torna ai Filtri ↓↓</string>
+    <string name="add_follow">Segui il Profilo</string>
+    <string name="stop_follow">Smetti di Seguire</string>
+    <string name="add_feedback">Lascia Feedback</string>
+    <string name="feedback_not_available">Non Disponibile</string>
+    <string name="not_offers">Nessun Offerta Attualmente Disponibile</string>
+    <string name="max_price">Prezzo Massimo: </string>
+    <string name="followes_list">Persone che segui</string>
+    <string name="list_coversation">Lista Conversazioni</string>
+    <string name="add_notice">Aggiungi una nuova offerta</string>
+    <string name="click_notice">(Premi per aggiungere un annuncio)</string>
 </resources>

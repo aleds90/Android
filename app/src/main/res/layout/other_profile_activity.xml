@@ -25,7 +25,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="180dp"
                 android:layout_height="160dp"
-                android:src="@drawable/images"
+                android:id="@+id/otherProfile_avatar_imgv"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"/>
             <LinearLayout
@@ -114,6 +114,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:paddingTop="3dp"
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/star"/>
@@ -124,7 +125,7 @@
                         android:paddingLeft="5dp"
                         android:textSize="17dp"
                         android:textColor="@android:color/black"
-                        android:text="Feedback ( "/>
+                        android:text="Feedback: "/>
                     <TextView
                         android:id="@+id/otherProfile_feedback_tv"
                         android:layout_width="wrap_content"
@@ -132,14 +133,7 @@
                         android:textSize="17dp"
                         android:textColor="@android:color/black"
                         />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="7dp"
-                        android:paddingLeft="5dp"
-                        android:textSize="17dp"
-                        android:textColor="@android:color/black"
-                        android:text=")"/>
+
 
                 </LinearLayout>
             </LinearLayout>
@@ -177,7 +171,6 @@
                         android:gravity="center_horizontal"
                         android:textSize="17dp"
                         android:textAlignment="center"
-                        android:text="(rate)"
                         android:textColor="@android:color/black"/>
                 </LinearLayout>
                 <View
@@ -207,7 +200,7 @@
                         android:id="@+id/otherProfile_status_textview"
                         android:textSize="17dp"
                         android:textAlignment="center"
-                        android:text="(disponibile)"
+
                         android:textColor="@android:color/black"
                         android:layout_gravity="center_horizontal" />
                 </LinearLayout>
@@ -236,7 +229,7 @@
                         android:id="@+id/otherProfile_followers_textview"
                         android:textSize="17dp"
                         android:textAlignment="center"
-                        android:text="(0)"
+
                         android:textColor="@android:color/black"
                         android:layout_gravity="center_horizontal"/>
                 </LinearLayout>

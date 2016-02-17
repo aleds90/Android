@@ -9,11 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Adapters.ListUser;
@@ -79,6 +81,10 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
         search.setOnClickListener(this);
         relation.setOnClickListener(this);
         profile.setOnClickListener(this);
+        home.setImageDrawable(getResources().getDrawable(R.drawable.ic_home_white_24dp_xhdpi));
+        search.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_white_24dp_xhdpi));
+        relation.setImageDrawable(getResources().getDrawable(R.drawable.ic_message_black_24dp));
+        profile.setImageDrawable(getResources().getDrawable(R.drawable.ic_person_white_24dp_xhdpi));
 
         contact = (Button) findViewById(R.id.follow_contact_btn);
         message = (Button) findViewById(R.id.follow_message_btn);
@@ -200,11 +206,15 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(intent3);
                 break;
             case R.id.follow_contact_btn:
+                contact.setTextColor(getResources().getColor(R.color.black));
+                message.setTextColor(getResources().getColor(R.color.white));
                 new GetFolloweedTask(clientLocalStore.getUser()).execute();
                 ListUser adapter = new ListUser(this, users);
                 userlist.setAdapter(adapter);
                 break;
             case R.id.follow_message_btn:
+                contact.setTextColor(getResources().getColor(R.color.white));
+                message.setTextColor(getResources().getColor(R.color.black));
                 messages = new ArrayList<Message>();
                 new MessageTask(clientLocalStore.getUser()).execute();
                 break;
@@ -261,8 +271,6 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
             sortedusers = createSortedUserList(messages);
             setAdapterInAsynk();
 
-
-
         }
 
         @Override
@@ -272,15 +280,16 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
                 HttpConnectionParams.setConnectionTimeout(httpParams, 10000);
                 HttpConnectionParams.setSoTimeout(httpParams, 10000);
                 HttpClient httpClient = new DefaultHttpClient(httpParams);
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/getMessages");
+                HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/get_conversations");
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-                nameValuePairs.add(new BasicNameValuePair("user_mail", user.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("user_email", user.getEmail()));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpClient.execute(httpPost);
                 HttpEntity entity =response.getEntity();
                 String json = EntityUtils.toString(entity);
+                System.out.println("message list:"+json);
                 usersArray = new JSONArray(json);
-                System.out.println(json);
+
 
 
             }catch (IOException e) {
@@ -322,21 +331,46 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
             }
             ListUser adapter = new ListUser(getApplicationContext(), users);
             userlist.setAdapter(adapter);
+            userlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    User f = (User) userlist.getAdapter().getItem(position);
+
+                    Intent intent = new Intent(RelationActivity.this, OtherProfileActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    passUserByIntent(intent, f);
+                    getApplicationContext().startActivity(intent);
+                }
+            });
+
         }
+        private void passUserByIntent(Intent intent, User user) {
+            intent.putExtra("id_user", user.getId_user());
+            intent.putExtra("name", user.getName());
+            intent.putExtra("cognome", user.getSurname());
+            intent.putExtra("email", user.getEmail());
+            intent.putExtra("city", user.getCity());
+            intent.putExtra("role", user.getRole());
+            intent.putExtra("bday", user.getBday());
+            intent.putExtra("rate", user.getRate());
+            intent.putExtra("status", user.isActive());
+            intent.putExtra("description", user.getDescription());
+        }
+
 
         @Override
         protected Void doInBackground(Void... params) {
             try {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/getFollowed");
+                HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/get_followed_by_user");
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-                nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("user_email", user.getEmail()));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpClient.execute(httpPost);
                 HttpEntity entity =response.getEntity();
                 String json = EntityUtils.toString(entity);
                 usersArray = new JSONArray(json);
-                System.out.println(json);
+                System.out.println("segui queste persone"+json);
 
             }catch (IOException e) {
                 e.printStackTrace();
@@ -348,35 +382,28 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public class UpdateStatusTask extends AsyncTask<Void, Void, Void> {
-
         private User user;
 
         public UpdateStatusTask(User user) {
             this.user = user;
-
         }
-
         @Override
         protected void onPostExecute(Void aVoid) {
             clientLocalStore.updateUser(user);
         }
-
         @Override
         protected Void doInBackground(Void... params) {
             try {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/updateStatus");
-
+                HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/update_status");
                 List<NameValuePair> nameValuePairs = new ArrayList<>(2);
                 nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
-                nameValuePairs.add(new BasicNameValuePair("status", Boolean.toString(user.isActive())));
-
+                nameValuePairs.add(new BasicNameValuePair("active", Integer.toString(user.isActive()?1:0)));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse httpResponse = httpClient.execute(httpPost);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 String response = EntityUtils.toString(httpEntity);
                 System.out.println(response);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

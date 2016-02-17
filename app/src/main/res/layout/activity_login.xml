@@ -41,14 +41,31 @@
         android:text="@string/Login_Button"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        android:backgroundTint="@color/background"
+        android:background="@color/background"
       />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="@string/Register_Button"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/register_worker"
         android:id="@+id/tvRegister"
+        android:paddingBottom="5dp"
+        android:textSize="16dp"
+        />
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/or"
+        android:paddingBottom="5dp"/>
+    <TextView
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/register_visitor"
+        android:id="@+id/login_registerVisitor_tv"
         />
 
 </LinearLayout>

@@ -2,7 +2,6 @@ package com.example.alessandro.loginandroid.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,24 +10,9 @@ import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Entity.Client;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
-import com.example.alessandro.loginandroid.Entity.Response;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 import com.example.alessandro.loginandroid.Tasks.ToServerTasks;
-import com.google.gson.Gson;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * classe che si occupa di gestire l'interfaccia per effettuare un login.
@@ -37,7 +21,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     EditText etEmail, etPassword; // attributi per inserire l'email e la password
     Button bLogin; // bottone che effettua il login
-    TextView tvRegister; //bottone che manda all'interfaccia di registrazione
+    TextView tvRegister, register_visitor; //bottone che manda all'interfaccia di registrazione
     ClientLocalStore clientLocalStore; //db provvisorio per raccogliere i dati della session
 
     @Override
@@ -58,8 +42,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         etPassword = (EditText)findViewById(R.id.etPassword);
         bLogin = (Button)findViewById(R.id.bLogin);
         tvRegister = (TextView)findViewById(R.id.tvRegister);
+        register_visitor = (TextView)findViewById(R.id.login_registerVisitor_tv);
         //definisco le componenti che hanno azioni specifiche se cliccate
         bLogin.setOnClickListener(this);
+        register_visitor.setOnClickListener(this);
         tvRegister.setOnClickListener(this);
     }
 
@@ -79,8 +65,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 break;
             //il tvRegister invia l'utente all'interfaccia per la registrazione
             case R.id.tvRegister:
-                Intent intent =  new Intent(this, RegisterActivity.class);
+                Intent intent =  new Intent(this, RegisterWorkerActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.login_registerVisitor_tv:
+                Intent intent1 =  new Intent(this, RegisterVisitorActivity.class);
+                startActivity(intent1);
                 break;
         }
     }

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Activity.OtherProfileActivity;
+import com.example.alessandro.loginandroid.Activity.ProfileActivity;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 
@@ -56,7 +57,8 @@ public class ListUser extends ArrayAdapter<User> {
         TextView textView1 = (TextView) rowView.findViewById(R.id.listSurnameTextView);
         TextView textView2 = (TextView) rowView.findViewById(R.id.listRoleTextView);
         TextView textView3 = (TextView) rowView.findViewById(R.id.listCityTextView);
-        Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/rspu.ttf");
+        ImageView avatar = (ImageView)rowView.findViewById(R.id.listUser_avatar_img);
+
 
 
         //ImageButton button = (ImageButton) rowView.findViewById(R.id.bProfilo);
@@ -78,6 +80,15 @@ public class ListUser extends ArrayAdapter<User> {
         textView1.setText(currentUser.getSurname());
         textView2.setText(currentUser.getRole());
         textView3.setText(currentUser.getCity());
+
+        String role = currentUser.getRole();
+        int avatarInt = currentUser.getAvatar();
+        String email = currentUser.getEmail();
+        String url = "http://njsao.pythonanywhere.com/static/"+email+".png";
+
+
+        new ProfileActivity().getDrawableAvatar(role, avatarInt, avatar, context, url);
+
         return rowView;
     }
 

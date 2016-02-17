@@ -55,18 +55,7 @@
             android:textColor="@android:color/white"
             android:text="@string/logout" />
     </LinearLayout>
-    <LinearLayout
 
-        style="@style/LinearLayout.GuillotineItem"
-        android:layout_marginTop="@dimen/guillotine_medium_margin"
-        android:gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/edit_textview"
-            style="@style/TextView.GuillotineItem.Selected"
-            android:textColor="@android:color/white"
-            android:text="@string/edit_profile" />
-    </LinearLayout>
 
     <LinearLayout
 

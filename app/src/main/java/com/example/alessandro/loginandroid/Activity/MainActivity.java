@@ -28,6 +28,7 @@ import com.example.alessandro.loginandroid.Entity.Response;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 import com.yalantis.flipviewpager.adapter.BaseFlipAdapter;
 import com.yalantis.flipviewpager.utils.FlipSettings;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<User> users;
     ImageView hamburger, messages;
     WaveSwipeRefreshLayout mWaveSwipeRefreshLayout;
-    TextView logout,delete,settings,status;
+    TextView logout, delete, settings, status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         clientLocalStore = new ClientLocalStore(this);
 
         String email = clientLocalStore.getUser().getEmail();
-        System.out.println("email: "+email);
+        System.out.println("email: " + email);
         new UserListTask(clientLocalStore.getUser()).execute();
 
         mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) findViewById(R.id.main_swipe);
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Metodo che setta tutte le views della Main Activity
      */
-    private void createViews(){
+    private void createViews() {
         messages = (ImageView) findViewById(R.id.messages);
         listViewUSERLIST = (ListView) findViewById(R.id.listViewUSERLIST);
 
@@ -97,6 +98,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         search = (ImageButton) findViewById(R.id.search);
         relation = (ImageButton) findViewById(R.id.relation);
         profile = (ImageButton) findViewById(R.id.profile);
+        home.setImageDrawable(getResources().getDrawable(R.drawable.ic_home_black_24dp));
+        search.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_white_24dp_xhdpi));
+        relation.setImageDrawable(getResources().getDrawable(R.drawable.ic_message_white_24dp_xhdpi));
+        profile.setImageDrawable(getResources().getDrawable(R.drawable.ic_person_white_24dp_xhdpi));
+
+
         home.setOnClickListener(this);
         search.setOnClickListener(this);
         relation.setOnClickListener(this);
@@ -107,15 +114,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Metodo che inizializza la toolbar superiore e tutti i suoi oggetti
      */
     private void createToolbar() {
-        root=(FrameLayout)findViewById(R.id.root);
-        toolbar = (Toolbar)findViewById(R.id.toolbar_hamburger);
-        hamburger=(ImageView)findViewById(R.id.content_hamburger);
+        root = (FrameLayout) findViewById(R.id.root);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_hamburger);
+        hamburger = (ImageView) findViewById(R.id.content_hamburger);
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle(null);
         }
-        View navigationMenu = LayoutInflater.from(this).inflate(R.layout.navigation,null);
+        View navigationMenu = LayoutInflater.from(this).inflate(R.layout.navigation, null);
         root.addView(navigationMenu);
         new GuillotineAnimation.GuillotineBuilder(navigationMenu, navigationMenu.findViewById(R.id.guillotine_hamburger), hamburger)
                 .setStartDelay(RIPPLE_DURATION)
@@ -155,16 +162,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 startActivity(intent);
                             }
                         });
-                        //EDIT BUTTON
-                        TextView edit = (TextView)findViewById(R.id.edit_textview);
-                        edit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-
                         //STATUS BUTTON
                         status = (TextView) findViewById(R.id.status_textview);
                         if (clientLocalStore.getUser().isActive()) {
@@ -203,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Metodo che gestisce tutti gli onClickListener della MainActivity
+     *
      * @param v
      */
     @Override
@@ -210,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent i = null;
         switch (v.getId()) {
             case (R.id.home):
+
                 i = new Intent(this, MainActivity.class);
                 break;
             case (R.id.search):
@@ -259,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             this.client = client;
             this.user = user;
         }
+
         @Override
         protected Void doInBackground(String... params) {
             try {
@@ -292,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private JSONArray usersArray;
         boolean checkMessage;
         String message;
+        int count;
 
 
         public UserListTask(User user) {
@@ -301,10 +302,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if (checkMessage){
-                messages.setVisibility(View.VISIBLE);
-            }else{
-                messages.setVisibility(View.INVISIBLE);
+            if (count == 1) {
+                messages.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_1_white_24dp));
+            } else if (count == 2) {
+                messages.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_2_white_24dp));
+            } else if (count == 3) {
+                messages.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_3_white_24dp));
+            } else if (count == 4) {
+                messages.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_4_white_24dp));
+            } else if (count == 5) {
+                messages.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_5_white_24dp));
+            } else if (count == 6) {
+                messages.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_6_white_24dp));
+            } else if (count == 7) {
+                messages.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_7_white_24dp));
+            } else if (count == 8) {
+                messages.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_8_white_24dp));
+            } else if (count == 9) {
+                messages.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_9_plus_white_24dp));
             }
             users = new ArrayList<>();
             for (int i = 0; i < usersArray.length(); i++) {
@@ -332,11 +347,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 HttpEntity entity = response.getEntity();
                 String json = EntityUtils.toString(entity);
                 System.out.println(json);
-                JSONObject jsonObject= new JSONObject(json);
+                JSONObject jsonObject = new JSONObject(json);
                 message = jsonObject.getString("message_count");
                 usersArray = jsonObject.getJSONArray("users");
-                int count = Integer.parseInt(message);
-                checkMessage = count > 0;
+                count = Integer.parseInt(message);
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -387,6 +402,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Metodo che si occupa di gestire la risposta della loginTask
+     *
      * @param responseServer
      */
     private void handleResponse(Response responseServer) {
@@ -420,10 +436,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public UpdateStatusTask(User user) {
             this.user = user;
         }
+
         @Override
         protected void onPostExecute(Void aVoid) {
             clientLocalStore.updateUser(user);
         }
+
         @Override
         protected Void doInBackground(Void... params) {
             try {
@@ -431,7 +449,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/update_status");
                 List<NameValuePair> nameValuePairs = new ArrayList<>(2);
                 nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
-                nameValuePairs.add(new BasicNameValuePair("active", Integer.toString(user.isActive()?1:0)));
+                nameValuePairs.add(new BasicNameValuePair("active", Integer.toString(user.isActive() ? 1 : 0)));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse httpResponse = httpClient.execute(httpPost);
                 HttpEntity httpEntity = httpResponse.getEntity();
@@ -464,12 +482,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (convertView == null) {
                 holder = new FriendsHolder();
 
-                convertView         = getLayoutInflater().inflate(R.layout.friends_merge_page, parent, false);
-                holder.leftAvatar   = (TextView) convertView.findViewById(R.id.first);
-                holder.rightAvatar  = (TextView) convertView.findViewById(R.id.second);
-                holder.infoPage     = getLayoutInflater().inflate(R.layout.friends_info, parent, false);
-                holder.nickName     = (TextView) holder.infoPage.findViewById(R.id.nickname);
-                holder.surname      = (TextView)holder.infoPage.findViewById(R.id.surname);
+                convertView = getLayoutInflater().inflate(R.layout.friends_merge_page, parent, false);
+                holder.leftAvatar = (TextView) convertView.findViewById(R.id.first);
+                holder.rightAvatar = (TextView) convertView.findViewById(R.id.second);
+                holder.infoPage = getLayoutInflater().inflate(R.layout.friends_info, parent, false);
+                holder.nickName = (TextView) holder.infoPage.findViewById(R.id.nickname);
+                holder.surname = (TextView) holder.infoPage.findViewById(R.id.surname);
 
                 for (int id : IDS_INTEREST)
                     holder.interests.add((TextView) holder.infoPage.findViewById(id));
@@ -481,13 +499,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (position) {
                 // Merged page with 2 friends
                 case 1:
+                    String role = friend1.getRole();
+                    int avatar = friend1.getAvatar();
+                    String email = friend1.getEmail();
+                    String url = "http://njsao.pythonanywhere.com/static/" + email + ".png";
+                    getDrawableAvatar(role, avatar, holder.leftAvatar, getApplicationContext(), url);
 
-                    holder.leftAvatar.setBackgroundResource(friend1.getDrawableAvatar(friend1.getRole()));
                     holder.leftAvatar.setText(friend1.getRole());
                     holder.leftAvatar.setTextColor(getResources().getColor(R.color.background));
 
                     if (friend2 != null) {
-                        holder.rightAvatar.setBackgroundResource(friend2.getDrawableAvatar(friend2.getRole()));
+                        String role2 = friend2.getRole();
+                        int avatar2 = friend2.getAvatar();
+                        String email2 = friend2.getEmail();
+                        String url2 = "http://njsao.pythonanywhere.com/static/" + email2 + ".png";
+                        getDrawableAvatar(role2, avatar2, holder.rightAvatar, getApplicationContext(), url2);
                         holder.rightAvatar.setText(friend2.getRole());
                         holder.rightAvatar.setTextColor(getResources().getColor(R.color.background));
                     }
@@ -504,6 +530,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public int getPagesCount() {
             return PAGES;
         }
+
         private void fillHolder(FriendsHolder holder, User friend) {
             if (friend == null)
                 return;
@@ -513,7 +540,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 iViews.next().setText(iInterests.next());
             final User currentUser = friend;
             System.out.println(currentUser.getName().toString());
-            holder.infoPage.setBackgroundColor(getResources().getColor(R.color.orange));
+            holder.infoPage.setBackgroundColor(getResources().getColor(R.color.background));
             holder.nickName.setText(friend.getName());
             holder.surname.setText(friend.getSurname());
 
@@ -527,6 +554,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             TextView nickName;
             TextView surname;
 
+
+        }
+
+        public void getDrawableAvatar(String role, int avatar, TextView imageView, Context context, String url) {
+
+            if (role.equals("Animatore"))
+                imageView.setBackgroundResource((R.drawable.animatore));
+            else if (role.equals("Barista") || role.equals("Barman") || role.equals("Cameriere"))
+                imageView.setBackgroundResource((R.drawable.cameriere));
+            else if (role.equals("Barbiere") || role.equals("Estetista") || role.equals("Parrucchiere")
+                    || role.equals("HairStyler") || role.equals("Make Up Artist") || role.equals("Sarto"))
+                imageView.setBackgroundResource((R.drawable.barbiere));
+            else if (role.equals("Baby sitter"))
+                imageView.setBackgroundResource((R.drawable.cameriera));
+            else if (role.equals("Conducente") || role.equals("Tassista"))
+                imageView.setBackgroundResource((R.drawable.autista));
+            else if (role.equals("Cuoco") || role.equals("Pasticciere"))
+                imageView.setBackgroundResource((R.drawable.cuoco));
+            else if (role.equals("Wedding Planner"))
+                imageView.setBackgroundResource((R.drawable.planner));
+            else if (role.equals("Designer") || role.equals("Grafico pubblicitario") ||
+                    role.equals("Pittore")) imageView.setBackgroundResource((R.drawable.artista));
+            else if (role.equals("Dietista") || role.equals("Fisioterapista") || role.equals("Infermiere")
+                    || role.equals("Nutrizionista") || role.equals("Nutrizionista animale")
+                    || role.equals("Veterinario"))
+                imageView.setBackgroundResource((R.drawable.medico));
+            else if (role.equals("Elettricista") || role.equals("Idraulico") || role.equals("Muratore"))
+                imageView.setBackgroundResource((R.drawable.aggiustatore));
+            else if (role.equals("Fotografo") || role.equals("Video-Maker") || role.equals("Social-Media Manager"))
+                imageView.setBackgroundResource((R.drawable.fotografo));
+            else if (role.equals("Guardia del corpo"))
+                imageView.setBackgroundResource((R.drawable.agente));
+            else if (role.equals("Guida Turistica") || role.equals("Guida"))
+                imageView.setBackgroundResource((R.drawable.guida));
+            else if (role.equals("Giardiniere"))
+                imageView.setBackgroundResource((R.drawable.falegname));
+            else if (role.equals("Maestro di sci"))
+                imageView.setBackgroundResource((R.drawable.sci));
+            else if (role.equals("Fioraio"))
+                imageView.setBackgroundResource((R.drawable.fioraio));
+            else if (role.equals("Modello"))
+                imageView.setBackgroundResource((R.drawable.modello));
+            else if (role.equals("Preparatore sportivo") || role.equals("Procuratore sportivo") || role.equals("Personal Trainer"))
+                imageView.setBackgroundResource((R.drawable.sport));
+            else if (role.equals("Programmatore"))
+                imageView.setBackgroundResource((R.drawable.nerd));
+            else if (role.equals("Tutor per ripetizioni"))
+                imageView.setBackgroundResource((R.drawable.prof));
+            else
+                imageView.setBackgroundResource((R.drawable.yalantis));
 
         }
 

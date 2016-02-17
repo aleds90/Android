@@ -6,6 +6,9 @@
     <string name="title_activity_register" translatable="false">Register</string>
     <string name="title_activity_test" translatable="false">Test</string>
 
+    <string name="from_date" translatable="false">From Date</string>
+    <string name="to_date" translatable="false">To Date</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="title_activity_research" translatable="false">ResearchActivity</string>
@@ -16,6 +19,12 @@
     <string name="title_activity_test_search" translatable="false">testSearchActivity</string>
     <string name="title_activity_test_follow" translatable="false">testFollowActivity</string>
     <string name="title_activity_test_profile" translatable="false">testProfileActivity</string>
+
+
+    <string name="date_label_set" translatable="false">Press the button to set the date</string>
+    <string name="date_button_set" translatable="false">Set Date</string>
+    <string name="date_view_set" translatable="false">The Date is: </string>
+    <string name="date_selected" translatable="false"></string>
 
     <string name="message" translatable="false"><u><b><i>Type message</i></b></u></string>
     <string name="sendMessage" translatable="false">Send Message</string>
@@ -62,28 +71,36 @@
         <item>Dietista</item>
         <item>Elettricista</item>
         <item>Estetista</item>
+        <item>Fioraio</item>
         <item>Fisioterapista</item>
         <item>Fotografo</item>
         <item>Grafico pubblicitario</item>
         <item>Guardia del corpo</item>
-        <item>Guida</item>
+        <item>Guida Turistica</item>
         <item>Giardiniere</item>
+        <item>HairStyler</item>
         <item>Idraulico</item>
         <item>Infermiere</item>
+        <item>Make Up Artist</item>
         <item>Maestro di sci</item>
+        <item>Modello</item>
         <item>Muratore</item>
         <item>Nutrizionista</item>
         <item>Nutrizionista animale</item>
         <item>Preparatore sportivo</item>
         <item>Parrucchiere</item>
+        <item>Pittore</item>
         <item>Procuratore sportivo</item>
         <item>Pasticciere</item>
         <item>Personal Trainer</item>
         <item>Programmatore</item>
+        <item>Sarto</item>
+        <item>Social-Media Manager</item>
         <item>Tassista</item>
         <item>Tutor per ripetizioni</item>
-        <item>Verniciatore</item>
         <item>Veterinario</item>
+        <item>Video-Maker</item>
+        <item>Wedding Planner</item>
         <item>Altro</item>
 
     </string-array>
@@ -122,7 +139,7 @@
     <string name="followed">Followed</string>
     <string name="feedback" translatable="false">Feedback</string>
     <string name="description_profile">Description</string>
-    <string name="notice_profile">Notice:</string>
+    <string name="notice_profile">Notice</string>
     <string name="edit_profile_btn">Edit Profile</string>
     <string name="change_avatar">Upload Avatar</string>
     <string name="type_message_hint">Type message</string>
@@ -142,4 +159,20 @@
     <string name="send_message">Send Message</string>
     <string name="block_profile">Block Profile</string>
     <string name="follow_profile">Follow Profile</string>
+    <string name="register_worker">Register as Worker</string>
+    <string name="register_visitor">Register as Visitor</string>
+    <string name="or">or</string>
+    <string name="register_toast">You must fill in all fields</string>
+    <string name="terms_label">I accept terms and conditions</string>
+    <string name="search_back_filter">↓↓ Back To Filter ↓↓</string>
+    <string name="add_follow">Add Follow</string>
+    <string name="stop_follow">Stop Follow</string>
+    <string name="add_feedback">Add Feedback</string>
+    <string name="feedback_not_available">Not Available</string>
+    <string name="not_offers">Not Offers or Ads</string>
+    <string name="max_price">Max Price:</string>
+    <string name="followes_list">List followed</string>
+    <string name="list_coversation">List Conversations</string>
+    <string name="add_notice">Add new notice</string>
+    <string name="click_notice">(Click below for add notice)</string>
 </resources>

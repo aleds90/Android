@@ -22,15 +22,20 @@
         <ImageView
             android:id="@+id/content_hamburger"
             style="@style/ImageView.Hamburger"
-            android:src="@drawable/ic_menu_black"/>
+            android:src="@drawable/ic_menu"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/profile_title"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:layout_gravity="center"
-            android:textSize="30dp"/>
+            android:textSize="30dp"
+            android:textStyle="bold"/>
     </android.support.v7.widget.Toolbar>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -39,17 +44,32 @@
         android:paddingTop="5dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingRight="8dp">
+    <ImageView
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:id="@+id/profile_imageprofile_iv"/>
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="22dp"
+        android:textColor="@android:color/white"
+        android:text="@string/change_avatar"
+        android:background="@color/background"
+        android:id="@+id/profile_upload_btn"/>
 
-        <ImageView
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:src="@drawable/alessandro"
-            android:id="@+id/profile_imageprofile_iv"/>
+</LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingTop="10dp"
+            android:background="@drawable/customborder"
            ><LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,7 +121,8 @@
                     android:layout_height="wrap_content"
                     android:text=" ("
                     android:textSize="18dp"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black"
+                    android:id="@+id/rate_left_bord"/>
                 <EditText
                     android:id="@+id/profile_rate_tv"
                     android:layout_width="wrap_content"
@@ -117,7 +138,8 @@
                     android:layout_height="wrap_content"
                     android:text="€)"
                     android:textSize="18dp"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black"
+                    android:id="@+id/rate_right_bord"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -165,8 +187,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/customborder">
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -184,6 +209,12 @@
                     android:text="@string/followers"
                     android:textColor="@android:color/black"
                     android:textSize="16dp"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:text=":"
                     android:layout_gravity="center"/>
                 <EditText
                     android:id="@+id/profile_followers_tv"
@@ -205,6 +236,12 @@
                     android:textColor="@android:color/black"
                     android:textSize="16dp"
                     android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:text=":"
+                    android:layout_gravity="center"/>
                 <EditText
                     android:id="@+id/profile_followed_tv"
                     android:layout_width="wrap_content"
@@ -225,6 +262,12 @@
                     android:textColor="@android:color/black"
                     android:textSize="16dp"
                     android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:text=":"
+                    android:layout_gravity="center"/>
                 <EditText
                     android:textColor="@android:color/black"
                     android:layout_width="wrap_content"
@@ -237,13 +280,17 @@
                     android:clickable="false"
                     android:background="@android:color/transparent"/>
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"/>
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/customborder">
+            android:orientation="vertical">
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -296,12 +343,16 @@
                     android:clickable="false"
                     android:background="@android:color/transparent"/>
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/customborder"
+
             android:paddingTop="10dp"
             android:layout_weight="0.1">
 
@@ -314,12 +365,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="10dp">
+                android:paddingTop="3dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -327,68 +378,71 @@
                         android:textColor="@android:color/black"
                         android:textSize="16dp"
                         />
-                    <EditText
+
+                    <TextView
                         android:id="@+id/profile_description_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
                         android:textColor="@android:color/black"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:clickable="false"
-                        android:background="@android:color/transparent"/>
+                        android:background="@drawable/customborder"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="5dp">
-                    <TextView
+                    android:orientation="vertical">
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/notice_profile"
-                        android:textColor="@android:color/black"
-                        android:textSize="16dp"/>
-                    <EditText
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/notice_profile"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/click_notice"/>
+                    </LinearLayout>
+
+
+                    <TextView
                         android:id="@+id/profile_notice_tv"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
                         android:textColor="@android:color/black"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:clickable="false"
-                        android:background="@android:color/transparent"/>
+                        android:background="@drawable/customborder"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"/>
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:weightSum="1"
         android:layout_gravity="center">
-        <Button
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/profile_cancel_update_btn"
-                android:backgroundTint="@color/background"/>
+
         <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/edit_profile_btn"
                 android:textColor="@android:color/white"
                 android:id="@+id/profile_update_btn"
-                android:backgroundTint="@color/background"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:text="@string/change_avatar"
-            android:backgroundTint="@color/background"
-            android:id="@+id/profile_upload_btn"/>
+                android:background="@color/background" />
+
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"/>
         <LinearLayout
             android:background="#F4C430"
             android:orientation="horizontal"
@@ -403,14 +457,12 @@
                 android:layout_height="wrap_content"
                 >
                 <ImageButton
-                    android:src="@drawable/ic_home_white_24dp_xhdpi"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginRight="8dp"
                     android:background="?selectableItemBackground"
                     android:id="@+id/home"/>
                 <ImageButton
-                    android:src="@drawable/ic_search_white_24dp_xhdpi"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
@@ -418,7 +470,6 @@
                     android:background="?selectableItemBackground"
                     android:id="@+id/search" />
                 <ImageButton
-                    android:src="@drawable/ic_message_white_24dp_xhdpi"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
@@ -430,10 +481,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="25dp"
-                    android:src="@drawable/ic_filter_1_white_24dp"/>
+                    android:layout_marginBottom="25dp"/>
                 <ImageButton
-                    android:src="@drawable/ic_person_white_24dp_xhdpi"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="end"

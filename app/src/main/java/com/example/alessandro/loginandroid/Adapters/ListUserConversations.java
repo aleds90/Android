@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.alessandro.loginandroid.Activity.MessageActivity;
+import com.example.alessandro.loginandroid.Activity.ProfileActivity;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.Message;
 import com.example.alessandro.loginandroid.Entity.User;
@@ -47,19 +49,36 @@ public class ListUserConversations extends ArrayAdapter<User> {
         TextView name       = (TextView)rowView.findViewById(R.id.conversationUserNameText);
         TextView surname    =(TextView)rowView.findViewById(R.id.conversationUserSurnameText);
         TextView lastMessage =(TextView)rowView.findViewById(R.id.lastMessageText);
+        RelativeLayout layout = (RelativeLayout)rowView.findViewById(R.id.layout_message);
+
+        TextView time = (TextView)rowView.findViewById(R.id.timelistmessage);
+        ImageView avatar = (ImageView)rowView.findViewById(R.id.conversationUserImage);
+
         clientLocalStore = new ClientLocalStore(getContext());
 
 
         final Message currentMessage = messages.get(position);
         final User currentUser = users.get(position);
+        if (!currentMessage.isRead())
+            layout.setBackgroundColor(rowView.getResources().getColor(R.color.background));
+        else layout.setBackgroundColor(rowView.getResources().getColor(R.color.white));
+
         name.setText(currentUser.getName());
         surname.setText(currentUser.getSurname());
         lastMessage.setText(currentMessage.getText());
+        time.setText(currentMessage.getSendetAt());
+        String role2 = currentUser.getRole();
+        int avatarInt2 = currentUser.getAvatar();
+        String email2 = currentUser.getEmail();
+        String url2 = "http://njsao.pythonanywhere.com/static/"+email2
+                +".png";
+        new ProfileActivity().getDrawableAvatar(role2, avatarInt2, imageView, getContext(), url2);
+
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getContext(), MessageActivity.class);
+                Intent intent = new Intent(getContext(), MessageActivity.class);
                 intent.putExtra("userEmail", currentUser.getEmail());
                 intent.putExtra("userName", currentUser.getName());
                 getContext().startActivity(intent);

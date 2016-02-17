@@ -1,14 +1,21 @@
 package com.example.alessandro.loginandroid.Activity;
-
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +25,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alessandro.loginandroid.Entity.Client;
 import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 import com.example.alessandro.loginandroid.Entity.Notice;
 import com.example.alessandro.loginandroid.Entity.User;
 import com.example.alessandro.loginandroid.R;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 import com.yalantis.guillotine.interfaces.GuillotineListener;
 
@@ -46,6 +56,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,39 +67,35 @@ import java.util.List;
 import java.util.Locale;
 
 import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder;
-
-
-/**
- * Classe che gestisce l'activity del profilo, un utente potra' cambiare i propri dati, cancellare
- * il proprio profilo o fare logout.
- */
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final long RIPPLE_DURATION = 250;
-    private EditText name,surname, feedback, followers, followed, role, city, bday, email, password, rate, description_tv, notice_tv;
+    private EditText name,surname, feedback, followers, followed, role, city, bday, email, password, rate;
     private ImageButton home, search, follow, profile;
     private Button update, cancel, upload;
+    private View dialogView;
+
     //database che contiene i dati di login dell' utente
     private ClientLocalStore clientLocalStore;
     final String NEW_FORMAT = "dd-MM-yyyy";
     ImageView hamburger;
     Toolbar toolbar;
     FrameLayout root;
-    TextView logout,delete,settings,status;
+    TextView logout,delete,settings,status,description_tv,notice_tv;
     private ImageView imageprofile;
-
-
-    //views che identificano i dati dell'utente
-
+    User user;
+    String avatar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_profile);
         //carico lo user con cui sono loggato
         clientLocalStore = new ClientLocalStore(this);
-        User user = clientLocalStore.getUser();
+        user = clientLocalStore.getUser();
+        System.out.println(user.getBday());
         // inizializzo questi due textview prima delle task
-        description_tv = (EditText) findViewById(R.id.profile_description_tv);
-        notice_tv = (EditText) findViewById(R.id.profile_notice_tv);
+        description_tv = (TextView) findViewById(R.id.profile_description_tv);
+        notice_tv = (TextView) findViewById(R.id.profile_notice_tv);
+        notice_tv.setOnClickListener(this);
         //lancio la task per prendere l ultimo annuncio scritto
         //new NoticeTask(user).execute();
         //lancio task per conteggio dei feedback e followers
@@ -98,9 +107,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         createToolbar();
     }
 
-    /**
-     * Metodo che inizializza la toolbar superiore e tutti i suoi oggetti
-     */
     private void createToolbar() {
         root=(FrameLayout)findViewById(R.id.root);
         toolbar = (Toolbar)findViewById(R.id.toolbar_hamburger);
@@ -150,15 +156,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 startActivity(intent);
                             }
                         });
-                        //EDIT BUTTON
-                        TextView edit = (TextView)findViewById(R.id.edit_textview);
-                        edit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
-                                startActivity(intent);
-                            }
-                        });
 
                         //STATUS BUTTON
                         status = (TextView) findViewById(R.id.status_textview);
@@ -201,9 +198,19 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         search  =(ImageButton)findViewById(R.id.search);
         follow  =(ImageButton)findViewById(R.id.relation);
         profile =(ImageButton)findViewById(R.id.profile);
+        home.setImageDrawable(getResources().getDrawable(R.drawable.ic_home_white_24dp_xhdpi));
+        search.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_white_24dp_xhdpi));
+        follow.setImageDrawable(getResources().getDrawable(R.drawable.ic_message_white_24dp_xhdpi));
+        profile.setImageDrawable(getResources().getDrawable(R.drawable.ic_person_black_24dp));
         update  =(Button)findViewById(R.id.profile_update_btn);
-        cancel  =(Button)findViewById(R.id.profile_cancel_update_btn);
+
         imageprofile = (ImageView)findViewById(R.id.profile_imageprofile_iv);
+        String role = clientLocalStore.getUser().getRole();
+        int avatar = clientLocalStore.getUser().getAvatar();
+        String email = clientLocalStore.getUser().getEmail();
+        String url = "http://njsao.pythonanywhere.com/static/"+email+".png";
+        getDrawableAvatar(role,avatar,imageprofile,this,email);
+
         upload = (Button)findViewById(R.id.profile_upload_btn);
         upload.setOnClickListener(this);
         home.setOnClickListener(this);
@@ -211,9 +218,60 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         follow.setOnClickListener(this);
         profile.setOnClickListener(this);
         update.setOnClickListener(this);
-        cancel.setOnClickListener(this);
-        cancel.setFocusable(false);
-        cancel.setFocusableInTouchMode(false);
+
+    }
+
+    public void getDrawableAvatar(String role,int avatar,ImageView imageView,Context context,String url) {
+        if (avatar == 1) {
+            if (role.equals("Animatore"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.animatore));
+            else if (role.equals("Barista") || role.equals("Barman") || role.equals("Cameriere"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.cameriere));
+            else if (role.equals("Barbiere") || role.equals("Estetista") || role.equals("Parrucchiere")
+                    || role.equals("HairStyler") || role.equals("Make Up Artist") || role.equals("Sarto"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.barbiere));
+            else if (role.equals("Baby sitter"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.cameriera));
+            else if (role.equals("Conducente") || role.equals("Tassista"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.autista));
+            else if (role.equals("Cuoco") || role.equals("Pasticciere"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.cuoco));
+            else if (role.equals("Wedding Planner"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.planner));
+            else if (role.equals("Designer") || role.equals("Grafico pubblicitario") ||
+                    role.equals("Pittore"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.artista));
+            else if (role.equals("Dietista") || role.equals("Fisioterapista") || role.equals("Infermiere")
+                    || role.equals("Nutrizionista") || role.equals("Nutrizionista animale")
+                    || role.equals("Veterinario"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.medico));
+            else if (role.equals("Elettricista") || role.equals("Idraulico") || role.equals("Muratore"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.aggiustatore));
+            else if (role.equals("Fotografo") || role.equals("Video-Maker") || role.equals("Social-Media Manager"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.fotografo));
+            else if (role.equals("Guardia del corpo"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.agente));
+            else if (role.equals("Guida Turistica") || role.equals("Guida"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.guida));
+            else if (role.equals("Giardiniere"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.falegname));
+            else if (role.equals("Maestro di sci"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.sci));
+            else if (role.equals("Fioraio"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.fioraio));
+            else if (role.equals("Modello"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.modello));
+            else if (role.equals("Preparatore sportivo") || role.equals("Procuratore sportivo") || role.equals("Personal Trainer"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.sport));
+            else if (role.equals("Programmatore"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.nerd));
+            else if (role.equals("Tutor per ripetizioni"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.prof));
+            else
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.yalantis));
+        }else {
+            Picasso.with(context).load(url).resize(150,150).into(imageView);
+        }
     }
 
     private void setTextView(User user) {
@@ -227,19 +285,32 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         bday        =(EditText)findViewById(R.id.profile_bday_tv);
         email       =(EditText)findViewById(R.id.profile_email_tv);
         password    =(EditText)findViewById(R.id.profile_password_tv);
-        rate        =(EditText)findViewById(R.id.profile_rate_tv);
-
+        rate =(EditText)findViewById(R.id.profile_rate_tv);
         name.setText(user.getName());
         surname.setText(user.getSurname());
         role.setText(user.getRole());
         city.setText(user.getCity());
+        if (clientLocalStore.getUser().getRole()==""){
+            TextView rateleft = (TextView)findViewById(R.id.rate_left_bord);
+            TextView rateright = (TextView)findViewById(R.id.rate_right_bord);
+            rateleft.setVisibility(View.INVISIBLE);
+            rateright.setVisibility(View.INVISIBLE);
+            rate.setVisibility(View.INVISIBLE);
+        }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ITALY);
         try {
-            Date date = format.parse(user.getBday());
-            format.applyPattern(NEW_FORMAT);
-           String newDate=format.format(date);
-          System.out.println(newDate);
-          bday.setText(newDate);
+            if (user.getBday() == ""){
+
+            }
+            else {
+                Date date = format.parse(user.getBday());
+                format.applyPattern(NEW_FORMAT);
+                String newDate = format.format(date);
+
+                System.out.println(newDate);
+
+                bday.setText(newDate);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -249,11 +320,33 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         description_tv.setText(user.getDescription());
 
 
-    }
 
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case (R.id.profile_notice_tv):
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(ProfileActivity.this);
+                builder1.setTitle(getResources().getString(R.string.add_notice));
+                LayoutInflater inflater1 = this.getLayoutInflater();
+                dialogView = inflater1.inflate(R.layout.add_notice_layout, null);
+                builder1.setView(dialogView);
+                final EditText add_notice = (EditText)dialogView.findViewById(R.id.add_notice_edit);
+                builder1.setPositiveButton("aggiungi", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new NoticeTask(clientLocalStore.getUser(),add_notice.getText().toString()).execute();
+                    }
+                });
+                builder1.setNegativeButton("annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder1.create().show();
+                break;
+
             case (R.id.home):
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
@@ -271,47 +364,108 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Intent intent3 = new Intent(this, ProfileActivity.class);
                 startActivity(intent3);
                 break;
+
             case R.id.profile_update_btn:
-                if (update.getText().toString().equals("Modifica profilo")) {
-                    setTextViewFocusable();
-                    Toast.makeText(this,"Puoi modificare i dati del tuo profilo",Toast.LENGTH_SHORT).show();
-                    cancel.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    cancel.setText("ANNULLA");
-                    update.setText("CONFERMA");
-                }else if (update.getText().toString().equals("CONFERMA")) {
-                    Toast.makeText(this,"Modifiche confermate",Toast.LENGTH_SHORT).show();
-                    User user = new User();
-                    user.setId_user(clientLocalStore.getUser().getId_user());
-                    user.setName(name.getText().toString());
-                    user.setSurname(surname.getText().toString());
-                    user.setBday(clientLocalStore.getUser().getBday());
-                    user.setCity(city.getText().toString());
-                    user.setRate(Double.parseDouble(rate.getText().toString()));
-                    user.setEmail(clientLocalStore.getUser().getEmail());
-                    user.setRole(role.getText().toString());
-                    user.setPassword(password.getText().toString());
-                    user.setDescription(description_tv.getText().toString());
-                    user.setAvatar(clientLocalStore.getUser().getAvatar());
-                    user.setActive(clientLocalStore.getUser().isActive());
-                    String notice = notice_tv.getText().toString();
-                    new UpdateTask(user,notice).execute();
-                    cancel.setLayoutParams(new LinearLayout.LayoutParams(1, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    cancel.setText("");
-                    update.setText("Modifica profilo");
-                    setTextViewNotFocusable();
-                }
+                    final ClientLocalStore localStore = new ClientLocalStore(getApplicationContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                    builder.setTitle(getResources().getString(R.string.edit_profile));
+                    LayoutInflater inflater = this.getLayoutInflater();
+                    dialogView = inflater.inflate(R.layout.edit_profile_layout, null);
+                    builder.setView(dialogView);
+                    final EditText city_edit = (EditText)dialogView.findViewById(R.id.edit_city);
+                    EditText email_edit = (EditText)dialogView.findViewById(R.id.edit_email);
+                    final EditText password_edit = (EditText)dialogView.findViewById(R.id.edit_password);
+                    final EditText rate_edit = (EditText)dialogView.findViewById(R.id.edit_rate);
+                    final EditText description_edit = (EditText)dialogView.findViewById(R.id.edit_description);
+                    final EditText notice_edit = (EditText)dialogView.findViewById(R.id.edit_notice);
+                    email_edit.setText(localStore.getUser().getEmail());
+                    password_edit.setText(localStore.getUser().getPassword());
+                    city_edit.setText(localStore.getUser().getCity());
+                    rate_edit.setText(String.valueOf(localStore.getUser().getRate()));
+                    description_edit.setText(localStore.getUser().getDescription());
+
+
+                    builder.setPositiveButton("salva", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            User user = new User();
+                            user.setId_user(localStore.getUser().getId_user());
+                            user.setName(localStore.getUser().getName());
+                            user.setSurname(localStore.getUser().getSurname());
+                            user.setBday(localStore.getUser().getBday());
+                            user.setCity(city_edit.getText().toString());
+                            user.setRate(Double.parseDouble(rate_edit.getText().toString()));
+                            user.setEmail(localStore.getUser().getEmail());
+                            user.setRole(localStore.getUser().getRole());
+                            user.setPassword(password_edit.getText().toString());
+                            user.setDescription(description_edit.getText().toString());
+                            user.setAvatar(localStore.getUser().getAvatar());
+                            user.setActive(localStore.getUser().isActive());
+                            String notice = notice_edit.getText().toString();
+                            new UpdateTask(user,notice).execute();
+
+                        }
+                    });
+                    builder.setNegativeButton("annulla", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.create().show();
+
                 break;
-            case R.id.profile_cancel_update_btn:
-                Toast.makeText(this,"Modifiche annullate",Toast.LENGTH_SHORT).show();
-                cancel.setLayoutParams(new LinearLayout.LayoutParams(1, ViewGroup.LayoutParams.WRAP_CONTENT));
-                cancel.setText("");
-                update.setText("Modifica profilo");
-                setTextViewNotFocusable();
-                break;
+
             case R.id.profile_upload_btn:
-                Bitmap image=((BitmapDrawable)imageprofile.getDrawable()).getBitmap();
-                //new UploadTask(image,"anastasia").execute();
+
+                Intent galleryIntent = new Intent();
+                galleryIntent.setType("image/*");
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(galleryIntent,"Choose your Avatar"),1);
                 break;
+
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode==1 && resultCode==RESULT_OK && data!=null) {
+            Uri uri = data.getData();
+            Log.i("PATH", uri.getEncodedPath());
+            String[] projection = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(projection[0]);
+            avatar = cursor.getString(columnIndex);
+            cursor.close();
+            System.out.println("avatar path:" + avatar);
+            File pathAvatar = new File(avatar);
+            if (pathAvatar.exists()) {
+                Bitmap myBitmap = BitmapFactory.decodeFile(pathAvatar.getAbsolutePath());
+                String avatarString = BitMapToString(myBitmap);
+                new UploadTask(avatarString,clientLocalStore.getUser().getEmail().toString()).execute();
+                new UpdateAvatar(clientLocalStore.getUser(),2);
+            }
+        }
+        else avatar = "cake.png";
+    }
+
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp=Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
+    public Bitmap StringToBitMap(String encodedString){
+        try{
+            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        }catch(Exception e){
+            e.getMessage();
+            return null;
         }
     }
 
@@ -391,6 +545,45 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         description_tv.setClickable(true);
     }
 
+    public class UpdateAvatar extends AsyncTask<Void, Void, Void> {
+
+        private User user;
+        private int avatar;
+
+        public UpdateAvatar(User user, int avatar) {
+            this.user = user;
+            this.avatar = avatar;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            user.setAvatar(avatar);
+            clientLocalStore.updateUser(user);
+            System.out.println(clientLocalStore.getUser().getEmail());
+            System.out.println(clientLocalStore.getUser().getAvatar());
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/update_avatar");
+                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
+                nameValuePairs.add(new BasicNameValuePair("email", user.getEmail().toString()));
+                nameValuePairs.add(new BasicNameValuePair("avatar", String.valueOf(avatar)));
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+                HttpEntity httpEntity = httpResponse.getEntity();
+                String response = EntityUtils.toString(httpEntity);
+                System.out.println(response);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
     public class UpdateTask extends AsyncTask<Void, Void, Void> {
 
         private User user;
@@ -452,9 +645,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             return null;
         }
     }
-    /**
-     * Classe che si occupa dell'Update dello status quando viene cambiato nella NavigationBar
-     */
+
     public class UpdateStatusTask extends AsyncTask<Void, Void, Void> {
         private User user;
 
@@ -484,39 +675,36 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             return null;
         }
     }
+
     public class NoticeTask extends AsyncTask<Void, Void, Void> {
 
         private User user;
-        private Notice notice;
+        private String notice;
 
-        public NoticeTask(User user) {
+        public NoticeTask(User user, String notice) {
             this.user = user;
+            this.notice = notice;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if (notice.getNotice_text().equals("")){
-                notice_tv.setText("inserisci un annuncio per aiutare i clienti a conoscere le tue offerte");
-            }else {
-                notice_tv.setText(notice.getNotice_text());
-            }
+
         }
 
         @Override
         protected Void doInBackground(Void... params) {
             try {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/getNotice");
-                List<NameValuePair> nameValuePairs = new ArrayList<>(1);
-                nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
+                HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/add_notice");
+                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
+                nameValuePairs.add(new BasicNameValuePair("user_email", user.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("notice_text", notice.toString()));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse httpResponse = httpClient.execute(httpPost);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 String response = EntityUtils.toString(httpEntity);
                 System.out.println(response);
-                notice = new Gson().fromJson(response, Notice.class);
-                System.out.println(notice.getNotice_text());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -524,6 +712,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             return null;
         }
     }
+
     public class FeedBackTask extends AsyncTask<Void, Void, Void> {
 
         private User user;
@@ -573,41 +762,42 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             return null;
         }
     }
-    public class UploadTask extends AsyncTask<Void, Void, Void> {
 
-        Bitmap image;
+    public class UploadTask extends AsyncTask<Void, Void, Void> {
+        String imageString;
+        String response;
         String name;
 
-
-        public UploadTask(Bitmap image, String name) {
-            this.image = image;
+        public UploadTask(String imageString,String name) {
+            this.imageString = imageString;
             this.name = name;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            System.out.println("sono partito");
-
+//            try {
+//                URL image= new URL("http://njsao.pythonanywhere.com/get_image/"+name);
+//                Bitmap bmp = BitmapFactory.decodeStream(image.openConnection().getInputStream());
+//                imageprofile.setImageBitmap(bmp);
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-            String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-
             try {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/save");
+                HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/save_image");
                 List<NameValuePair> nameValuePairs = new ArrayList<>(2);
-                nameValuePairs.add(new BasicNameValuePair("image", encodedImage));
-                nameValuePairs.add(new BasicNameValuePair("name", name));
+                nameValuePairs.add(new BasicNameValuePair("image", imageString));
+                nameValuePairs.add(new BasicNameValuePair("email", name));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse httpResponse = httpClient.execute(httpPost);
                 HttpEntity httpEntity = httpResponse.getEntity();
-                String response = EntityUtils.toString(httpEntity);
-                System.out.println(response);
-
+                response = EntityUtils.toString(httpEntity);
             } catch (IOException e) {
                 e.printStackTrace();
             }

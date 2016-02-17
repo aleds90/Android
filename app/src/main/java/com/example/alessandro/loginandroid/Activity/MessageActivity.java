@@ -35,7 +35,8 @@ import com.example.alessandro.loginandroid.Entity.ClientLocalStore;
 
         import java.io.IOException;
         import java.util.ArrayList;
-        import java.util.List;
+import java.util.Collections;
+import java.util.List;
 
 public class MessageActivity extends Activity {
 
@@ -45,6 +46,8 @@ public class MessageActivity extends Activity {
     private ClientLocalStore clientLocalStore;
     private ArrayList<Message> messages;
     String userName;
+    String userEmail;
+    String myEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +60,14 @@ public class MessageActivity extends Activity {
         clientLocalStore = new ClientLocalStore(this);
 
         Bundle bundle = getIntent().getExtras();
-        final String userEmail = bundle.getString("userEmail");
+        userEmail = bundle.getString("userEmail");
         userName = bundle.getString("userName");
-        final String myEmail = clientLocalStore.getUser().getEmail();
+
+        myEmail = clientLocalStore.getUser().getEmail();
         initToolbar();
 
         messages = new ArrayList<>();
+
         new GetConversation(userEmail,myEmail).execute();
         new SetRead(myEmail, userEmail).execute();
 
@@ -79,7 +84,7 @@ public class MessageActivity extends Activity {
     private void initToolbar() {
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView mToolBarTextView = (TextView) findViewById(R.id.text_view_toolbar_title);
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +113,7 @@ public class MessageActivity extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
             messages = new ArrayList<>();
             for (int i = 0; i < usersArray.length(); i++) {
                 Message message = null;
@@ -117,6 +123,7 @@ public class MessageActivity extends Activity {
                     e.printStackTrace();
                 }
                 messages.add(message);
+
                 setAdapter();
             }
         }
@@ -124,20 +131,20 @@ public class MessageActivity extends Activity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
+                System.out.println("sto per inviare");
                 HttpParams httpParams = new BasicHttpParams();
-                httpParams.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
                 HttpClient httpClient = new DefaultHttpClient(httpParams);
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/getConversation");
+                HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/get_message_between_two_users");
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-                nameValuePairs.add(new BasicNameValuePair("user_mail", userEmail));
-                nameValuePairs.add(new BasicNameValuePair("my_mail", myEmail));
+                nameValuePairs.add(new BasicNameValuePair("receiver_email", userEmail));
+                nameValuePairs.add(new BasicNameValuePair("sender_email", myEmail));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpClient.execute(httpPost);
                 HttpEntity entity =response.getEntity();
                 String json = EntityUtils.toString(entity);
-                System.out.println(json);
+                System.out.println("i messaggi scambiati:"+json);
                 usersArray = new JSONArray(json);
-                System.out.println(json);
+
 
 
             }catch (IOException e) {
@@ -174,12 +181,11 @@ public class MessageActivity extends Activity {
 
             try {
                 HttpParams httpParams = new BasicHttpParams();
-                httpParams.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
                 HttpClient httpClient = new DefaultHttpClient(httpParams);
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/addMessage");
+                HttpPost httpPost = new HttpPost("http://njsao.pythonanywhere.com/add_message");
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-                nameValuePairs.add(new BasicNameValuePair("my_mail", myEmail));
-                nameValuePairs.add(new BasicNameValuePair("user_mail", userEmail));
+                nameValuePairs.add(new BasicNameValuePair("sender_email", myEmail));
+                nameValuePairs.add(new BasicNameValuePair("receiver_email", userEmail));
                 nameValuePairs.add(new BasicNameValuePair("text",writtentext));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpClient.execute(httpPost);
@@ -213,13 +219,10 @@ public class MessageActivity extends Activity {
         protected Void doInBackground(String... params) {
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                // sito a cui fare il post
-                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/setRead");
-                // Lista dei valori che mandiamo
+                HttpPost httppost = new HttpPost("http://njsao.pythonanywhere.com/set_read");
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-                // Valori:
-                nameValuePairs.add(new BasicNameValuePair("my_mail", my_mail));
-                nameValuePairs.add(new BasicNameValuePair("user_mail", user_mail));
+                nameValuePairs.add(new BasicNameValuePair("sender_email", my_mail));
+                nameValuePairs.add(new BasicNameValuePair("receiver_email", user_mail));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httppost);
                 HttpEntity entity =response.getEntity();

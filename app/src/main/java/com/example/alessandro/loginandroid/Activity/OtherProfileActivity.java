@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -62,6 +64,7 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
     MenuObject addFav;
     ClientLocalStore clientLocalStore;
     MenuObject like;
+    ImageView avatar;
 
     User user;
 
@@ -80,9 +83,7 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         clientLocalStore = new ClientLocalStore(this);
         user = clientLocalStore.getUser();
         new CheckFollowTask(user,target).execute();
-        new CheckFeedbackTask(user,target).execute();
-        new FeedBackTask(target).execute();
-        //new NoticeTask(target).execute();
+
     }
 
     public void setAllTextView(){
@@ -96,7 +97,16 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         followers       = (TextView)findViewById(R.id.otherProfile_followers_textview);
         feedback        = (TextView)findViewById(R.id.otherProfile_feedback_tv);
         description     = (TextView)findViewById(R.id.otherProfile_description_tv);
-        notice_tv          = (TextView)findViewById(R.id.otherProfile_notice_tv);
+        notice_tv       = (TextView)findViewById(R.id.otherProfile_notice_tv);
+        avatar          = (ImageView)findViewById(R.id.otherProfile_avatar_imgv);
+        String role = target.getRole();
+        int avatarInt = target.getAvatar();
+        String email = target.getEmail();
+        String url = "http://njsao.pythonanywhere.com/static/"+email+".png";
+
+
+        new ProfileActivity().getDrawableAvatar(role,avatarInt,avatar,this,url);
+
 
         //TEXTVIEW SETTINGS
         textViewName.setText(target.getName()+" "+target.getSurname());
@@ -115,14 +125,12 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         textViewRole.setText(target.getRole());
         textViewCity.setText(target.getCity());
         //RATE TEXTVIEW
-        textViewRate.setText("(" + target.getRate() + ")");
+        textViewRate.setText(Double.toString(target.getRate())+"€");
         //STATUS TEXTVIEW
             if (target.isActive()){
             textViewStatus.setText(getResources().getText(R.string.available));
-            textViewStatus.setTextColor(Color.parseColor("#ff00ff00"));
         }else {
             textViewStatus.setText(getResources().getText(R.string.not_available));
-            textViewStatus.setTextColor(Color.parseColor("#ffff0000"));
         }
         description.setText(target.getDescription());
 
@@ -180,11 +188,11 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         MenuObject send = new MenuObject(getResources().getString(R.string.send_message));
         send.setResource(R.drawable.icn_1);
 
-        like = new MenuObject(getResources().getString(R.string.feedback));
+        like = new MenuObject();
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.icn_2);
         like.setBitmap(b);
 
-        addFav = new MenuObject(getResources().getString(R.string.follow_profile));
+        addFav = new MenuObject();
         addFav.setResource(R.drawable.icn_4);
 
         MenuObject block = new MenuObject(getResources().getString(R.string.block_profile));
@@ -206,7 +214,7 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -260,7 +268,6 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
 
     @Override
     public void onMenuItemClick(View clickedView, int position) {
-        Toast.makeText(this, "Clicked on position: " + position, Toast.LENGTH_SHORT).show();
         switch (position){
             case 1:
                 Intent intent = new Intent(this, MessageActivity.class);
@@ -275,20 +282,23 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
                 new AddFollowTask(user, target).execute();
                 break;
             case 4:
+                Toast.makeText(this, getResources().getString(R.string.not_available), Toast.LENGTH_SHORT).show();
                 break;
         }
     }
 
     @Override
     public void onMenuItemLongClick(View clickedView, int position) {
-        Toast.makeText(this, "Long clicked on position: " + position, Toast.LENGTH_SHORT).show();
     }
-
 
     public class CheckFollowTask extends AsyncTask<Void, Void, Void> {
         User user;
         User target;
-        boolean isFollower;
+        boolean isFollowAvailable;
+        boolean isFeedbackAvailable;
+        int followersText;
+        int feedbackText;
+        String noticeText;
 
         public CheckFollowTask(User user, User target) {
             this.user = user;
@@ -297,83 +307,53 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         @Override
         protected void onPostExecute (Void aVoid){
             super.onPostExecute(aVoid);
-            if (isFollower) {
-                addFav.setTitle("Non seguire piu'");
+            if (!isFollowAvailable) {
+                addFav.setTitle(getResources().getString(R.string.add_follow));
+
             } else {
-                addFav.setTitle("Segui profilo");
+                addFav.setTitle(getResources().getString(R.string.stop_follow));
             }
+            if (isFeedbackAvailable) {
+                like.setTitle(getResources().getString(R.string.add_feedback));
+            } else {
+                like.setTitle(getResources().getString(R.string.feedback_not_available));
+            }
+            feedback.setText(Integer.toString(feedbackText));
+            followers.setText(Integer.toString(followersText));
+            notice_tv.setText(noticeText);
+            if (noticeText == null)
+                notice_tv.setText(getResources().getString(R.string.not_offers));
         }
         @Override
         protected Void doInBackground (Void...params){
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/checkFollow");
-                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
-                nameValuePairs.add(new BasicNameValuePair("emailUser", user.getEmail()));
-                nameValuePairs.add(new BasicNameValuePair("emailTarget", target.getEmail()));
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                HttpResponse response = httpclient.execute(httppost);
-                HttpEntity entity = response.getEntity();
-                String json = EntityUtils.toString(entity);
-                isFollower = json.equals("true");
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
-
-    public class CheckFeedbackTask extends AsyncTask<Void, Void, Void> {
-        User user;
-        User target;
-        boolean isFeedbackPossible;
-
-
-        public CheckFeedbackTask(User user, User target) {
-            this.user = user;
-            this.target = target;
-        }
-        @Override
-        protected void onPostExecute (Void aVoid){
-            super.onPostExecute(aVoid);
-            if (isFeedbackPossible) {
-                like.setTitle("Lascia un feedback");
-            } else {
-                like.setTitle("No feedback");
-            }
-        }
-        @Override
-        protected Void doInBackground (Void...params){
-            try {
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/checkFeedback");
+                HttpPost httppost = new HttpPost("http://njsao.pythonanywhere.com/other_profile_init");
                 List<NameValuePair> nameValuePairs = new ArrayList<>(2);
                 nameValuePairs.add(new BasicNameValuePair("user_email", user.getEmail()));
-                nameValuePairs.add(new BasicNameValuePair("target_email", target.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("other_email", target.getEmail()));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httppost);
                 HttpEntity entity = response.getEntity();
                 String json = EntityUtils.toString(entity);
-                System.out.println("RISPOSTA >>>>>>>> " +json);
-                isFeedbackPossible = json.equals("true");
-
-
+                System.out.println(json);
+                JSONObject jsonObject =  new JSONObject(json);
+                isFollowAvailable = jsonObject.getBoolean("is_follow_available");
+                isFeedbackAvailable = jsonObject.getBoolean("is_feedback_available");
+                followersText = jsonObject.getInt("followers");
+                feedbackText = jsonObject.getInt("feedback");
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
             return null;
         }
     }
-
 
     public class AddFollowTask extends AsyncTask<Void, Void, Void> {
         User user;
@@ -388,23 +368,24 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         @Override
         protected void onPostExecute (Void aVoid){
             super.onPostExecute(aVoid);
-            if (newText.equals("FOLLOW"))
-                addFav.setTitle("Segui Profilo");
-            else addFav.setTitle("Non seguire piu'");
+            if (newText.equals("OK"))
+                addFav.setTitle("Non seguire piu'");
+            else addFav.setTitle("Segui Profilo");
         }
 
         @Override
         protected Void doInBackground (Void...params){
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost("http://10.0.2.2:4567/addFollow");
+                HttpPost httppost = new HttpPost("http://njsao.pythonanywhere.com/add_follow");
                 List<NameValuePair> nameValuePairs = new ArrayList<>(2);
-                nameValuePairs.add(new BasicNameValuePair("emailUser", user.getEmail()));
-                nameValuePairs.add(new BasicNameValuePair("emailTarget", target.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("user_email", user.getEmail()));
+                nameValuePairs.add(new BasicNameValuePair("target_email", target.getEmail()));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httppost);
                 HttpEntity entity = response.getEntity();
                 newText = EntityUtils.toString(entity);
+                System.out.println("follow:"+newText);
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
@@ -414,125 +395,32 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
             }
             return null;
         }
-
     }
-
-
-    public class FeedBackTask extends AsyncTask<Void, Void, Void> {
-
-        private User user;
-        private JSONArray list;
-
-        public FeedBackTask(User user) {
-            this.user = user;
-        }
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-
-            try {
-                feedback.setText(Integer.toString(list.getInt(0)));
-                followers.setText(Integer.toString(list.getInt(1)));
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/countFeedback");
-
-                List<NameValuePair> nameValuePairs = new ArrayList<>(1);
-                nameValuePairs.add(new BasicNameValuePair("user_email", user.getEmail()));
-
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-
-                HttpEntity httpEntity = httpResponse.getEntity();
-
-                String response = EntityUtils.toString(httpEntity);
-                System.out.println(response);
-                list = new JSONArray(response);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
-
-    public class NoticeTask extends AsyncTask<Void, Void, Void> {
-
-        private User user;
-        private Notice notice;
-
-        public NoticeTask(User user) {
-            this.user = user;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            notice_tv.setText(notice.getNotice_text());
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://10.0.2.2:4567/getNotice");
-                List<NameValuePair> nameValuePairs = new ArrayList<>(1);
-                nameValuePairs.add(new BasicNameValuePair("email", user.getEmail()));
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                String response = EntityUtils.toString(httpEntity);
-                System.out.println(response);
-                notice = new Gson().fromJson(response, Notice.class);
-                System.out.println(notice.getNotice_text());
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
 
     public class AddFeedbackTask extends AsyncTask<Void, Void, Void>{
-
         User user;
         User target;
-
         public AddFeedbackTask(User user, User target) {
                 this.user = user;
                 this.target = target;
-            }
-
+        }
         @Override
         protected void onPostExecute (Void aVoid){
                 super.onPostExecute(aVoid);
-
-            }
-
+        }
         @Override
         protected Void doInBackground(Void...params){
                 try {
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost("http://10.0.2.2:4567/addFeedback");
+                    HttpPost httppost = new HttpPost("http://njsao.pythonanywhere.com/add_feedback");
                     List<NameValuePair> nameValuePairs = new ArrayList<>(2);
                     nameValuePairs.add(new BasicNameValuePair("user_email", user.getEmail()));
                     nameValuePairs.add(new BasicNameValuePair("target_email", target.getEmail()));
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                     HttpResponse response = httpclient.execute(httppost);
                     HttpEntity entity = response.getEntity();
+                    String newText = EntityUtils.toString(entity);
+                    System.out.println("follow:"+newText);
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
                 } catch (UnsupportedEncodingException e) {

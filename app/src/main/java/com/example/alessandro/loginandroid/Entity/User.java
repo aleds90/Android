@@ -1,9 +1,15 @@
 package com.example.alessandro.loginandroid.Entity;
 
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.widget.ImageView;
+
 import com.example.alessandro.loginandroid.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,7 +150,7 @@ public class User implements Serializable{
     public List<String> getInterests() {
         interests.add(role);
         interests.add(Double.toString(rate)+"€");
-        String status = new String();
+        String status;
         if (isActive())
             status = "Disponibile";
         else status = "Non disponibile";
@@ -153,46 +159,59 @@ public class User implements Serializable{
         return interests;
     }
 
-    public int getDrawableAvatar(String role){
-        if (role.equals("Animatore"))
-            return R.drawable.animatore;
-        else if (role.equals("Barista")||role.equals("Barman")||role.equals("Cameriere"))
-            return R.drawable.cameriere;
-        else if (role.equals("Barbiere")||role.equals("Estetista")||role.equals("Parrucchiere"))
-            return R.drawable.barbiere;
-        else if (role.equals("Baby sitter"))
-            return R.drawable.donnapercasa;
-        else if (role.equals("Conducente")||role.equals("Tassista"))
-            return R.drawable.autista;
-        else if (role.equals("Cuoco")||role.equals("Pasticciere"))
-            return R.drawable.cuoco;
-        else if (role.equals("Designer")||role.equals("Grafico pubblicitario"))
-            return R.drawable.artista;
-        else if (role.equals("Dietista")||role.equals("Fisioterapista")||role.equals("Infermiere")
-                ||role.equals("Nutrizionista")||role.equals("Nutrizionista animale")
-                ||role.equals("Veterinario"))
-            return R.drawable.medico;
-        else if (role.equals("Elettricista")||role.equals("Idraulico")||role.equals("Muratore"))
-            return R.drawable.aggiustatore;
-        else if (role.equals("Fotografo"))
-            return R.drawable.fotografo;
-        else if (role.equals("Guardia del corpo"))
-            return R.drawable.agente;
-        else if (role.equals("Guida"))
-            return R.drawable.guida;
-        else if (role.equals("Giardiniere"))
-            return R.drawable.falegname;
-        else if (role.equals("Maestro di sci"))
-            return R.drawable.sci;
-        else if (role.equals("Preparatore sportivo")||role.equals("Procuratore sportivo")||role.equals("Personal Trainer"))
-            return R.drawable.sport;
-        else if (role.equals("Programmatore"))
-            return R.drawable.nerd;
-        else if (role.equals("Tutor per ripetizioni"))
-            return R.drawable.prof;
+    public void getDrawableAvatar(String role,int avatar,ImageView imageView,Context context,String url) {
+        if (avatar == 0) {
+            if (role.equals("Animatore"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.animatore));
+            else if (role.equals("Barista") || role.equals("Barman") || role.equals("Cameriere"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.cameriere));
+            else if (role.equals("Barbiere") || role.equals("Estetista") || role.equals("Parrucchiere")
+                    || role.equals("HairStyler") || role.equals("Make Up Artist") || role.equals("Sarto"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.barbiere));
+            else if (role.equals("Baby sitter"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.cameriera));
+            else if (role.equals("Conducente") || role.equals("Tassista"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.autista));
+            else if (role.equals("Cuoco") || role.equals("Pasticciere"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.cuoco));
+            else if (role.equals("Wedding Planner"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.planner));
+            else if (role.equals("Designer") || role.equals("Grafico pubblicitario") ||
+                    role.equals("Pittore"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.artista));
+            else if (role.equals("Dietista") || role.equals("Fisioterapista") || role.equals("Infermiere")
+                    || role.equals("Nutrizionista") || role.equals("Nutrizionista animale")
+                    || role.equals("Veterinario"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.medico));
+            else if (role.equals("Elettricista") || role.equals("Idraulico") || role.equals("Muratore"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.aggiustatore));
+            else if (role.equals("Fotografo") || role.equals("Video-Maker") || role.equals("Social-Media Manager"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.fotografo));
+            else if (role.equals("Guardia del corpo"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.agente));
+            else if (role.equals("Guida Turistica") || role.equals("Guida"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.guida));
+            else if (role.equals("Giardiniere"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.falegname));
+            else if (role.equals("Maestro di sci"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.sci));
+            else if (role.equals("Fioraio"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.fioraio));
+            else if (role.equals("Modello"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.modello));
+            else if (role.equals("Preparatore sportivo") || role.equals("Procuratore sportivo") || role.equals("Personal Trainer"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.sport));
+            else if (role.equals("Programmatore"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.nerd));
+            else if (role.equals("Tutor per ripetizioni"))
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.prof));
+            else
+                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.yalantis));
+        }else if (avatar==1){
+            Picasso.with(context).load(url).resize(150,150).into(imageView);
+        }
         else
-            return R.drawable.yalantis;
-
+            imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.yalantis));
     }
 
 

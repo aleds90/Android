@@ -6,23 +6,33 @@
     android:orientation="vertical"
     android:padding="5dip" >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layoutNamegg"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/image_message"
+
+                       />
+
         <TextView
+            android:layout_alignParentRight="true"
+            android:paddingRight="55dp"
             android:id="@+id/textMessage"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="testo messagio"
+            android:text="ciao"
             android:textColor="#040404"
             android:textSize="20dip"
             android:textStyle="bold"
             android:typeface="sans"
-            android:paddingLeft="5dp"
-            android:paddingTop="10dp" />
-    </LinearLayout>
+            android:inputType="textMultiLine"
+            />
+    </RelativeLayout>
 
     <!-- Weather Information-->
     <LinearLayout
@@ -39,7 +49,7 @@
             android:text="orario"
             android:textColor="#343434"
             android:textSize="15dip"
-            android:gravity="right" />
+            android:gravity="left" />
     </LinearLayout>
 
 </LinearLayout>

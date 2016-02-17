@@ -2,9 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_selector"
     android:orientation="horizontal"
-    android:padding="5dip" >
+    android:padding="5dip"
+    android:id="@+id/layout_message"
+    >
     <!-- ListRow Left side Thumbnail image -->
     <LinearLayout
         android:id="@+id/thumbnail"
@@ -17,8 +18,7 @@
             android:id="@+id/conversationUserImage"
             android:contentDescription="@string/app_name"
             android:layout_width="60dip"
-            android:layout_height="60dip"
-            android:src="@drawable/trainer_icon" />
+            android:layout_height="60dip" />
     </LinearLayout>
     <!-- Rightend Arrow -->
 
@@ -28,8 +28,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="75dip"
-        android:layout_centerVertical="true"
-        android:paddingBottom ="10dip">
+        android:paddingBottom="5dp"
+        >
 
         <TextView
             android:id="@+id/conversationUserNameText"
@@ -55,28 +55,40 @@
 
 
     </LinearLayout>
-
-    <!-- Weather Information-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutName"
         android:layout_alignLeft="@+id/layoutName"
-        android:paddingTop="5dip"
+
         android:id="@+id/linearLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timelistmessage"/>
+
+    </LinearLayout>
+    <!-- Weather Information-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignLeft="@+id/linearLayout"
+        >
         <TextView
             android:id="@+id/lastMessageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvCity"
             android:layout_alignLeft="@+id/tvCity"
-            android:paddingTop="5dip"
+
             android:layout_centerHorizontal="true"
             android:text="last message"
             android:textColor="#343434"
             android:textSize="15dip" />
 
     </LinearLayout>
+
     <ImageView
         android:id="@+id/goToMessage"
         android:contentDescription="@string/app_name"

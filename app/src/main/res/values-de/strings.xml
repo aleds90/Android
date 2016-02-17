@@ -30,7 +30,7 @@
     <string name="followers">Anhänger</string>
     <string name="followed">Gefolgt</string>
     <string name="description_profile">Beschreibung</string>
-    <string name="notice_profile">Anzeigen: </string>
+    <string name="notice_profile">Anzeigen</string>
     <string name="edit_profile_btn"> Profil bearbeiten</string>
     <string name="change_avatar">Upload Avatar</string>
     <string name="type_message_hint"> Typ Nachricht</string>
@@ -49,4 +49,20 @@
     <string name="send_message">Nachricht Senden</string>
     <string name="block_profile"> Blockprofil</string>
     <string name="follow_profile">Folgen Profil</string>
+    <string name="register_visitor">Register as Visitor</string>
+    <string name="register_worker">Register as Worker</string>
+    <string name="or">or</string>
+    <string name="register_toast"> Sie müssen alle Felder ausfüllen</string>
+    <string name="terms_label"> Ich akzeptiere Bedingungen</string>
+    <string name="search_back_filter">↓↓ Back To Filter ↓↓</string>
+    <string name="add_follow">Add Follow</string>
+    <string name="stop_follow">Stop Follow</string>
+    <string name="add_feedback">Add Feedback</string>
+    <string name="feedback_not_available">Not Available</string>
+    <string name="not_offers">Not Offers or Ads</string>
+    <string name="max_price">Max Price:</string>
+    <string name="followes_list">List followed</string>
+    <string name="list_coversation">List Conversations</string>
+    <string name="add_notice">Add new notice</string>
+    <string name="click_notice">(Klicken Sie hier fur Add Ankündigung)</string>
 </resources>

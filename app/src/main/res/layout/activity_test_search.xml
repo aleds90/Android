@@ -36,6 +36,10 @@
                     />
 
             </android.support.v7.widget.Toolbar>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"/>
 
     <LinearLayout
         android:id="@+id/searchLayout"
@@ -65,20 +69,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="5dp"
+            android:layout_marginBottom="5dp"
             android:backgroundTint="@android:color/white"
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
-                android:background="@android:color/white"
-                android:textAlignment="inherit"
-                android:text="Max: 200$/h"
-                android:textColor="@android:color/black"
-                android:textSize="20dp"
+                android:text="@string/max_price"
+                android:textSize="18dp"
+
                 android:id="@+id/search_rate_tv"
-                android:layout_gravity="center_vertical" />
+               />
+            <TextView
+                android:id="@+id/search_price_start_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="200"
+                android:textSize="18dp"/>
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -86,28 +94,40 @@
                 android:paddingRight="10dp"
                 android:id="@+id/search_ratefilter_sb"/>
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"/>
     </LinearLayout>
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="40dp"
                 android:text="@string/start_research"
                 android:id="@+id/search_startsearch_btn"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@android:color/white"
-                android:backgroundTint="@color/background"/>
+                android:background="@color/background"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"/>
 
 
             <LinearLayout
                 android:id="@+id/searchListViewLayout"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="239dp">
+                android:layout_height="267dp">
 
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="243dp"
+                android:layout_height="match_parent"
                 android:id="@+id/search_resultlist_lv" />
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"/>
 
             <LinearLayout
                 android:background="#F4C430"
@@ -123,14 +143,12 @@
                     android:layout_height="wrap_content"
                     >
                     <ImageButton
-                        android:src="@drawable/ic_home_white_24dp_xhdpi"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginRight="8dp"
                         android:background="?selectableItemBackground"
                         android:id="@+id/home"/>
                     <ImageButton
-                        android:src="@drawable/ic_search_white_24dp_xhdpi"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
@@ -138,7 +156,6 @@
                         android:background="?selectableItemBackground"
                         android:id="@+id/search" />
                     <ImageButton
-                        android:src="@drawable/ic_message_white_24dp_xhdpi"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
@@ -150,10 +167,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="25dp"
-                        android:src="@drawable/ic_filter_1_white_24dp"/>
+                        android:layout_marginBottom="25dp"/>
                     <ImageButton
-                        android:src="@drawable/ic_person_white_24dp_xhdpi"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="end"
