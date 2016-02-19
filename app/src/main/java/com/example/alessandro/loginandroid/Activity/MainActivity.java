@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onRefresh() {
                 new UserListTask(clientLocalStore.getUser()).execute();
+
             }
         });
     }
@@ -203,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      *
      * @param v
      */
+
     @Override
     public void onClick(View v) {
         Intent i = null;
@@ -398,6 +400,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("rate", user.getRate());
         intent.putExtra("status", user.isActive());
         intent.putExtra("description", user.getDescription());
+        intent.putExtra("avatar", user.getAvatar());
     }
 
     /**

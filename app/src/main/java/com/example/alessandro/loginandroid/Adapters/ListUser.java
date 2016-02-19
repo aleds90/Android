@@ -87,7 +87,7 @@ public class ListUser extends ArrayAdapter<User> {
         String url = "http://njsao.pythonanywhere.com/static/"+email+".png";
 
 
-        new ProfileActivity().getDrawableAvatar(role, avatarInt, avatar, context, url);
+        currentUser.getDrawableAvatar(role, avatarInt, avatar, context, url);
 
         return rowView;
     }

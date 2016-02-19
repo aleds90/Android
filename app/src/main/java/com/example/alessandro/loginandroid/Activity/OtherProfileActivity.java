@@ -104,9 +104,8 @@ public class OtherProfileActivity extends AppCompatActivity implements OnMenuIte
         String email = target.getEmail();
         String url = "http://njsao.pythonanywhere.com/static/"+email+".png";
 
-
-        new ProfileActivity().getDrawableAvatar(role,avatarInt,avatar,this,url);
-
+        target.getDrawableAvatar(role,avatarInt,avatar,getApplicationContext() ,url);
+        System.out.println(avatarInt);
 
         //TEXTVIEW SETTINGS
         textViewName.setText(target.getName()+" "+target.getSurname());

@@ -25,6 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +74,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private ImageButton home, search, follow, profile;
     private Button update, cancel, upload;
     private View dialogView;
+    RadioButton radioButton,radioButton2;
 
     //database che contiene i dati di login dell' utente
     private ClientLocalStore clientLocalStore;
@@ -209,7 +211,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         int avatar = clientLocalStore.getUser().getAvatar();
         String email = clientLocalStore.getUser().getEmail();
         String url = "http://njsao.pythonanywhere.com/static/"+email+".png";
-        getDrawableAvatar(role,avatar,imageprofile,this,email);
+        user.getDrawableAvatar(role, avatar, imageprofile, this, url);
 
         upload = (Button)findViewById(R.id.profile_upload_btn);
         upload.setOnClickListener(this);
@@ -221,58 +223,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    public void getDrawableAvatar(String role,int avatar,ImageView imageView,Context context,String url) {
-        if (avatar == 1) {
-            if (role.equals("Animatore"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.animatore));
-            else if (role.equals("Barista") || role.equals("Barman") || role.equals("Cameriere"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.cameriere));
-            else if (role.equals("Barbiere") || role.equals("Estetista") || role.equals("Parrucchiere")
-                    || role.equals("HairStyler") || role.equals("Make Up Artist") || role.equals("Sarto"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.barbiere));
-            else if (role.equals("Baby sitter"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.cameriera));
-            else if (role.equals("Conducente") || role.equals("Tassista"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.autista));
-            else if (role.equals("Cuoco") || role.equals("Pasticciere"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.cuoco));
-            else if (role.equals("Wedding Planner"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.planner));
-            else if (role.equals("Designer") || role.equals("Grafico pubblicitario") ||
-                    role.equals("Pittore"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.artista));
-            else if (role.equals("Dietista") || role.equals("Fisioterapista") || role.equals("Infermiere")
-                    || role.equals("Nutrizionista") || role.equals("Nutrizionista animale")
-                    || role.equals("Veterinario"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.medico));
-            else if (role.equals("Elettricista") || role.equals("Idraulico") || role.equals("Muratore"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.aggiustatore));
-            else if (role.equals("Fotografo") || role.equals("Video-Maker") || role.equals("Social-Media Manager"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.fotografo));
-            else if (role.equals("Guardia del corpo"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.agente));
-            else if (role.equals("Guida Turistica") || role.equals("Guida"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.guida));
-            else if (role.equals("Giardiniere"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.falegname));
-            else if (role.equals("Maestro di sci"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.sci));
-            else if (role.equals("Fioraio"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.fioraio));
-            else if (role.equals("Modello"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.modello));
-            else if (role.equals("Preparatore sportivo") || role.equals("Procuratore sportivo") || role.equals("Personal Trainer"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.sport));
-            else if (role.equals("Programmatore"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.nerd));
-            else if (role.equals("Tutor per ripetizioni"))
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.prof));
-            else
-                imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.yalantis));
-        }else {
-            Picasso.with(context).load(url).resize(150,150).into(imageView);
-        }
-    }
+
 
     private void setTextView(User user) {
         name        =(EditText)findViewById(R.id.profile_name_tv);
@@ -417,11 +368,63 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.profile_upload_btn:
+                AlertDialog.Builder builder3 = new AlertDialog.Builder(ProfileActivity.this);
+                builder3.setTitle("choose avatar");
+                LayoutInflater inflater3 = this.getLayoutInflater();
+                View dialogView3 = inflater3.inflate(R.layout.choose_avatar_layout, null);
+                builder3.setView(dialogView3);
+                Button button = (Button)dialogView3.findViewById(R.id.buttonLoad);
+                radioButton = (RadioButton)dialogView3.findViewById(R.id.radioButtonPredefinito);
+                radioButton2 = (RadioButton)dialogView3.findViewById(R.id.radioButtonPersonale);
+                if (user.getAvatar()==0)
+                    radioButton.setChecked(true);
+                else radioButton2.setChecked(true);
+                radioButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    radioButton2.setChecked(true);
+                    radioButton.setChecked(false);
+                }
+            });
+                radioButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        radioButton2.setChecked(false);
+                        radioButton.setChecked(true);
+                    }
+                });
 
-                Intent galleryIntent = new Intent();
-                galleryIntent.setType("image/*");
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(galleryIntent,"Choose your Avatar"),1);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent galleryIntent = new Intent();
+                        galleryIntent.setType("image/*");
+                        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(galleryIntent, "Choose your Avatar"), 1);
+
+                    }
+                });
+                builder3.setPositiveButton("salva", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (radioButton.isChecked()) {
+                            new UpdateAvatar(clientLocalStore.getUser(), 0).execute();
+                        } else if (radioButton2.isChecked()) {
+                            System.out.println("sono dentro al 2");
+                            new UpdateAvatar(clientLocalStore.getUser(), 1).execute();
+                        }else      System.out.println("sono dentro al 3");
+
+                    }
+                });
+                builder3.setNegativeButton("annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                builder3.create().show();
+
                 break;
 
         }
@@ -557,9 +560,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            System.out.println(avatar);
+            User user = clientLocalStore.getUser();
             user.setAvatar(avatar);
             clientLocalStore.updateUser(user);
-            System.out.println(clientLocalStore.getUser().getEmail());
+
+            String role = clientLocalStore.getUser().getRole();
+            int avatar = clientLocalStore.getUser().getAvatar();
+            String email = clientLocalStore.getUser().getEmail();
+            String url = "http://njsao.pythonanywhere.com/static/"+email+".png";
+            user.getDrawableAvatar(role, avatar, imageprofile, getApplicationContext(), url);
+
             System.out.println(clientLocalStore.getUser().getAvatar());
         }
 

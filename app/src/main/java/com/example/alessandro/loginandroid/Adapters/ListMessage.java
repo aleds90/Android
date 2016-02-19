@@ -52,13 +52,14 @@ public class ListMessage extends ArrayAdapter<Message> {
         ImageView imageView = (ImageView)rowView.findViewById(R.id.image_message);
 
         final Message currentMessage = messages.get(position);
+
         String role = user.getRole();
         int avatarInt = user.getAvatar();
         String email = user.getEmail();
         String url = "http://njsao.pythonanywhere.com/static/"+email+".png";
 
 
-        new ProfileActivity().getDrawableAvatar(role, avatarInt, imageView, getContext(), url);
+        user.getDrawableAvatar(role, avatarInt, imageView, context, url);
         textMessage.setText(currentMessage.getText());
         timeMessage.setText(currentMessage.getSendetAt().toString());
 
@@ -82,8 +83,7 @@ public class ListMessage extends ArrayAdapter<Message> {
             int avatarInt2 = currentMessage.getId_sender().getAvatar();
             String email2 = currentMessage.getId_sender().getEmail();
             String url2 = "http://njsao.pythonanywhere.com/static/"+email2+".png";
-
-            new ProfileActivity().getDrawableAvatar(role2, avatarInt2, imageView, getContext(), url);
+            currentMessage.getId_sender().getDrawableAvatar(role2, avatarInt2, imageView, context, url2);
             RelativeLayout.LayoutParams layoutParams1=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams1.setMargins(padding_55dp, 0, 0, 0);
             textMessage.setLayoutParams(layoutParams1);

@@ -72,7 +72,7 @@ public class ListUserConversations extends ArrayAdapter<User> {
         String email2 = currentUser.getEmail();
         String url2 = "http://njsao.pythonanywhere.com/static/"+email2
                 +".png";
-        new ProfileActivity().getDrawableAvatar(role2, avatarInt2, imageView, getContext(), url2);
+        currentUser.getDrawableAvatar(role2, avatarInt2, avatar, context, url2);
 
 
         imageView.setOnClickListener(new View.OnClickListener() {

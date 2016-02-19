@@ -210,8 +210,6 @@ public class User implements Serializable{
         }else if (avatar==1){
             Picasso.with(context).load(url).resize(150,150).into(imageView);
         }
-        else
-            imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.yalantis));
     }
 
 
